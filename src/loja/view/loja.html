@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="../../../style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div id="container">
+      <div id="sidebar">
+        <div id="menu">
+          <a href="../../../index.html">
+            <i class="fas fa-home"></i>
+            Home
+          </a>
+          <a href="../../categoria/view/categoria.html">
+            <i class="fa-solid fa-tag"></i>
+            Categoria
+          </a>
+          <a href="../../subcategoria/view/subcategoria.html">
+            <i class="fa-solid fa-tags"></i>
+            Subcategoria
+          </a>
+          <a href="../../variacao-descricao/view/variacao.html">
+            <i class="fa-solid fa-layer-group"></i>
+            Variações
+          </a>
+          <a href="../../endereco/view/endereco.html">
+            <i class="fa-solid fa-map-location-dot"></i>
+            Endereço
+          </a>
+          <a href="#">
+            <i class="fa-solid fa-shop"></i>
+            Lojas
+          </a>
+          <a href="../../pedidos/view/pedidos.html">
+            <i class="fa-solid fa-truck-fast"></i>
+            Pedidos
+          </a>
+          <a href="../../itempedido/view/itempedido.html">
+            <i class="fa-solid fa-cubes"></i>
+            Items Pedidos
+          </a>
+          <a href="../../Produto/view/produto.html">
+            <i class="fa-solid fa-bag-shopping"></i>
+            Produtos
+          </a>
+          <a href="../../subproduto/view/subproduto.html">
+            <i class="fa-solid fa-cube"></i>
+            Subprodutos
+          </a>
+          <a href="../../pagamento/view/pagamento.html">
+            <i class="fa-solid fa-dollar-sign"></i>
+            Pagamento
+          </a>
+          <button id="btn-logout">
+            <i class="fas fa-sign-out-alt"></i>
+            Sair
+          </button>
+        </div>
+        <div id="menu-icons">
+          <img
+            src="https://img.icons8.com/material-outlined/48/ffffff/menu--v1.png"
+            alt="Menu Icon"
+            onclick="toggleSidebar()"
+          />
+        </div>
+      </div>
+      <div id="content">
+        <h1>Lojas</h1>
+        <p>Adicione e controle as Lojas</p>
+
+        <div class="table-header">
+          <!-- Adicione os botões Create e a barra de pesquisa -->
+          <button type="button" id="add-loja-btn">Adicionar</button>
+
+          <div class="table-search">
+            <input type="text" id="search" placeholder="Pesquisar..." />
+            <button onclick="" id="buscar">Buscar</button>
+          </div>
+        </div>
+
+        <table class="table-container">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nome</th>
+              <th>Logo</th>
+              <th>Banner</th>
+              <th>qtdproduto</th>
+              <th>corfundo</th>
+              <th>corfonte</th>
+              <th>area</th>
+              <th>cnpj</th>
+              <th>idUsuario</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody class="loja-list"></tbody>
+        </table>
+
+        <!-- Modal para adicionar loja -->
+        <div id="addLojaModal" class="modal">
+          <div class="modal-content">
+            <span class="close" id="close-modal">&times;</span>
+            <h2>Adicionar Loja</h2>
+            <!-- Formulário para adicionar loja -->
+            <form id="create-form">
+              <!-- Adicione os campos do formulário conforme necessário -->
+              <div class="form-group">
+                <label for="lojaName">Nome da Loja:</label>
+                <input type="text" id="nome" name="nome" required />
+
+                <label for="lojaLogo">Logo da Loja:</label>
+                <input type="text" id="logo" name="logo" required />
+
+                <label for="lojaBanner">Banner da Loja:</label>
+                <input type="text" id="banner" name="banner" required />
+
+                <label for="lojaQtdProduto"
+                  >Quantidade de produto da Loja:</label
+                >
+                <input type="text" id="qtdproduto" name="qtdproduto" required />
+
+                <label for="lojaCorfundo">Cor fundo da Loja:</label>
+                <input type="text" id="corfundo" name="corfundo" required />
+
+                <label for="lojaCorfonte">Cor fonte da Loja:</label>
+                <input type="text" id="corfonte" name="corfonte" required />
+
+                <label for="lojaArea">Area da Loja:</label>
+                <input type="text" id="area" name="area" required />
+
+                <label for="lojaCnpj">Cnpj da Loja:</label>
+                <input type="text" id="cnpj" name="cnpj" required />
+
+                <label for="lojaIdUsuario">IdUsuario da Loja:</label>
+                <input type="text" id="idUsuario" name="idUsuario" required />
+              </div>
+
+              <button type="button" class="btn btn-primary" id="save-loja-btn">
+                Salvar
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <div id="editLojaModal" class="modal">
+          <div class="modal-content">
+            <span class="close" id="close-modal-edit">&times;</span>
+            <h2>Editar Loja</h2>
+            <!-- Formulário para adicionar loja -->
+            <form id="edit-form">
+              <!-- Adicione os campos do formulário conforme necessário -->
+              <div class="form-group">
+                <input class="id-loja" type="hidden" />
+                <label for="lojaName">Nome da Loja:</label>
+                <input type="text" id="nome" name="nome" required />
+
+                <label for="lojaLogo">Logo da Loja:</label>
+                <input type="text" id="logo" name="logo" required />
+
+                <label for="lojaBanner">Banner da Loja:</label>
+                <input type="text" id="banner" name="banner" required />
+
+                <label for="lojaQtdProduto"
+                  >Quantidade de produto da Loja:</label
+                >
+                <input type="text" id="qtdproduto" name="qtdproduto" required />
+
+                <label for="lojaCorfundo">Cor fundo da Loja:</label>
+                <input type="text" id="corfundo" name="corfundo" required />
+
+                <label for="lojaCorfonte">Cor fonte da Loja:</label>
+                <input type="text" id="corfonte" name="corfonte" required />
+
+                <label for="lojaArea">Area da Loja:</label>
+                <input type="text" id="area" name="area" required />
+
+                <label for="lojaCnpj">Cnpj da Loja:</label>
+                <input type="text" id="cnpj" name="cnpj" required />
+
+                <label for="lojaIdUsuario">IdUsuario da Loja:</label>
+                <input type="text" id="idUsuario" name="idUsuario" required />
+              </div>
+
+              <button type="button" class="btn btn-primary edit-loja-btn">
+                Salvar
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <div id="viewLojaModal" class="modal">
+          <div class="modal-content">
+            <span class="close" id="close-modal-view">&times;</span>
+            <h2>Visualizar Loja</h2>
+            <!-- Formulário para adicionar loja -->
+            <form id="view-form">
+              <!-- Adicione os campos do formulário conforme necessário -->
+              <div class="form-group">
+                <label for="lojaName">Nome da Loja:</label>
+                <input type="text" id="nome" name="nome" required />
+
+                <label for="lojaLogo">Logo da Loja:</label>
+                <input type="text" id="logo" name="logo" required />
+
+                <label for="lojaBanner">Banner da Loja:</label>
+                <input type="text" id="banner" name="banner" required />
+
+                <label for="lojaQtdProduto"
+                  >Quantidade de produto da Loja:</label
+                >
+                <input type="text" id="qtdproduto" name="qtdproduto" required />
+
+                <label for="lojaCorfundo">Cor fundo da Loja:</label>
+                <input type="text" id="corfundo" name="corfundo" required />
+
+                <label for="lojaCorfonte">Cor fonte da Loja:</label>
+                <input type="text" id="corfonte" name="corfonte" required />
+
+                <label for="lojaArea">Area da Loja:</label>
+                <input type="text" id="area" name="area" required />
+
+                <label for="lojaCnpj">Cnpj da Loja:</label>
+                <input type="text" id="cnpj" name="cnpj" required />
+
+                <label for="lojaIdUsuario">IdUsuario da Loja:</label>
+                <input type="text" id="idUsuario" name="idUsuario" required />
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div id="deleteLojaModal" class="modal">
+          <div class="modal-content">
+            <span class="close close-modal-delete">&times;</span>
+            <h2>Excluir Loja</h2>
+            <input class="id-loja" type="hidden" />
+            <!-- Formulário para adicionar loja -->
+            <button type="button" class="btn btn-primary close-modal-delete">
+              Cancelar
+            </button>
+            <button type="button" class="btn btn-delete delete-loja-btn">
+              Excluir
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../../../assets/js/jquery-3.7.1.min.js"></script>
+    <script src="../controller/list.js"></script>
+    <script src="../controller/create.js"></script>
+    <script src="../controller/update.js"></script>
+    <script src="../controller/view.js"></script>
+    <script src="../controller/delete.js"></script>
+    <script src="../../../script.js"></script>
+    <script src="../../usuario/controller/validateUser.js"></script>
+  </body>
+</html>
