@@ -1,15 +1,15 @@
 <?php
     namespace App\Services;
 
-    use App\Models\Shop;
+    use App\Models\SubCategory;
 
-    class ShopService
+    class SubCategoryService
     {
    
         public $product;
         
         public function __construct(){
-            $this->product = new Shop();
+            $this->product = new SubCategory();
 
 
         }

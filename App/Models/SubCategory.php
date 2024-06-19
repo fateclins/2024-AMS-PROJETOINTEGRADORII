@@ -4,10 +4,10 @@
     use App\Models\Crud;
     use App\Models\Core;
 
-    class Shop extends Crud
+    class SubCategory extends Crud
     {
         protected $core = null;
-        public $table = 'LOJA';
+        public $table = 'SUBCATEGORIA';
         private $filters = null;
         protected $pk  = 'id';
         public $db;
