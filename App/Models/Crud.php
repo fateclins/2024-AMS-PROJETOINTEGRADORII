@@ -129,6 +129,8 @@ public function search($fields = array(), $sort = array()) {
         }
         $sql .= " ORDER BY " . implode(", ", $sortvals);
     }
+
+    // echo $sql;exit;
     return $this->exec($sql);
 }
 

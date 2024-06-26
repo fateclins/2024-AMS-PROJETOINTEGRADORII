@@ -21,8 +21,20 @@
                 $this->product->find($id);
                 return $this->product->variables;
             } else {
-                
-                return $this->product->all();
+                $input = file_get_contents('php://input');
+
+                $data = json_decode($input, true);
+
+                // if(empty($data)) {
+                   
+                //     return $this->product->all();
+                // }else{
+                //     $this->product->variables = $data;
+                  
+                //     return $this->product->search();
+                // }
+                $this->product->variables = $data;
+                return $this->product->search();
             }
         }
 

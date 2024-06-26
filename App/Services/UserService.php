@@ -5,32 +5,89 @@
 
     class UserService
     {
+   
+        public $user;
+        
+        public function __construct(){
+            $this->user = new User();
+
+
+        }
         
         public function get($id = null) 
         {
-            // return "teste";
-            // echo "teste123";exit;
             if ($id) {
-                return User::select($id);
+                $this->user->pk = $id;
+                $this->user->find($id);
+                return $this->user->variables;
             } else {
-                return User::selectAll();
+                
+                return $this->user->all();
             }
         }
 
         public function post() 
         {
-            $data = $_POST;
+            $input = file_get_contents('php://input');
 
-            // return User::insert($data);
+            $data = json_decode($input, true);
+
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                throw new \Exception('Dados devem ter formato json');
+            } 
+            
+            $this->user->variables = $data;
+
+            $this->user->create($data);
+
+           
+            
+            return $this->user->db->lastInsertId();
         }
 
-        public function update() 
+        public function put() 
         {
+       
+          
+            $input = file_get_contents('php://input');
+
+            $jsonData = json_decode($input, true);
+            
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                throw new \Exception('Dados devem ter formato json');
+            } 
+            
+
+            $this->user->variables = $jsonData;
+
+            if (!isset($jsonData['id'])){
+                throw new \Exception('Id não enviado na requisição');
+            }
+        
+
+            return $this->user->save();
             
         }
 
         public function delete() 
         {
             
+            $input = file_get_contents('php://input');
+
+            $jsonData = json_decode($input, true);
+            
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                throw new \Exception('Dados devem ter formato json');
+            } 
+            
+
+            $this->user->variables = $jsonData;
+
+            if (!isset($jsonData['id'])){
+                throw new \Exception('Id não enviado na requisição');
+            }
+        
+
+            return $this->user->delete();
         }
     }
