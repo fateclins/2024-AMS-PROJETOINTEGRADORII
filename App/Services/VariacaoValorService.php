@@ -1,26 +1,26 @@
 <?php
     namespace App\Services;
 
-    use App\Models\Categoria;
+    use App\Models\VariacaoValor;
 
-    class CategoriaService
+    class VariacaoValorService
     {
    
-        public $categoria;
+        public $variacaoValor;
         
         public function __construct(){
-            $this->categoria = new Categoria();
+            $this->variacaoValor = new VariacaoValor();
         }
         
         public function get($id = null) 
         {
             if ($id) {
-                $this->categoria->pk = $id;
-                $this->categoria->find($id);
-                return $this->categoria->variables;
+                $this->variacaoValor->pk = $id;
+                $this->variacaoValor->find($id);
+                return $this->variacaoValor->variables;
             } else {
                 
-                return $this->categoria->all();
+                return $this->variacaoValor->all();
             }
         }
 
@@ -34,13 +34,13 @@
                 throw new \Exception('Dados devem ter formato json');
             } 
             
-            $this->categoria->variables = $data;
+            $this->variacaoValor->variables = $data;
 
-            $this->categoria->create($data);
+            $this->variacaoValor->create($data);
 
            
             
-            return $this->categoria->db->lastInsertId();
+            return $this->variacaoValor->db->lastInsertId();
         }
 
         public function put() 
@@ -56,14 +56,14 @@
             } 
             
 
-            $this->categoria->variables = $jsonData;
+            $this->variacaoValor->variables = $jsonData;
 
             if (!isset($jsonData['id'])){
                 throw new \Exception('Id não enviado na requisição');
             }
         
 
-            return $this->categoria->save();
+            return $this->variacaoValor->save();
             
         }
 
@@ -79,13 +79,13 @@
             } 
             
 
-            $this->categoria->variables = $jsonData;
+            $this->variacaoValor->variables = $jsonData;
 
             if (!isset($jsonData['id'])){
                 throw new \Exception('Id não enviado na requisição');
             }
         
 
-            return $this->categoria->delete();
+            return $this->variacaoValor->delete();
         }
     }

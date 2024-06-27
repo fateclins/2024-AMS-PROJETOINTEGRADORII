@@ -4,10 +4,10 @@
     use App\Models\Crud;
     use App\Models\Core;
 
-    class Categoria extends Crud
+    class VariacaoDescricao extends Crud
     {
         protected $core = null;
-        public $table = 'categoria';
+        public $table = 'variacaoDescricao';
         private $filters = null;
         protected $pk  = 'id';
         public $db;
@@ -15,5 +15,5 @@
 
         public function __construct(){
             $this->db = new Core();
-        } 
+        }
     }

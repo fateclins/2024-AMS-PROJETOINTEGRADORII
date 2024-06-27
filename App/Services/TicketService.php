@@ -1,26 +1,26 @@
 <?php
     namespace App\Services;
 
-    use App\Models\Categoria;
+    use App\Models\Ticket;
 
-    class CategoriaService
+    class TicketService
     {
    
-        public $categoria;
+        public $ticket;
         
         public function __construct(){
-            $this->categoria = new Categoria();
+            $this->ticket = new Ticket();
         }
         
         public function get($id = null) 
         {
             if ($id) {
-                $this->categoria->pk = $id;
-                $this->categoria->find($id);
-                return $this->categoria->variables;
+                $this->ticket->pk = $id;
+                $this->ticket->find($id);
+                return $this->ticket->variables;
             } else {
                 
-                return $this->categoria->all();
+                return $this->ticket->all();
             }
         }
 
@@ -34,13 +34,13 @@
                 throw new \Exception('Dados devem ter formato json');
             } 
             
-            $this->categoria->variables = $data;
+            $this->ticket->variables = $data;
 
-            $this->categoria->create($data);
+            $this->ticket->create($data);
 
            
             
-            return $this->categoria->db->lastInsertId();
+            return $this->ticket->db->lastInsertId();
         }
 
         public function put() 
@@ -56,14 +56,14 @@
             } 
             
 
-            $this->categoria->variables = $jsonData;
+            $this->ticket->variables = $jsonData;
 
             if (!isset($jsonData['id'])){
                 throw new \Exception('Id não enviado na requisição');
             }
         
 
-            return $this->categoria->save();
+            return $this->ticket->save();
             
         }
 
@@ -79,13 +79,13 @@
             } 
             
 
-            $this->categoria->variables = $jsonData;
+            $this->ticket->variables = $jsonData;
 
             if (!isset($jsonData['id'])){
                 throw new \Exception('Id não enviado na requisição');
             }
         
 
-            return $this->categoria->delete();
+            return $this->ticket->delete();
         }
     }
