@@ -1,34 +1,32 @@
 <?php
     namespace App\Services;
 
-    use App\Models\Product;
+    use App\Models\Endereco;
 
-    class ProductService
+    class EnderecoService
     {
    
-        public $product;
+        public $endereco;
         
         public function __construct(){
-            $this->product = new Product();
-
-
+            $this->endereco = new Endereco();
         }
         
         public function get($id = null) 
         {
             if ($id) {
-                $this->product->pk = $id;
-                $this->product->find($id);
-                return $this->product->variables;
+                $this->endereco->pk = $id;
+                $this->endereco->find($id);
+                return $this->endereco->variables;
             } else {
                 $input = file_get_contents('php://input');
 
                 $data = json_decode($input, true);
 
-                $this->product->pagination = $data["pagination"];
-                $this->product->variables = $data["filter"];
-               
-                return $this->product->search();
+                $this->endereco->pagination = $data["pagination"];
+                $this->endereco->variables = $data["filter"];
+
+                return $this->endereco->search();
             }
         }
 
@@ -42,13 +40,13 @@
                 throw new \Exception('Dados devem ter formato json');
             } 
             
-            $this->product->variables = $data;
+            $this->endereco->variables = $data;
 
-            $this->product->create($data);
+            $this->endereco->create($data);
 
            
             
-            return $this->product->db->lastInsertId();
+            return $this->endereco->db->lastInsertId();
         }
 
         public function put() 
@@ -64,14 +62,14 @@
             } 
             
 
-            $this->product->variables = $jsonData;
+            $this->endereco->variables = $jsonData;
 
             if (!isset($jsonData['id'])){
                 throw new \Exception('Id não enviado na requisição');
             }
         
 
-            return $this->product->save();
+            return $this->endereco->save();
             
         }
 
@@ -87,13 +85,13 @@
             } 
             
 
-            $this->product->variables = $jsonData;
+            $this->endereco->variables = $jsonData;
 
             if (!isset($jsonData['id'])){
                 throw new \Exception('Id não enviado na requisição');
             }
         
 
-            return $this->product->delete();
+            return $this->endereco->delete();
         }
     }
