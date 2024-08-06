@@ -7,7 +7,7 @@
     class TypeUser extends Crud
     {
         protected $core = null;
-        public $table = 'TIPOUSUARIO';
+        public $table = 'tipoUsuario';
         private $filters = null;
         protected $pk  = 'id';
         public $db;

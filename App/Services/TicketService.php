@@ -1,28 +1,26 @@
 <?php
     namespace App\Services;
 
-    use App\Models\TypeUser;
+    use App\Models\Ticket;
 
-    class TypeUserService
+    class TicketService
     {
    
-        public $typeuser;
+        public $ticket;
         
         public function __construct(){
-            $this->typeuser = new TypeUser();
-
-
+            $this->ticket = new Ticket();
         }
         
         public function get($id = null) 
         {
             if ($id) {
-                $this->typeuser->pk = $id;
-                $this->typeuser->find($id);
-                return $this->typeuser->variables;
+                $this->ticket->pk = $id;
+                $this->ticket->find($id);
+                return $this->ticket->variables;
             } else {
                 
-                return $this->typeuser->all();
+                return $this->ticket->all();
             }
         }
 
@@ -36,13 +34,13 @@
                 throw new \Exception('Dados devem ter formato json');
             } 
             
-            $this->typeuser->variables = $data;
+            $this->ticket->variables = $data;
 
-            $this->typeuser->create($data);
+            $this->ticket->create($data);
 
            
             
-            return $this->typeuser->db->lastInsertId();
+            return $this->ticket->db->lastInsertId();
         }
 
         public function put() 
@@ -58,14 +56,14 @@
             } 
             
 
-            $this->typeuser->variables = $jsonData;
+            $this->ticket->variables = $jsonData;
 
             if (!isset($jsonData['id'])){
                 throw new \Exception('Id não enviado na requisição');
             }
         
 
-            return $this->typeuser->save();
+            return $this->ticket->save();
             
         }
 
@@ -81,13 +79,13 @@
             } 
             
 
-            $this->typeuser->variables = $jsonData;
+            $this->ticket->variables = $jsonData;
 
             if (!isset($jsonData['id'])){
                 throw new \Exception('Id não enviado na requisição');
             }
         
 
-            return $this->typeuser->delete();
+            return $this->ticket->delete();
         }
     }

@@ -6,23 +6,21 @@
     class CategoryService
     {
    
-        public $product;
+        public $category;
         
         public function __construct(){
-            $this->product = new Category();
-
-
+            $this->category = new Category();
         }
         
         public function get($id = null) 
         {
             if ($id) {
-                $this->product->pk = $id;
-                $this->product->find($id);
-                return $this->product->variables;
+                $this->category->pk = $id;
+                $this->category->find($id);
+                return $this->category->variables;
             } else {
                 
-                return $this->product->all();
+                return $this->category->all();
             }
         }
 
@@ -36,13 +34,13 @@
                 throw new \Exception('Dados devem ter formato json');
             } 
             
-            $this->product->variables = $data;
+            $this->category->variables = $data;
 
-            $this->product->create($data);
+            $this->category->create($data);
 
            
             
-            return $this->product->db->lastInsertId();
+            return $this->category->db->lastInsertId();
         }
 
         public function put() 
@@ -58,14 +56,14 @@
             } 
             
 
-            $this->product->variables = $jsonData;
+            $this->category->variables = $jsonData;
 
             if (!isset($jsonData['id'])){
                 throw new \Exception('Id não enviado na requisição');
             }
         
 
-            return $this->product->save();
+            return $this->category->save();
             
         }
 
@@ -81,13 +79,13 @@
             } 
             
 
-            $this->product->variables = $jsonData;
+            $this->category->variables = $jsonData;
 
             if (!isset($jsonData['id'])){
                 throw new \Exception('Id não enviado na requisição');
             }
         
 
-            return $this->product->delete();
+            return $this->category->delete();
         }
     }

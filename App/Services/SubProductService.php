@@ -1,15 +1,15 @@
 <?php
     namespace App\Services;
 
-    use App\Models\TypeUser;
+    use App\Models\SubProduct;
 
-    class TypeUserService
+    class SubProductService
     {
    
-        public $typeuser;
+        public $subproduct;
         
         public function __construct(){
-            $this->typeuser = new TypeUser();
+            $this->subproduct = new SubProduct();
 
 
         }
@@ -17,12 +17,12 @@
         public function get($id = null) 
         {
             if ($id) {
-                $this->typeuser->pk = $id;
-                $this->typeuser->find($id);
-                return $this->typeuser->variables;
+                $this->subproduct->pk = $id;
+                $this->subproduct->find($id);
+                return $this->subproduct->variables;
             } else {
                 
-                return $this->typeuser->all();
+                return $this->subproduct->all();
             }
         }
 
@@ -36,13 +36,13 @@
                 throw new \Exception('Dados devem ter formato json');
             } 
             
-            $this->typeuser->variables = $data;
+            $this->subproduct->variables = $data;
 
-            $this->typeuser->create($data);
+            $this->subproduct->create($data);
 
            
             
-            return $this->typeuser->db->lastInsertId();
+            return $this->subproduct->db->lastInsertId();
         }
 
         public function put() 
@@ -58,14 +58,14 @@
             } 
             
 
-            $this->typeuser->variables = $jsonData;
+            $this->subproduct->variables = $jsonData;
 
             if (!isset($jsonData['id'])){
                 throw new \Exception('Id não enviado na requisição');
             }
         
 
-            return $this->typeuser->save();
+            return $this->subproduct->save();
             
         }
 
@@ -81,13 +81,13 @@
             } 
             
 
-            $this->typeuser->variables = $jsonData;
+            $this->subproduct->variables = $jsonData;
 
             if (!isset($jsonData['id'])){
                 throw new \Exception('Id não enviado na requisição');
             }
         
 
-            return $this->typeuser->delete();
+            return $this->subproduct->delete();
         }
     }

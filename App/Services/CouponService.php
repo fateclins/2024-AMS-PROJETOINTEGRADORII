@@ -1,56 +1,46 @@
 <?php
     namespace App\Services;
 
-    use App\Models\TypeUser;
+    use App\Models\Coupon;
 
-    class TypeUserService
+    class CouponService
     {
-   
-        public $typeuser;
+
+        public $coupon;
         
         public function __construct(){
-            $this->typeuser = new TypeUser();
-
+            $this->coupon = new Coupon();
 
         }
         
-        public function get($id = null) 
-        {
+        public function get($id = null) {
             if ($id) {
-                $this->typeuser->pk = $id;
-                $this->typeuser->find($id);
-                return $this->typeuser->variables;
+                $this->coupon->pk = $id;
+                $this->coupon->find($id);
+                return $this->coupon->variables;
             } else {
                 
-                return $this->typeuser->all();
+                return $this->coupon->all();
             }
         }
 
-        public function post() 
-        {
+        public function post(){
             $input = file_get_contents('php://input');
-
             $data = json_decode($input, true);
 
             if (json_last_error() !== JSON_ERROR_NONE) {
                 throw new \Exception('Dados devem ter formato json');
             } 
             
-            $this->typeuser->variables = $data;
+            $this->coupon->variables = $data;
+            $this->coupon->create($data);
 
-            $this->typeuser->create($data);
-
-           
             
-            return $this->typeuser->db->lastInsertId();
+            return $this->coupon->db->lastInsertId();
         }
 
-        public function put() 
-        {
-       
-          
+        public function put(){
             $input = file_get_contents('php://input');
-
             $jsonData = json_decode($input, true);
             
             if (json_last_error() !== JSON_ERROR_NONE) {
@@ -58,36 +48,29 @@
             } 
             
 
-            $this->typeuser->variables = $jsonData;
+            $this->coupon->variables = $jsonData;
 
             if (!isset($jsonData['id'])){
                 throw new \Exception('Id não enviado na requisição');
             }
-        
 
-            return $this->typeuser->save();
-            
+            return $this->coupon->save();
         }
 
-        public function delete() 
-        {
+        public function delete(){
             
             $input = file_get_contents('php://input');
-
             $jsonData = json_decode($input, true);
             
             if (json_last_error() !== JSON_ERROR_NONE) {
                 throw new \Exception('Dados devem ter formato json');
             } 
-            
-
-            $this->typeuser->variables = $jsonData;
+            $this->coupon->variables = $jsonData;
 
             if (!isset($jsonData['id'])){
                 throw new \Exception('Id não enviado na requisição');
             }
         
-
-            return $this->typeuser->delete();
+            return $this->coupon->delete();
         }
     }

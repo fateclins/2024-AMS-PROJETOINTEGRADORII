@@ -7,7 +7,7 @@
     class Loja extends Crud
     {
         protected $core = null;
-        public $table = 'LOJA';
+        public $table = 'loja';
         private $filters = null;
         protected $pk  = 'id';
         public $db;

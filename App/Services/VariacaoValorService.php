@@ -1,28 +1,26 @@
 <?php
     namespace App\Services;
 
-    use App\Models\TypeUser;
+    use App\Models\VariationValue;
 
-    class TypeUserService
+    class VariationValueService
     {
    
-        public $typeuser;
+        public $variationValue;
         
         public function __construct(){
-            $this->typeuser = new TypeUser();
-
-
+            $this->variationValue = new VariationValue();
         }
         
         public function get($id = null) 
         {
             if ($id) {
-                $this->typeuser->pk = $id;
-                $this->typeuser->find($id);
-                return $this->typeuser->variables;
+                $this->variationValue->pk = $id;
+                $this->variationValue->find($id);
+                return $this->variationValue->variables;
             } else {
                 
-                return $this->typeuser->all();
+                return $this->variationValue->all();
             }
         }
 
@@ -36,13 +34,13 @@
                 throw new \Exception('Dados devem ter formato json');
             } 
             
-            $this->typeuser->variables = $data;
+            $this->variationValue->variables = $data;
 
-            $this->typeuser->create($data);
+            $this->variationValue->create($data);
 
            
             
-            return $this->typeuser->db->lastInsertId();
+            return $this->variationValue->db->lastInsertId();
         }
 
         public function put() 
@@ -58,14 +56,14 @@
             } 
             
 
-            $this->typeuser->variables = $jsonData;
+            $this->variationValue->variables = $jsonData;
 
             if (!isset($jsonData['id'])){
                 throw new \Exception('Id não enviado na requisição');
             }
         
 
-            return $this->typeuser->save();
+            return $this->variationValue->save();
             
         }
 
@@ -81,13 +79,13 @@
             } 
             
 
-            $this->typeuser->variables = $jsonData;
+            $this->variationValue->variables = $jsonData;
 
             if (!isset($jsonData['id'])){
                 throw new \Exception('Id não enviado na requisição');
             }
         
 
-            return $this->typeuser->delete();
+            return $this->variationValue->delete();
         }
     }

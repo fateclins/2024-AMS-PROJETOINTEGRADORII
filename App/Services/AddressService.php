@@ -1,28 +1,32 @@
 <?php
     namespace App\Services;
 
-    use App\Models\TypeUser;
+    use App\Models\Address;
 
-    class TypeUserService
+    class AddressService
     {
    
-        public $typeuser;
+        public $address;
         
         public function __construct(){
-            $this->typeuser = new TypeUser();
-
-
+            $this->address = new Address();
         }
         
         public function get($id = null) 
         {
             if ($id) {
-                $this->typeuser->pk = $id;
-                $this->typeuser->find($id);
-                return $this->typeuser->variables;
+                $this->address->pk = $id;
+                $this->address->find($id);
+                return $this->address->variables;
             } else {
-                
-                return $this->typeuser->all();
+                $input = file_get_contents('php://input');
+
+                $data = json_decode($input, true);
+
+                $this->address->pagination = $data["pagination"];
+                $this->address->variables = $data["filter"];
+
+                return $this->address->search();
             }
         }
 
@@ -36,13 +40,13 @@
                 throw new \Exception('Dados devem ter formato json');
             } 
             
-            $this->typeuser->variables = $data;
+            $this->address->variables = $data;
 
-            $this->typeuser->create($data);
+            $this->address->create($data);
 
            
             
-            return $this->typeuser->db->lastInsertId();
+            return $this->address->db->lastInsertId();
         }
 
         public function put() 
@@ -58,14 +62,14 @@
             } 
             
 
-            $this->typeuser->variables = $jsonData;
+            $this->address->variables = $jsonData;
 
             if (!isset($jsonData['id'])){
                 throw new \Exception('Id não enviado na requisição');
             }
         
 
-            return $this->typeuser->save();
+            return $this->address->save();
             
         }
 
@@ -81,13 +85,13 @@
             } 
             
 
-            $this->typeuser->variables = $jsonData;
+            $this->address->variables = $jsonData;
 
             if (!isset($jsonData['id'])){
                 throw new \Exception('Id não enviado na requisição');
             }
         
 
-            return $this->typeuser->delete();
+            return $this->address->delete();
         }
     }

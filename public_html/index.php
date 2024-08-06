@@ -15,6 +15,9 @@
 
             $method = strtolower($_SERVER['REQUEST_METHOD']);
 
+            // echo $service;
+            // echo $method;
+            // exit;
             try {
 
                 $response = call_user_func_array(array(new $service, $method), $url);

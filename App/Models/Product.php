@@ -7,7 +7,7 @@
     class Product extends Crud
     {
         protected $core = null;
-        public $table = 'PRODUTO';
+        public $table = 'produto';
         private $filters = null;
         protected $pk  = 'id';
         public $db;
@@ -17,17 +17,6 @@
             $this->db = new Core();
         }
 
-  
-
-        // echo "Teste";  
-
-        
-
-        // public function create()
-        // {
-        //     $this->core->create();
-        // }
-
-        
+     
         
     }

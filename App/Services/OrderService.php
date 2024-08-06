@@ -1,15 +1,15 @@
 <?php
     namespace App\Services;
 
-    use App\Models\TypeUser;
+    use App\Models\Order;
 
-    class TypeUserService
+    class OrderService
     {
    
-        public $typeuser;
+        public $order;
         
         public function __construct(){
-            $this->typeuser = new TypeUser();
+            $this->order = new Order();
 
 
         }
@@ -17,12 +17,12 @@
         public function get($id = null) 
         {
             if ($id) {
-                $this->typeuser->pk = $id;
-                $this->typeuser->find($id);
-                return $this->typeuser->variables;
+                $this->order->pk = $id;
+                $this->order->find($id);
+                return $this->order->variables;
             } else {
                 
-                return $this->typeuser->all();
+                return $this->order->all();
             }
         }
 
@@ -36,13 +36,13 @@
                 throw new \Exception('Dados devem ter formato json');
             } 
             
-            $this->typeuser->variables = $data;
+            $this->order->variables = $data;
 
-            $this->typeuser->create($data);
+            $this->order->create($data);
 
            
             
-            return $this->typeuser->db->lastInsertId();
+            return $this->order->db->lastInsertId();
         }
 
         public function put() 
@@ -58,14 +58,14 @@
             } 
             
 
-            $this->typeuser->variables = $jsonData;
+            $this->order->variables = $jsonData;
 
             if (!isset($jsonData['id'])){
                 throw new \Exception('Id não enviado na requisição');
             }
         
 
-            return $this->typeuser->save();
+            return $this->order->save();
             
         }
 
@@ -81,13 +81,13 @@
             } 
             
 
-            $this->typeuser->variables = $jsonData;
+            $this->order->variables = $jsonData;
 
             if (!isset($jsonData['id'])){
                 throw new \Exception('Id não enviado na requisição');
             }
         
 
-            return $this->typeuser->delete();
+            return $this->order->delete();
         }
     }

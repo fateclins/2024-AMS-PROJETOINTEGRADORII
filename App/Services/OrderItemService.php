@@ -1,15 +1,15 @@
 <?php
     namespace App\Services;
 
-    use App\Models\TypeUser;
+    use App\Models\OrderItem;
 
-    class TypeUserService
+    class OrderItemService
     {
    
-        public $typeuser;
+        public $orderitem;
         
         public function __construct(){
-            $this->typeuser = new TypeUser();
+            $this->orderitem = new OrderItem();
 
 
         }
@@ -17,12 +17,12 @@
         public function get($id = null) 
         {
             if ($id) {
-                $this->typeuser->pk = $id;
-                $this->typeuser->find($id);
-                return $this->typeuser->variables;
+                $this->orderitem->pk = $id;
+                $this->orderitem->find($id);
+                return $this->orderitem->variables;
             } else {
                 
-                return $this->typeuser->all();
+                return $this->orderitem->all();
             }
         }
 
@@ -36,13 +36,13 @@
                 throw new \Exception('Dados devem ter formato json');
             } 
             
-            $this->typeuser->variables = $data;
+            $this->orderitem->variables = $data;
 
-            $this->typeuser->create($data);
+            $this->orderitem->create($data);
 
            
             
-            return $this->typeuser->db->lastInsertId();
+            return $this->orderitem->db->lastInsertId();
         }
 
         public function put() 
@@ -58,14 +58,14 @@
             } 
             
 
-            $this->typeuser->variables = $jsonData;
+            $this->orderitem->variables = $jsonData;
 
             if (!isset($jsonData['id'])){
                 throw new \Exception('Id não enviado na requisição');
             }
         
 
-            return $this->typeuser->save();
+            return $this->orderitem->save();
             
         }
 
@@ -81,13 +81,13 @@
             } 
             
 
-            $this->typeuser->variables = $jsonData;
+            $this->orderitem->variables = $jsonData;
 
             if (!isset($jsonData['id'])){
                 throw new \Exception('Id não enviado na requisição');
             }
         
 
-            return $this->typeuser->delete();
+            return $this->orderitem->delete();
         }
     }

@@ -1,3 +1,7 @@
+/**
+ * DDL Language
+ */
+
 create database sistemaTray;
 
 use sistemaTray;
@@ -74,9 +78,12 @@ create table produto(
     qtde int,
     valor double,
     modelo varchar(50),
+    produtoDestaque BOOLEAN,
+
     idv1 int,
     idv2 int,
     idloja int,
+
     
     primary key(id),
     foreign key(idV1) references variacaoValor(id),
@@ -145,5 +152,81 @@ create table pagamento(
     
     primary key(id),
     foreign key(idPedido) references pedido(id)
-    
 ); 
+
+create table ticket(
+    id int auto_increment not null,
+    titulo varchar(50),
+    descricao varchar(100),
+    ticketStatus varchar(50),
+
+    createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updatedAt DATETIME ON UPDATE CURRENT_TIMESTAMP,
+
+    idUsuario int,
+    primary key(id),
+    foreign key(idUsuario) references usuario(id)
+);
+
+/**
+ * DML Language
+ */
+
+-- Populando a tabela variacaoDescricao
+INSERT INTO variacaoDescricao (descricao) VALUES ('Tamanho');
+INSERT INTO variacaoDescricao (descricao) VALUES ('Cor');
+
+-- Populando a tabela variacaoValor
+INSERT INTO variacaoValor (valor, idVariacaoDescricao) VALUES ('Pequeno', 1);
+INSERT INTO variacaoValor (valor, idVariacaoDescricao) VALUES ('Médio', 1);
+INSERT INTO variacaoValor (valor, idVariacaoDescricao) VALUES ('Grande', 1);
+INSERT INTO variacaoValor (valor, idVariacaoDescricao) VALUES ('Vermelho', 2);
+INSERT INTO variacaoValor (valor, idVariacaoDescricao) VALUES ('Azul', 2);
+INSERT INTO variacaoValor (valor, idVariacaoDescricao) VALUES ('Verde', 2);
+
+-- Populando a tabela tipoUsuario
+INSERT INTO tipoUsuario (descricao) VALUES ('Administrador');
+INSERT INTO tipoUsuario (descricao) VALUES ('Cliente');
+
+-- Populando a tabela usuario
+INSERT INTO usuario (nome, indentidade, email, senha, idTipoUsuario) VALUES ('João Silva', '123456789', 'joao.silva@email.com', 'senha123', 1);
+INSERT INTO usuario (nome, indentidade, email, senha, idTipoUsuario) VALUES ('Maria Oliveira', '987654321', 'maria.oliveira@email.com', 'senha456', 2);
+
+-- Populando a tabela endereco
+INSERT INTO endereco (pais, estado, cidade, bairro, rua, numero, logradouro, idUsuario) VALUES ('Brasil', 'São Paulo', 'São Paulo', 'Centro', 'Avenida Paulista', '100', 'Apartamento 101', 1);
+INSERT INTO endereco (pais, estado, cidade, bairro, rua, numero, logradouro, idUsuario) VALUES ('Brasil', 'Rio de Janeiro', 'Rio de Janeiro', 'Copacabana', 'Rua Barata Ribeiro', '200', 'Apartamento 202', 2);
+
+-- Populando a tabela loja
+INSERT INTO loja (nome, logo, banner, qtdproduto, corfundo, corfonte, area, cnpj, idUsuario) VALUES ('Loja Exemplo', 'logo.png', 'banner.png', '150', '#FFFFFF', '#000000', 'Shopping ABC', '12.345.678/0001-99', 1);
+
+-- Populando a tabela produto
+INSERT INTO produto (qtde, valor, modelo, produtoDestaque, idv1, idv2, idloja) VALUES (10, 99.90, 'Modelo A', TRUE, 1, 4, 1);
+INSERT INTO produto (qtde, valor, modelo, produtoDestaque, idv1, idv2, idloja) VALUES (5, 199.90, 'Modelo B', FALSE, 2, 5, 1);
+
+-- Populando a tabela categoria
+INSERT INTO categoria (nome, descricao) VALUES ('Eletrônicos', 'Produtos eletrônicos e gadgets');
+INSERT INTO categoria (nome, descricao) VALUES ('Roupas', 'Roupas e acessórios');
+
+-- Populando a tabela subcategoria
+INSERT INTO subcategoria (descricao, idCategoria) VALUES ('Celulares', 1);
+INSERT INTO subcategoria (descricao, idCategoria) VALUES ('Laptops', 1);
+INSERT INTO subcategoria (descricao, idCategoria) VALUES ('Camisetas', 2);
+INSERT INTO subcategoria (descricao, idCategoria) VALUES ('Calças', 2);
+
+-- Populando a tabela subProduto
+INSERT INTO subProduto (idProduto, idSubCat) VALUES (1, 1);
+INSERT INTO subProduto (idProduto, idSubCat) VALUES (2, 2);
+
+-- Populando a tabela itemPedido
+INSERT INTO itemPedido (qtdePedida, qtdeAtendida, valorItem, idProduto) VALUES (2, 2, 99.90, 1);
+INSERT INTO itemPedido (qtdePedida, qtdeAtendida, valorItem, idProduto) VALUES (1, 1, 199.90, 2);
+
+-- Populando a tabela pedido
+INSERT INTO pedido (valorTotal, datap, statusp, valorFinal, desconto, idUsuario) VALUES (299.80, '2024-08-06 10:00:00', 1, 299.80, 0, 2);
+
+-- Populando a tabela pagamento
+INSERT INTO pagamento (datap, valor, operacao, statusp, idPedido) VALUES ('2024-08-06 10:05:00', 299.80, 1, 1, 1);
+
+-- Populando a tabela ticket
+INSERT INTO ticket (titulo, descricao, ticketStatus, idUsuario) VALUES ('Problema com pedido', 'O cliente relatou um problema com o pedido número 1.', 'Aberto', 2);
+INSERT INTO ticket (titulo, descricao, ticketStatus, idUsuario) VALUES ('Erro no pagamento', 'O cliente relatou um erro no pagamento do pedido número 1.', 'Fechado', 1);

@@ -7,7 +7,7 @@
     class Category extends Crud
     {
         protected $core = null;
-        public $table = 'CATEGORIA';
+        public $table = 'categoria';
         private $filters = null;
         protected $pk  = 'id';
         public $db;
@@ -15,19 +15,5 @@
 
         public function __construct(){
             $this->db = new Core();
-        }
-
-  
-
-        // echo "Teste";  
-
-        
-
-        // public function create()
-        // {
-        //     $this->core->create();
-        // }
-
-        
-        
+        } 
     }

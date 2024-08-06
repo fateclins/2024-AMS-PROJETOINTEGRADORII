@@ -1,51 +1,48 @@
-# Fatec - Projeto Integrador II
+# Projeto Integrador
 
-### RF (Requisitos funcionais)
+- **✅ Manter usuário - 7 pontos**
+    - [x]  Cadastrar usuário
+    - [x]  Atualizar usuário
+    - [x]  Listar todos usuários
+    - [x]  Buscar usuário por ID
 
-### Dashboard
+- **✅ Endereço - (não tem no trello)**
+    - [x]  Cadastrar endereço
+    - [x]  Atualizar endereço
 
-- [ ] Deve ser possível se autenticar
-- [ ] Deve ser possível o usuário redefinir a senha
+- **✅ Manter produto - 6 pontos**
+    - [x]  Cadastrar produto
+    - [x]  Atualizar produto
+    - [x]  Listar todos produtos
+    - [x]  Buscar produto por ID
+    - [x]  (3 pontos) Adicionar campo produtoDestaque (true/false)
+    - [x]  Adicionar/Remover produto destaque
+    - [x]  Visualizar produtos destaques
+    - [x]  Paginação de produtos
+    - [ ]  ?? Nota fiscal produto
 
-- [ ] Deve ser possível buscar por um produto
-- [ ] Deve ser possível buscar por uma loja
-- [ ] Deve ser possível listar todos os produtos de uma loja
-- [ ] Deve ser possível filtrar por produtos (nome, categoria, preço)
-- [ ] Deve ser possível o cliente adicionar produtos ao carrinho
-- [ ] Deve ser possível o cliente fazer um pedido
-- [ ] Deve ser possível importar produtos por arquivo CSV
+- **✅ Manter variação descrição - 4 pontos**
+    - [x]  Cadastrar variação
+    - [x]  Atualizar produto
+    - [x]  Listar todos produtos
+    - [x]  Buscar produto por ID
 
-### Marketplace
+- **✅ Manter variação valor - 4 pontos**
+    - [x]  Cadastrar variação
+    - [x]  Atualizar produto
+    - [x]  Listar todos produtos
+    - [x]  Buscar produto por ID
 
-- [ ] Deve ser possível se cadastrar como lojista
-- [ ] Deve ser possível um lojista cadastrar uma loja
-- [ ] Deve ser possível um lojista cadastrar produtos para uma loja
-- [ ] Deve ser possível um lojista cadastrar categoria de produtos em uma loja
-- [ ] Deve ser possível um lojista cadastrar uma variação de produtos em uma loja
-- [ ] Deve ser possível um lojista cadastrar produtos em destaque
+- **✅ Manter categoria - 4 pontos**
+    - [x]  Cadastrar categoria
+    - [x]  Atualizar categoria
+    - [x]  Listar todas categorias
+    - [x]  Buscar categoria por ID
 
-### RN (Regras de negócio)
-
-- [ ] Um usuário não pode ter e-mail duplicado
-- [ ] Um lojista pode ter uma ou mais lojas cadastradas
-- [ ] Um produto pode ter no máximo até 2 variações
-- [ ] Uma loja pode ter no máximo 20 produtos em destaque
-- [ ] Um pedido podera ter os seguintes status:
-    - Em processo
-    - Em entrega
-    - Entregue
-    - Cancelado
-- [ ] Um pedido só pode ser cancelado se estiver com o status: Em processo
-
-### RNF (Requisitos não-funcionais)
-
-- [ ] Autenticação por JWT (JSON Web Token) ou OAuth 2.0
-- [ ] Os campos devem ser validados;
-- [ ] O campo de senha não deve conter os seguintes caracteres: ("\", "_", "/", ".")
-- [ ] A senha do usuário deve ser salva criptografada;
-- [ ] Um link para redefinir a senha é enviado ao e-mail do usuário;
-- [ ] Os dados da aplicação precisam estar persistidos em um banco de dados MySQL;
-
-### Layout da aplicação
-
-https://www.figma.com/file/qN74qywR1q4fkZqcXaIasd/Ecommerce?type=design&node-id=0-1&mode=design&t=CsDeRJBCUJDqj0Nb-0
+- ** Manter ticket de suporte - 9 pontos**
+    - [x]  Abrir um ticket de suporte
+    - [x]  Fechar ticket de suporte
+    - [x]  Listar todos tickets
+    - [x]  Ver detalhe do ticket
+    - [ ]  Responder ticket
+    - [x]  Marcar ticket como solucionado

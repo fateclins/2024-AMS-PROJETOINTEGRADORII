@@ -1,15 +1,15 @@
 <?php
     namespace App\Services;
 
-    use App\Models\TypeUser;
+    use App\Models\Payment;
 
-    class TypeUserService
+    class PaymentService
     {
    
-        public $typeuser;
+        public $payment;
         
         public function __construct(){
-            $this->typeuser = new TypeUser();
+            $this->payment = new Payment();
 
 
         }
@@ -17,12 +17,12 @@
         public function get($id = null) 
         {
             if ($id) {
-                $this->typeuser->pk = $id;
-                $this->typeuser->find($id);
-                return $this->typeuser->variables;
+                $this->payment->pk = $id;
+                $this->payment->find($id);
+                return $this->payment->variables;
             } else {
                 
-                return $this->typeuser->all();
+                return $this->payment->all();
             }
         }
 
@@ -36,13 +36,13 @@
                 throw new \Exception('Dados devem ter formato json');
             } 
             
-            $this->typeuser->variables = $data;
+            $this->payment->variables = $data;
 
-            $this->typeuser->create($data);
+            $this->payment->create($data);
 
            
             
-            return $this->typeuser->db->lastInsertId();
+            return $this->payment->db->lastInsertId();
         }
 
         public function put() 
@@ -58,14 +58,14 @@
             } 
             
 
-            $this->typeuser->variables = $jsonData;
+            $this->payment->variables = $jsonData;
 
             if (!isset($jsonData['id'])){
                 throw new \Exception('Id não enviado na requisição');
             }
         
 
-            return $this->typeuser->save();
+            return $this->payment->save();
             
         }
 
@@ -81,13 +81,13 @@
             } 
             
 
-            $this->typeuser->variables = $jsonData;
+            $this->payment->variables = $jsonData;
 
             if (!isset($jsonData['id'])){
                 throw new \Exception('Id não enviado na requisição');
             }
         
 
-            return $this->typeuser->delete();
+            return $this->payment->delete();
         }
     }

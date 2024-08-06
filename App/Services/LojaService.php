@@ -6,10 +6,10 @@
     class LojaService
     {
    
-        public $product;
+        public $loja;
         
         public function __construct(){
-            $this->product = new Loja();
+            $this->loja = new Loja();
 
 
         }
@@ -17,12 +17,12 @@
         public function get($id = null) 
         {
             if ($id) {
-                $this->product->pk = $id;
-                $this->product->find($id);
-                return $this->product->variables;
+                $this->loja->pk = $id;
+                $this->loja->find($id);
+                return $this->loja->variables;
             } else {
                 
-                return $this->product->all();
+                return $this->loja->all();
             }
         }
 
@@ -36,13 +36,13 @@
                 throw new \Exception('Dados devem ter formato json');
             } 
             
-            $this->product->variables = $data;
+            $this->loja->variables = $data;
 
-            $this->product->create($data);
+            $this->loja->create($data);
 
            
             
-            return $this->product->db->lastInsertId();
+            return $this->loja->db->lastInsertId();
         }
 
         public function put() 
@@ -58,14 +58,14 @@
             } 
             
 
-            $this->product->variables = $jsonData;
+            $this->loja->variables = $jsonData;
 
             if (!isset($jsonData['id'])){
                 throw new \Exception('Id não enviado na requisição');
             }
         
 
-            return $this->product->save();
+            return $this->loja->save();
             
         }
 
@@ -81,13 +81,13 @@
             } 
             
 
-            $this->product->variables = $jsonData;
+            $this->loja->variables = $jsonData;
 
             if (!isset($jsonData['id'])){
                 throw new \Exception('Id não enviado na requisição');
             }
         
 
-            return $this->product->delete();
+            return $this->loja->delete();
         }
     }
