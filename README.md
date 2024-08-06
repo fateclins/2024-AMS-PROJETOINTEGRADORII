@@ -99,6 +99,6 @@
 
 Dentro da pasta htdocs do XAMPP de os seguintes comandos no terminal:
 
-git clone --branch gilson --single-branch https://github.com/fateclins/2024-AMS-PROJETOINTEGRADORII.git
+git clone https://github.com/fateclins/2024-AMS-PROJETOINTEGRADORII.git
 
 composer install
