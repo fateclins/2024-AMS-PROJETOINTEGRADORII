@@ -170,7 +170,12 @@ create table ticket(
 
 create table cupom(
     id int auto_increment not null,
-    desconto double
+    palavraCodigo varchar(50),
+    desconto double,
+
+    idProduto int,
+    primary key(id),
+	foreign key(idProduto) references produto(id)
 );
 
 /**
@@ -237,8 +242,8 @@ INSERT INTO ticket (titulo, descricao, ticketStatus, idUsuario) VALUES ('Problem
 INSERT INTO ticket (titulo, descricao, ticketStatus, idUsuario) VALUES ('Erro no pagamento', 'O cliente relatou um erro no pagamento do pedido número 1.', 'Fechado', 1);
 
 -- Populando a tabela cupom
-INSERT INTO cupom (desconto) VALUES (10.00);
-INSERT INTO cupom (desconto) VALUES (15.50);
-INSERT INTO cupom (desconto) VALUES (20.00);
-INSERT INTO cupom (desconto) VALUES (25.75);
-INSERT INTO cupom (desconto) VALUES (30.00);
+INSERT INTO cupom (desconto, palavraCodigo, idProduto) VALUES (10.00, "PRODUTO1", 1);
+INSERT INTO cupom (desconto, palavraCodigo, idProduto) VALUES (15.50, "PRODUTO2", 1);
+INSERT INTO cupom (desconto, palavraCodigo, idProduto) VALUES (20.00, "PRODUTO3", 2);
+INSERT INTO cupom (desconto, palavraCodigo, idProduto) VALUES (25.75, "PRODUTO4", 2);
+INSERT INTO cupom (desconto, palavraCodigo, idProduto) VALUES (30.00, "PRODUTO5", 1);
