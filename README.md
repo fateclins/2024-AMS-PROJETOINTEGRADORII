@@ -83,7 +83,7 @@
     - [x]  Listar todas as lojas
     - [x]  Buscar loja por ID
 
-  - **✅ Manter pedido - 4 pontos**
+- **✅ Manter pedido - 4 pontos**
     - [x]  Cadastrar pedido
     - [x]  Atualizar pedido
     - [x]  Listar todos os pedidos
