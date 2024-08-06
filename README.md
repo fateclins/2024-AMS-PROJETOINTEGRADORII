@@ -39,10 +39,20 @@
     - [x]  Listar todas categorias
     - [x]  Buscar categoria por ID
 
-- ** Manter ticket de suporte - 9 pontos**
+- **✅ Manter ticket de suporte - 9 pontos**
     - [x]  Abrir um ticket de suporte
     - [x]  Fechar ticket de suporte
     - [x]  Listar todos tickets
     - [x]  Ver detalhe do ticket
     - [ ]  Responder ticket
     - [x]  Marcar ticket como solucionado
+
+---
+
+## Como Executar
+
+Dentro da pasta htdocs do XAMPP de os seguintes comandos no terminal:
+
+git clone --branch gilson --single-branch https://github.com/fateclins/2024-AMS-PROJETOINTEGRADORII.git
+
+composer install
