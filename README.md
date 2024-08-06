@@ -47,7 +47,53 @@
     - [ ]  Responder ticket
     - [x]  Marcar ticket como solucionado
 
----
+- **✅ Manter pagamento - 4 pontos**
+    - [x]  Cadastrar pagamento
+    - [x]  Atualizar pagamento
+    - [x]  Listar todos pagamentos
+    - [x]  Buscar pagamento por ID
+
+ - **✅ Manter cupom (não tem no trello)**
+    - [x]  Cadastrar cupom
+    - [x]  Atualizar cupom
+    - [x]  Listar todas cupom
+    - [x]  Buscar cupom por ID
+
+- **✅ Manter subcategoria - 4 pontos**
+    - [x]  Cadastrar subcategoria
+    - [x]  Atualizar subcategoria
+    - [x]  Listar todas as subcategorias
+    - [x]  Buscar subcategoria por ID
+
+- **✅ Manter subproduto - 4 pontos**
+    - [x]  Cadastrar subproduto
+    - [x]  Atualizar subproduto
+    - [x]  Listar todos os subprodutos
+    - [x]  Buscar categoria por ID
+
+- **✅ Manter tipo do usuário - 4 pontos**
+    - [x]  Cadastrar tipo de usuário
+    - [x]  Atualizar tipo de usuário
+    - [x]  Listar todos os tipos de usuário
+    - [x]  Buscar buscar tipo de usuário por ID
+
+- **✅ Manter loja - 4 pontos**
+    - [x]  Cadastrar loja
+    - [x]  Atualizar loja
+    - [x]  Listar todas as lojas
+    - [x]  Buscar loja por ID
+
+  - **✅ Manter pedido - 4 pontos**
+    - [x]  Cadastrar pedido
+    - [x]  Atualizar pedido
+    - [x]  Listar todos os pedidos
+    - [x]  Buscar pedido por ID
+
+- **✅ Manter item do pedido - 4 pontos**
+    - [x]  Cadastrar item do pedido
+    - [x]  Atualizar item do pedido
+    - [x]  Listar todos os itens do pedido
+    - [x]  Buscar item do pedido por ID
 
 ## Como Executar
 
