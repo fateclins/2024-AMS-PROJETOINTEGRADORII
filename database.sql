@@ -168,6 +168,11 @@ create table ticket(
     foreign key(idUsuario) references usuario(id)
 );
 
+create table cupom(
+    id int auto_increment not null,
+    desconto double
+);
+
 /**
  * DML Language
  */
@@ -230,3 +235,10 @@ INSERT INTO pagamento (datap, valor, operacao, statusp, idPedido) VALUES ('2024-
 -- Populando a tabela ticket
 INSERT INTO ticket (titulo, descricao, ticketStatus, idUsuario) VALUES ('Problema com pedido', 'O cliente relatou um problema com o pedido número 1.', 'Aberto', 2);
 INSERT INTO ticket (titulo, descricao, ticketStatus, idUsuario) VALUES ('Erro no pagamento', 'O cliente relatou um erro no pagamento do pedido número 1.', 'Fechado', 1);
+
+-- Populando a tabela cupom
+INSERT INTO cupom (desconto) VALUES (10.00);
+INSERT INTO cupom (desconto) VALUES (15.50);
+INSERT INTO cupom (desconto) VALUES (20.00);
+INSERT INTO cupom (desconto) VALUES (25.75);
+INSERT INTO cupom (desconto) VALUES (30.00);
