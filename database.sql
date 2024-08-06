@@ -74,9 +74,12 @@ create table produto(
     qtde int,
     valor double,
     modelo varchar(50),
+    produtoDestaque BOOLEAN,
+
     idv1 int,
     idv2 int,
     idloja int,
+
     
     primary key(id),
     foreign key(idV1) references variacaoValor(id),
@@ -145,5 +148,18 @@ create table pagamento(
     
     primary key(id),
     foreign key(idPedido) references pedido(id)
-    
 ); 
+
+create table ticket(
+    id int auto_increment not null,
+    titulo varchar(50),
+    descricao varchar(100),
+    ticketStatus varchar(50),
+
+    createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updatedAt DATETIME ON UPDATE CURRENT_TIMESTAMP,
+
+    idUsuario int,
+    primary key(id),
+    foreign key(idUsuario) references usuario(id)
+);

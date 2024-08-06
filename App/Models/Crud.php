@@ -10,9 +10,12 @@ public $db;
 
 public $variables;
 
+public $pagination;
+
 public function __construct($data = array()) {
     $this->db =  new Core();	
     $this->variables  = $data;
+    $this->pagination = array();
 }
 
 public function __set($name,$value){
@@ -109,6 +112,7 @@ public function find($id = "") {
 }
 
 public function search($fields = array(), $sort = array()) {
+
     $bindings = empty($fields) ? $this->variables : $fields;
 
     $sql = "SELECT * FROM " . $this->table;
@@ -129,6 +133,11 @@ public function search($fields = array(), $sort = array()) {
         }
         $sql .= " ORDER BY " . implode(", ", $sortvals);
     }
+
+    if(isset($this->pagination["getStart"])) {
+        $sql .= " limit " . $this->pagination["getStart"] . ",".   $this->pagination["getLimit"];
+    }
+
     return $this->exec($sql);
 }
 

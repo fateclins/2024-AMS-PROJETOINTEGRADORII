@@ -1,28 +1,32 @@
 <?php
     namespace App\Services;
 
-    use App\Models\User;
+    use App\Models\Endereco;
 
-    class UserService
+    class EnderecoService
     {
    
-        public $user;
+        public $endereco;
         
         public function __construct(){
-            $this->user = new User();
-
-
+            $this->endereco = new Endereco();
         }
         
         public function get($id = null) 
         {
             if ($id) {
-                $this->user->pk = $id;
-                $this->user->find($id);
-                return $this->user->variables;
+                $this->endereco->pk = $id;
+                $this->endereco->find($id);
+                return $this->endereco->variables;
             } else {
-                
-                return $this->user->all();
+                $input = file_get_contents('php://input');
+
+                $data = json_decode($input, true);
+
+                $this->endereco->pagination = $data["pagination"];
+                $this->endereco->variables = $data["filter"];
+
+                return $this->endereco->search();
             }
         }
 
@@ -36,13 +40,13 @@
                 throw new \Exception('Dados devem ter formato json');
             } 
             
-            $this->user->variables = $data;
+            $this->endereco->variables = $data;
 
-            $this->user->create($data);
+            $this->endereco->create($data);
 
            
             
-            return $this->user->db->lastInsertId();
+            return $this->endereco->db->lastInsertId();
         }
 
         public function put() 
@@ -58,14 +62,14 @@
             } 
             
 
-            $this->user->variables = $jsonData;
+            $this->endereco->variables = $jsonData;
 
             if (!isset($jsonData['id'])){
                 throw new \Exception('Id não enviado na requisição');
             }
         
 
-            return $this->user->save();
+            return $this->endereco->save();
             
         }
 
@@ -81,13 +85,13 @@
             } 
             
 
-            $this->user->variables = $jsonData;
+            $this->endereco->variables = $jsonData;
 
             if (!isset($jsonData['id'])){
                 throw new \Exception('Id não enviado na requisição');
             }
         
 
-            return $this->user->delete();
+            return $this->endereco->delete();
         }
     }

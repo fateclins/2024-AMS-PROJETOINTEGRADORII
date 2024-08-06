@@ -1,28 +1,26 @@
 <?php
     namespace App\Services;
 
-    use App\Models\User;
+    use App\Models\Ticket;
 
-    class UserService
+    class TicketService
     {
    
-        public $user;
+        public $ticket;
         
         public function __construct(){
-            $this->user = new User();
-
-
+            $this->ticket = new Ticket();
         }
         
         public function get($id = null) 
         {
             if ($id) {
-                $this->user->pk = $id;
-                $this->user->find($id);
-                return $this->user->variables;
+                $this->ticket->pk = $id;
+                $this->ticket->find($id);
+                return $this->ticket->variables;
             } else {
                 
-                return $this->user->all();
+                return $this->ticket->all();
             }
         }
 
@@ -36,13 +34,13 @@
                 throw new \Exception('Dados devem ter formato json');
             } 
             
-            $this->user->variables = $data;
+            $this->ticket->variables = $data;
 
-            $this->user->create($data);
+            $this->ticket->create($data);
 
            
             
-            return $this->user->db->lastInsertId();
+            return $this->ticket->db->lastInsertId();
         }
 
         public function put() 
@@ -58,14 +56,14 @@
             } 
             
 
-            $this->user->variables = $jsonData;
+            $this->ticket->variables = $jsonData;
 
             if (!isset($jsonData['id'])){
                 throw new \Exception('Id não enviado na requisição');
             }
         
 
-            return $this->user->save();
+            return $this->ticket->save();
             
         }
 
@@ -81,13 +79,13 @@
             } 
             
 
-            $this->user->variables = $jsonData;
+            $this->ticket->variables = $jsonData;
 
             if (!isset($jsonData['id'])){
                 throw new \Exception('Id não enviado na requisição');
             }
         
 
-            return $this->user->delete();
+            return $this->ticket->delete();
         }
     }

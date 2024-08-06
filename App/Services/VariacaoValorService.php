@@ -1,28 +1,26 @@
 <?php
     namespace App\Services;
 
-    use App\Models\User;
+    use App\Models\VariacaoValor;
 
-    class UserService
+    class VariacaoValorService
     {
    
-        public $user;
+        public $variacaoValor;
         
         public function __construct(){
-            $this->user = new User();
-
-
+            $this->variacaoValor = new VariacaoValor();
         }
         
         public function get($id = null) 
         {
             if ($id) {
-                $this->user->pk = $id;
-                $this->user->find($id);
-                return $this->user->variables;
+                $this->variacaoValor->pk = $id;
+                $this->variacaoValor->find($id);
+                return $this->variacaoValor->variables;
             } else {
                 
-                return $this->user->all();
+                return $this->variacaoValor->all();
             }
         }
 
@@ -36,13 +34,13 @@
                 throw new \Exception('Dados devem ter formato json');
             } 
             
-            $this->user->variables = $data;
+            $this->variacaoValor->variables = $data;
 
-            $this->user->create($data);
+            $this->variacaoValor->create($data);
 
            
             
-            return $this->user->db->lastInsertId();
+            return $this->variacaoValor->db->lastInsertId();
         }
 
         public function put() 
@@ -58,14 +56,14 @@
             } 
             
 
-            $this->user->variables = $jsonData;
+            $this->variacaoValor->variables = $jsonData;
 
             if (!isset($jsonData['id'])){
                 throw new \Exception('Id não enviado na requisição');
             }
         
 
-            return $this->user->save();
+            return $this->variacaoValor->save();
             
         }
 
@@ -81,13 +79,13 @@
             } 
             
 
-            $this->user->variables = $jsonData;
+            $this->variacaoValor->variables = $jsonData;
 
             if (!isset($jsonData['id'])){
                 throw new \Exception('Id não enviado na requisição');
             }
         
 
-            return $this->user->delete();
+            return $this->variacaoValor->delete();
         }
     }

@@ -1,28 +1,26 @@
 <?php
     namespace App\Services;
 
-    use App\Models\User;
+    use App\Models\Categoria;
 
-    class UserService
+    class CategoriaService
     {
    
-        public $user;
+        public $categoria;
         
         public function __construct(){
-            $this->user = new User();
-
-
+            $this->categoria = new Categoria();
         }
         
         public function get($id = null) 
         {
             if ($id) {
-                $this->user->pk = $id;
-                $this->user->find($id);
-                return $this->user->variables;
+                $this->categoria->pk = $id;
+                $this->categoria->find($id);
+                return $this->categoria->variables;
             } else {
                 
-                return $this->user->all();
+                return $this->categoria->all();
             }
         }
 
@@ -36,13 +34,13 @@
                 throw new \Exception('Dados devem ter formato json');
             } 
             
-            $this->user->variables = $data;
+            $this->categoria->variables = $data;
 
-            $this->user->create($data);
+            $this->categoria->create($data);
 
            
             
-            return $this->user->db->lastInsertId();
+            return $this->categoria->db->lastInsertId();
         }
 
         public function put() 
@@ -58,14 +56,14 @@
             } 
             
 
-            $this->user->variables = $jsonData;
+            $this->categoria->variables = $jsonData;
 
             if (!isset($jsonData['id'])){
                 throw new \Exception('Id não enviado na requisição');
             }
         
 
-            return $this->user->save();
+            return $this->categoria->save();
             
         }
 
@@ -81,13 +79,13 @@
             } 
             
 
-            $this->user->variables = $jsonData;
+            $this->categoria->variables = $jsonData;
 
             if (!isset($jsonData['id'])){
                 throw new \Exception('Id não enviado na requisição');
             }
         
 
-            return $this->user->delete();
+            return $this->categoria->delete();
         }
     }

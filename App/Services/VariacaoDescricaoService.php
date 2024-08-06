@@ -1,28 +1,26 @@
 <?php
     namespace App\Services;
 
-    use App\Models\User;
+    use App\Models\VariacaoDescricao;
 
-    class UserService
+    class VariacaoDescricaoService
     {
    
-        public $user;
+        public $variacaoDescricao;
         
         public function __construct(){
-            $this->user = new User();
-
-
+            $this->variacaoDescricao = new VariacaoDescricao();
         }
         
         public function get($id = null) 
         {
             if ($id) {
-                $this->user->pk = $id;
-                $this->user->find($id);
-                return $this->user->variables;
+                $this->variacaoDescricao->pk = $id;
+                $this->variacaoDescricao->find($id);
+                return $this->variacaoDescricao->variables;
             } else {
                 
-                return $this->user->all();
+                return $this->variacaoDescricao->all();
             }
         }
 
@@ -36,13 +34,13 @@
                 throw new \Exception('Dados devem ter formato json');
             } 
             
-            $this->user->variables = $data;
+            $this->variacaoDescricao->variables = $data;
 
-            $this->user->create($data);
+            $this->variacaoDescricao->create($data);
 
            
             
-            return $this->user->db->lastInsertId();
+            return $this->variacaoDescricao->db->lastInsertId();
         }
 
         public function put() 
@@ -58,14 +56,14 @@
             } 
             
 
-            $this->user->variables = $jsonData;
+            $this->variacaoDescricao->variables = $jsonData;
 
             if (!isset($jsonData['id'])){
                 throw new \Exception('Id não enviado na requisição');
             }
         
 
-            return $this->user->save();
+            return $this->variacaoDescricao->save();
             
         }
 
@@ -81,13 +79,13 @@
             } 
             
 
-            $this->user->variables = $jsonData;
+            $this->variacaoDescricao->variables = $jsonData;
 
             if (!isset($jsonData['id'])){
                 throw new \Exception('Id não enviado na requisição');
             }
         
 
-            return $this->user->delete();
+            return $this->variacaoDescricao->delete();
         }
     }

@@ -1,55 +1,19 @@
 <?php
-    namespace App\Models;
+       namespace App\Models;
 
-    class User
-    {
-        private static $table = 'usuario';
-
-        public static function select(int $id) {
-            $connPdo = new \PDO(DBDRIVE.': host='.DBHOST.'; dbname='.DBNAME, DBUSER, DBPASS);
-
-            $sql = 'SELECT * FROM '.self::$table.' WHERE id = :id';
-            $stmt = $connPdo->prepare($sql);
-            $stmt->bindValue(':id', $id);
-            $stmt->execute();
-
-            if ($stmt->rowCount() > 0) {
-                return $stmt->fetch(\PDO::FETCH_ASSOC);
-            } else {
-                throw new \Exception("Nenhum usuário encontrado!");
-            }
-        }
-
-        public static function selectAll() {
-            return "teste";
-            // $connPdo = new \PDO(DBDRIVE.': host='.DBHOST.'; dbname='.DBNAME, DBUSER, DBPASS);
-
-            // $sql = 'SELECT * FROM '.self::$table;
-            // $stmt = $connPdo->prepare($sql);
-            // $stmt->execute();
-
-            // if ($stmt->rowCount() > 0) {
-            //     return $stmt->fetchAll(\PDO::FETCH_ASSOC);
-            // } else {
-            //     throw new \Exception("Nenhum usuário encontrado!");
-            // }
-        }
-
-        public static function insert($data)
-        {
-            $connPdo = new \PDO(DBDRIVE.': host='.DBHOST.'; dbname='.DBNAME, DBUSER, DBPASS);
-
-            $sql = 'INSERT INTO '.self::$table.' (email, password, name) VALUES (:em, :pa, :na)';
-            $stmt = $connPdo->prepare($sql);
-            $stmt->bindValue(':em', $data['email']);
-            $stmt->bindValue(':pa', $data['password']);
-            $stmt->bindValue(':na', $data['name']);
-            $stmt->execute();
-
-            if ($stmt->rowCount() > 0) {
-                return 'Usuário(a) inserido com sucesso!';
-            } else {
-                throw new \Exception("Falha ao inserir usuário(a)!");
-            }
-        }
-    }
+       use App\Models\Crud;
+       use App\Models\Core;
+   
+       class User extends Crud
+       {
+           protected $core = null;
+           public $table = 'usuario';
+           private $filters = null;
+           protected $pk  = 'id';
+           public $db;
+          
+   
+           public function __construct(){
+               $this->db = new Core();
+           }
+       }   
