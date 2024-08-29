@@ -28,8 +28,8 @@ create table usuario(
 	id int auto_increment not null,
     nome varchar(50),
     indentidade varchar(50),
-    email varchar(50),
-    senha varchar(40),
+    email varchar(50) unique,
+    senha varchar(255),
     
     idTipoUsuario int,
     primary key(id),

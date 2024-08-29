@@ -112,7 +112,6 @@ public function find($id = "") {
 }
 
 public function search($fields = array(), $sort = array()) {
-
     $bindings = empty($fields) ? $this->variables : $fields;
 
     $sql = "SELECT * FROM " . $this->table;

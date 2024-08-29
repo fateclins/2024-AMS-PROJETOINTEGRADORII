@@ -4,30 +4,16 @@
     use App\Models\Crud;
     use App\Models\Core;
 
-    class SubCategory extends Crud
+    class Coupon extends Crud
     {
         protected $core = null;
-        public $table = 'SUBCATEGORIA';
+        public $table = 'CUPOM';
         private $filters = null;
         protected $pk  = 'id';
         public $db;
-       
+    
 
         public function __construct(){
             $this->db = new Core();
         }
-
-  
-
-        // echo "Teste";  
-
-        
-
-        // public function create()
-        // {
-        //     $this->core->create();
-        // }
-
-        
-        
     }
