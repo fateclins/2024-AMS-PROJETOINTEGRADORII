@@ -23,7 +23,7 @@
                 $response = call_user_func_array(array(new $service, $method), $url);
 
                 http_response_code(200);
-                echo json_encode(array('status' => 'sucess', 'data' => $response));
+                echo json_encode($response);
                 exit;
 
             } catch (\Exception $e) {
