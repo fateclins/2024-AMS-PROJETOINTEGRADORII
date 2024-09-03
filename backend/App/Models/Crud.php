@@ -111,6 +111,17 @@ public function find($id = "") {
     }
 }
 
+public function findByEmail($email = "") {
+
+    if(!empty($email)) {
+        $sql = 'SELECT * FROM ' . $this->table .' WHERE email = "' . $email . '"';	
+        
+        $result = $this->db->row($sql);
+        return $result;
+        $this->variables = ($result != false) ? $result : null;
+    }
+}
+
 public function search($fields = array(), $sort = array()) {
     $bindings = empty($fields) ? $this->variables : $fields;
 
@@ -171,14 +182,18 @@ public function count($field)  {
 
 
 private function exec($sql, $array = null) {
+    $array !== null ? $array : $this->variables;
     
     if($array !== null) {
-   
+
+        echo "primeiro if";
+
         $result =  $this->db->query($sql, $array);	
     }
     else {
 
-        $result =  $this->db->query($sql, $this->variables);	
+        $result =  $this->db->query($sql, $this->variables);
+	
     }
     
  
