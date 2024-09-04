@@ -42,33 +42,33 @@
 
             $this->user->create($data);
 
-           
+            $id = $this->user->db->lastInsertId();
             
-            return $this->user->db->lastInsertId();
+            http_response_code(201);
+            return $this->get($id);
         }
 
         public function put() 
         {
        
-          
             $input = file_get_contents('php://input');
 
-            $jsonData = json_decode($input, true);
+            $user = json_decode($input, true);
             
             if (json_last_error() !== JSON_ERROR_NONE) {
                 throw new \Exception('Dados devem ter formato json');
             } 
             
+            $this->user->variables = $user;
 
-            $this->user->variables = $jsonData;
-
-            if (!isset($jsonData['id'])){
+            if (!isset($user['id'])){
                 throw new \Exception('Id não enviado na requisição');
             }
         
 
-            return $this->user->save();
-            
+            $this->user->save();
+
+            return $this->get($user['id']);
         }
 
         public function delete() 

@@ -1,55 +1,71 @@
 <?php
-    namespace App\Services;
+namespace App\Services;
+
+require_once __DIR__ . '/../../vendor/autoload.php';
+
+use App\Models\User;
+use Firebase\JWT\JWT;
+// use Firebase\JWT\Key;
+
+
+class LoginService {
+
+    public $user;
     
-    use App\Models\User;
+    public function __construct(){
+        $this->user = new User();
+    }
 
-    class LoginService
-    {
+    public function post() {
+        $input = file_get_contents('php://input');
 
-        public $user;
+        $data = json_decode($input, true);
 
-        public $key = 'sistemaTray@123';
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new \Exception('Dados devem ter formato json');
+        } 
         
-        public function __construct(){
-            $this->user = new User();
-        }
+        $this->user->variables = $data;
 
-        public function post() 
-        {
-            $input = file_get_contents('php://input');
+        $email = $data['email'];
+        $senha = $data['senha'];
 
-            $data = json_decode($input, true);
+        $senhaHash = hash('sha256', $senha);
 
-            if (json_last_error() !== JSON_ERROR_NONE) {
-                throw new \Exception('Dados devem ter formato json');
-            } 
-            
-            $this->user->variables = $data;
+        // Defina os campos e o valor para a busca
+        $fields = $email;
 
-            $email = $data['email'];
-            $senha = $data['senha'];
+        // Chame a função search para buscar o usuário
+        $result = $this->user->findByEmail($fields);
 
-            $senhaHash = hash('sha256', $senha);
+        // Verifica se algum usuário foi encontrado
+        if ($result && !empty($result)) {
+            $user = $result;
 
-            // Defina os campos e o valor para a busca
-            $fields = $email;
+            $key = 'sistemaTray@123';
 
-            // Chame a função search para buscar o usuário
-            $result = $this->user->findByEmail($fields);
+            $iat = time();
+            $exp = time() + 60 * 60 * 3; // 3 hours
 
-            // Verifica se algum usuário foi encontrado
-            if ($result && !empty($result)) {
-                $user = $result;
-            
+            $payload = [
+                'sub' => $user['id'],
+                'iat' => $iat,
+                'exp' => $exp,
+            ];
 
-                // Comparação direta da senha
-                if ($senhaHash === $user['senha']) {
-                    return array('access_token' => "", 'user_id' => $user['id']);
-                } else {
-                    return array('errors' => ['message' => 'Email ou senha inválidos']);
-                }
+            $token= JWT::encode($payload, $key, 'HS256');
+            // $decoded = JWT::decode($token, new Key($key, 'HS256'));
+
+            // Comparação direta da senha
+            if ($senhaHash === $user['senha']) {
+                http_response_code(200);
+                return array('access_token' => $token, 'iat' => $iat, 'exp' => $exp, 'user_id' => $user['id']);
             } else {
-                return ['message' => 'Email ou senha inválidos'];
+                http_response_code(401);
+                return array('errors' => ['message' => 'Email ou senha inválidos']);
             }
+        } else {
+            return ['message' => 'Email ou senha inválidos'];
         }
     }
+}
