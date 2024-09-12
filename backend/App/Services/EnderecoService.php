@@ -12,6 +12,7 @@
             $this->endereco = new Endereco();
         }
         
+        /*
         public function get($id = null) 
         {
             if ($id) {
@@ -19,12 +20,36 @@
                 $this->endereco->find($id);
                 return $this->endereco->variables;
             } else {
+
                 $input = file_get_contents('php://input');
 
                 $data = json_decode($input, true);
 
                 $this->endereco->pagination = $data["pagination"];
                 $this->endereco->variables = $data["filter"];
+
+                return $this->endereco->search();
+            }
+        }
+        */
+        public function get($id = null) 
+        {
+
+            if ($id) {
+                $this->endereco->pk = $id;
+                $this->endereco->find($id);
+                return $this->endereco->variables;
+            } else {
+
+                $input = file_get_contents('php://input');
+                $data = json_decode($input, true);
+
+                if (is_null($data)) {
+                    $data = [];
+                }
+
+                $this->endereco->pagination = $data["pagination"] ?? null;
+                $this->endereco->variables = $data["filter"] ?? [];
 
                 return $this->endereco->search();
             }

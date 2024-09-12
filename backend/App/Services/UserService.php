@@ -58,6 +58,7 @@
             if (json_last_error() !== JSON_ERROR_NONE) {
                 throw new \Exception('Dados devem ter formato json');
             } 
+            $user['senha'] = hash('sha256', $user['senha'] );
             
             $this->user->variables = $user;
 
