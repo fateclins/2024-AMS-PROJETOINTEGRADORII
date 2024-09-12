@@ -121,8 +121,10 @@ create table itemPedido(
     valorItem double,
     
 	idProduto int,
+    idPedido int,
     primary key(id),
-	foreign key(idProduto) references produto(id)
+	foreign key(idProduto) references produto(id),
+    foreign key(idPedido) references pedido(id)
 );
 
 
@@ -134,8 +136,10 @@ create table pedido(
     valorFinal double,
     desconto double,
     idUsuario int,
+    idLoja int,
     primary key(id),
-    foreign key(idUsuario) references usuario(id)
+    foreign key(idUsuario) references usuario(id),
+    foreign key(idLoja) references loja(id)
 );
 
 create table pagamento(

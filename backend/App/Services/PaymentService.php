@@ -1,15 +1,15 @@
 <?php
     namespace App\Services;
 
-    use App\Models\Product;
+    use App\Models\Payment;
 
-    class ProductService
+    class PaymentService
     {
    
-        public $product;
+        public $payment;
         
         public function __construct(){
-            $this->product = new Product();
+            $this->payment = new Payment();
 
 
         }
@@ -17,9 +17,9 @@
         public function get($id = null) 
         {
             if ($id) {
-                $this->product->pk = $id;
-                $this->product->find($id);
-                return $this->product->variables;
+                $this->payment->pk = $id;
+                $this->payment->find($id);
+                return $this->payment->variables;
             } else {
                 $input = file_get_contents('php://input');
 
@@ -29,10 +29,10 @@
                     $data = [];
                 }
 
-                $this->product->pagination = $data["pagination"] ?? null;
-                $this->product->variables = $data["filter"] ?? [];
+                $this->payment->pagination = $data["pagination"] ?? null;
+                $this->payment->variables = $data["filter"] ?? [];
                
-                return $this->product->search();
+                return $this->payment->search();
             }
         }
 
@@ -46,13 +46,13 @@
                 throw new \Exception('Dados devem ter formato json');
             } 
             
-            $this->product->variables = $data;
+            $this->payment->variables = $data;
 
-            $this->product->create($data);
+            $this->payment->create($data);
 
            
             
-            return $this->product->db->lastInsertId();
+            return $this->payment->db->lastInsertId();
         }
 
         public function put() 
@@ -68,14 +68,14 @@
             } 
             
 
-            $this->product->variables = $jsonData;
+            $this->payment->variables = $jsonData;
 
             if (!isset($jsonData['id'])){
                 throw new \Exception('Id não enviado na requisição');
             }
         
 
-            return $this->product->save();
+            return $this->payment->save();
             
         }
 
@@ -91,13 +91,13 @@
             } 
             
 
-            $this->product->variables = $jsonData;
+            $this->payment->variables = $jsonData;
 
             if (!isset($jsonData['id'])){
                 throw new \Exception('Id não enviado na requisição');
             }
         
 
-            return $this->product->delete();
+            return $this->payment->delete();
         }
     }

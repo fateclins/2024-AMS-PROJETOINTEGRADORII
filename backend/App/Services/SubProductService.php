@@ -1,15 +1,15 @@
 <?php
     namespace App\Services;
 
-    use App\Models\Product;
+    use App\Models\SubProduct;
 
-    class ProductService
+    class SubProductService
     {
    
-        public $product;
+        public $subproduct;
         
         public function __construct(){
-            $this->product = new Product();
+            $this->subproduct = new SubProduct();
 
 
         }
@@ -17,9 +17,9 @@
         public function get($id = null) 
         {
             if ($id) {
-                $this->product->pk = $id;
-                $this->product->find($id);
-                return $this->product->variables;
+                $this->subproduct->pk = $id;
+                $this->subproduct->find($id);
+                return $this->subproduct->variables;
             } else {
                 $input = file_get_contents('php://input');
 
@@ -29,10 +29,10 @@
                     $data = [];
                 }
 
-                $this->product->pagination = $data["pagination"] ?? null;
-                $this->product->variables = $data["filter"] ?? [];
+                $this->subproduct->pagination = $data["pagination"] ?? null;
+                $this->subproduct->variables = $data["filter"] ?? [];
                
-                return $this->product->search();
+                return $this->subproduct->search();
             }
         }
 
@@ -46,13 +46,13 @@
                 throw new \Exception('Dados devem ter formato json');
             } 
             
-            $this->product->variables = $data;
+            $this->subproduct->variables = $data;
 
-            $this->product->create($data);
+            $this->subproduct->create($data);
 
            
             
-            return $this->product->db->lastInsertId();
+            return $this->subproduct->db->lastInsertId();
         }
 
         public function put() 
@@ -68,14 +68,14 @@
             } 
             
 
-            $this->product->variables = $jsonData;
+            $this->subproduct->variables = $jsonData;
 
             if (!isset($jsonData['id'])){
                 throw new \Exception('Id não enviado na requisição');
             }
         
 
-            return $this->product->save();
+            return $this->subproduct->save();
             
         }
 
@@ -91,13 +91,13 @@
             } 
             
 
-            $this->product->variables = $jsonData;
+            $this->subproduct->variables = $jsonData;
 
             if (!isset($jsonData['id'])){
                 throw new \Exception('Id não enviado na requisição');
             }
         
 
-            return $this->product->delete();
+            return $this->subproduct->delete();
         }
     }

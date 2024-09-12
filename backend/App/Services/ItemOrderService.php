@@ -1,15 +1,15 @@
 <?php
     namespace App\Services;
 
-    use App\Models\Product;
+    use App\Models\ItemOrder;
 
-    class ProductService
+    class ItemOrderService
     {
    
-        public $product;
+        public $pedido;
         
         public function __construct(){
-            $this->product = new Product();
+            $this->pedido = new ItemOrder();
 
 
         }
@@ -17,22 +17,12 @@
         public function get($id = null) 
         {
             if ($id) {
-                $this->product->pk = $id;
-                $this->product->find($id);
-                return $this->product->variables;
+                $this->pedido->pk = $id;
+                $this->pedido->find($id);
+                return $this->pedido->variables;
             } else {
-                $input = file_get_contents('php://input');
-
-                $data = json_decode($input, true);
-
-                if (is_null($data)) {
-                    $data = [];
-                }
-
-                $this->product->pagination = $data["pagination"] ?? null;
-                $this->product->variables = $data["filter"] ?? [];
-               
-                return $this->product->search();
+                
+                return $this->pedido->all();
             }
         }
 
@@ -46,13 +36,13 @@
                 throw new \Exception('Dados devem ter formato json');
             } 
             
-            $this->product->variables = $data;
+            $this->pedido->variables = $data;
 
-            $this->product->create($data);
+            $this->pedido->create($data);
 
            
             
-            return $this->product->db->lastInsertId();
+            return $this->pedido->db->lastInsertId();
         }
 
         public function put() 
@@ -68,14 +58,14 @@
             } 
             
 
-            $this->product->variables = $jsonData;
+            $this->pedido->variables = $jsonData;
 
             if (!isset($jsonData['id'])){
                 throw new \Exception('Id não enviado na requisição');
             }
         
 
-            return $this->product->save();
+            return $this->pedido->save();
             
         }
 
@@ -91,13 +81,13 @@
             } 
             
 
-            $this->product->variables = $jsonData;
+            $this->pedido->variables = $jsonData;
 
             if (!isset($jsonData['id'])){
                 throw new \Exception('Id não enviado na requisição');
             }
         
 
-            return $this->product->delete();
+            return $this->pedido->delete();
         }
     }
