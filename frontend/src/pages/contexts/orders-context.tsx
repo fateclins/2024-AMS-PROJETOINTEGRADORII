@@ -1,0 +1,25 @@
+import { ReactNode } from "react";
+import { createContext, useContextSelector } from "use-context-selector";
+
+interface OrdersContextTypes {}
+
+export const OrdersContext = createContext({} as OrdersContextTypes)
+
+interface OrdersProviderProps {
+    children: ReactNode
+}
+
+export function OrdersProvider({ children }: OrdersProviderProps) {
+    return (
+        <OrdersContext.Provider value={{}}>
+            { children }
+        </OrdersContext.Provider>
+    )
+}
+
+export const useOrdersContext = <T, >(selector: (context: OrdersContextTypes) => T) => {
+    const context = useContextSelector(OrdersContext, selector);
+
+    if (!context) throw new Error('useOrdersContext must be used within OrdersProvider');
+        return context;
+};
