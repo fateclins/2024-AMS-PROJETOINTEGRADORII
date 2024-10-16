@@ -1,30 +1,55 @@
 import { OrderItemsActions, OrderItemsActionTypes } from "./actions";
 
+import { produce } from "immer";
+
+export interface OrderItemReducerType {
+  id: number;
+  quantityOrdered: number;
+  quantityServed: number;
+  itemValue: number;
+  idProduct: number;
+}
+
 export interface OrderItemsReducerType {
-    id: number,
-    country: string,
-    state: string,
-    city: string,
-    district: string,
-    street: string,
-    number: string,
-    complement: string,
-    userId: string,
-}[]
+  orderItems: OrderItemReducerType[];
+}
 
-export function orderitemsReducer(state: OrderItemsReducerType, action: OrderItemsActions) {
-    switch(action.type) {
-        case OrderItemsActionTypes.CREATE:
-            
-        case OrderItemsActionTypes.DELETE:
+export function orderItemsReducer(
+  state: OrderItemsReducerType,
+  action: OrderItemsActions,
+) {
+  switch (action.type) {
+    case OrderItemsActionTypes.CREATE:
+      return produce(state, function (draft) {
+        draft.orderItems.push(action.payload.data);
+      });
+    case OrderItemsActionTypes.DELETE:
+      return produce(state, function (draft) {
+        const findIndex = draft.orderItems.findIndex(
+          (index) => index.id === action.payload.data.id,
+        );
 
-        case OrderItemsActionTypes.LIST:
+        if (findIndex !== -1) {
+          draft.orderItems.splice(findIndex, 1);
+        }
+      });
+    case OrderItemsActionTypes.LIST:
+      return produce(state, function (draft) {
+        draft.orderItems;
+      });
+    case OrderItemsActionTypes.SELECT:
+    // implement
+    case OrderItemsActionTypes.UPDATE:
+      return produce(state, function (draft) {
+        const findIndex = draft.orderItems.findIndex((orderItem) => {
+          orderItem.id === action.payload.data.id;
+        });
 
-        case OrderItemsActionTypes.SELECT:
-
-        case OrderItemsActionTypes.UPDATE:
-
-        default:
-            return state
-    }
+        if (findIndex !== -1) {
+          draft.orderItems[findIndex] = action.payload.data;
+        }
+      });
+    default:
+      return state;
+  }
 }

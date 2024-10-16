@@ -1,30 +1,53 @@
 import { VariationValuesActions, VariationValuesActionTypes } from "./actions";
 
+import { produce } from "immer";
+
+export interface VariationValueReducerType {
+  id: number;
+  value: number;
+  idVariationDescription: number;
+}
+
 export interface VariationValuesReducerType {
-    id: number,
-    country: string,
-    state: string,
-    city: string,
-    district: string,
-    street: string,
-    number: string,
-    complement: string,
-    userId: string,
-}[]
+  variationValues: VariationValueReducerType[];
+}
 
-export function variationvaluesReducer(state: VariationValuesReducerType, action: VariationValuesActions) {
-    switch(action.type) {
-        case VariationValuesActionTypes.CREATE:
-            
-        case VariationValuesActionTypes.DELETE:
+export function variationValuesReducer(
+  state: VariationValuesReducerType,
+  action: VariationValuesActions,
+) {
+  switch (action.type) {
+    case VariationValuesActionTypes.CREATE:
+      return produce(state, function (draft) {
+        draft.variationValues.push(action.payload.data);
+      });
+    case VariationValuesActionTypes.DELETE:
+      return produce(state, function (draft) {
+        const findIndex = draft.variationValues.findIndex(
+          (index) => index.id === action.payload.data.id,
+        );
 
-        case VariationValuesActionTypes.LIST:
+        if (findIndex !== -1) {
+          draft.variationValues.splice(findIndex, 1);
+        }
+      });
+    case VariationValuesActionTypes.LIST:
+      return produce(state, function (draft) {
+        draft.variationValues;
+      });
+    case VariationValuesActionTypes.SELECT:
+    // implement
+    case VariationValuesActionTypes.UPDATE:
+      return produce(state, function (draft) {
+        const findIndex = draft.variationValues.findIndex((orderItem) => {
+          orderItem.id === action.payload.data.id;
+        });
 
-        case VariationValuesActionTypes.SELECT:
-
-        case VariationValuesActionTypes.UPDATE:
-
-        default:
-            return state
-    }
+        if (findIndex !== -1) {
+          draft.variationValues[findIndex] = action.payload.data;
+        }
+      });
+    default:
+      return state;
+  }
 }

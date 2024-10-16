@@ -1,68 +1,66 @@
-import { StoresReducerType } from "./reducer"
+import { StoreReducerType } from "./reducer";
 
 export enum StoresActionTypes {
-    CREATE = "CREATE",
-    UPDATE = "UPDATE",
-    SELECT = "SELECT",
-    LIST = "LIST",
-    DELETE = "DELETE",
+  CREATE = "CREATE",
+  UPDATE = "UPDATE",
+  SELECT = "SELECT",
+  LIST = "LIST",
+  DELETE = "DELETE",
 }
 
 export type StoresActions = {
-    type: 
-        | StoresActionTypes.CREATE
-        | StoresActionTypes.DELETE
-        | StoresActionTypes.LIST
-        | StoresActionTypes.SELECT
-        | StoresActionTypes.UPDATE,
+  type:
+    | StoresActionTypes.CREATE
+    | StoresActionTypes.DELETE
+    | StoresActionTypes.LIST
+    | StoresActionTypes.SELECT
+    | StoresActionTypes.UPDATE;
+  payload: {
+    data: StoreReducerType;
+  };
+};
+
+export function createStoresAction(data: StoreReducerType) {
+  return {
+    type: StoresActionTypes.CREATE,
     payload: {
-        item: StoresReducerType
-    }
+      data,
+    },
+  };
 }
 
-
-
-export function createStoresAction(item: any) {
-    return {
-        type: StoresActionTypes.CREATE,
-        payload: {
-            item,
-        }
-    }
+export function updateStoresAction(data: StoreReducerType) {
+  return {
+    type: StoresActionTypes.UPDATE,
+    payload: {
+      data,
+    },
+  };
 }
 
-export function updateStoresAction(item: any) {
-    return {
-        type: StoresActionTypes.UPDATE,
-        payload: {
-            item,
-        }
-    }
+export function selectStoresAction(data: StoreReducerType) {
+  return {
+    type: StoresActionTypes.SELECT,
+    payload: {
+      data,
+    },
+  };
 }
 
-export function selectStoresAction(item: any) {
-    return {
-        type: StoresActionTypes.SELECT,
-        payload: {
-            item,
-        }
-    }
+export function listStoresAction(data: StoreReducerType) {
+  return {
+    type: StoresActionTypes.LIST,
+    payload: {
+      data,
+    },
+  };
 }
 
-export function listStoresAction(item: any) {
-    return {
-        type: StoresActionTypes.LIST,
-        payload: {
-            item,
-        }
-    }
-}
-
-export function deleteStoresAction(item: any) {
-    return {
-        type: StoresActionTypes.DELETE,
-        payload: {
-            item,
-        }
-    }
+export function deleteStoresAction(data: StoreReducerType) {
+  return {
+    type: StoresActionTypes.DELETE,
+    payload: {
+      data,
+    },
+  };
 }

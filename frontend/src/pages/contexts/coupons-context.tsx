@@ -3,23 +3,24 @@ import { createContext, useContextSelector } from "use-context-selector";
 
 interface CouponsContextTypes {}
 
-export const CouponsContext = createContext({} as CouponsContextTypes)
+export const CouponsContext = createContext({} as CouponsContextTypes);
 
 interface CouponsProviderProps {
-    children: ReactNode
+  children: ReactNode;
 }
 
 export function CouponsProvider({ children }: CouponsProviderProps) {
-    return (
-        <CouponsContext.Provider value={{}}>
-            { children }
-        </CouponsContext.Provider>
-    )
+  return (
+    <CouponsContext.Provider value={{}}>{children}</CouponsContext.Provider>
+  );
 }
 
-export const useCouponsContext = <T, >(selector: (context: CouponsContextTypes) => T) => {
-    const context = useContextSelector(CouponsContext, selector);
+export const useCouponsContext = function () {
+  const context = useContextSelector(CouponsContext, (context) => {
+    return context;
+  });
 
-    if (!context) throw new Error('useCouponsContext must be used within CouponsProvider');
-        return context;
+  if (!context)
+    throw new Error("useCouponsContext must be used within CouponsProvider");
+  return context;
 };

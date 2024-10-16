@@ -1,30 +1,53 @@
 import { UsersActions, UsersActionTypes } from "./actions";
 
+import { produce } from "immer";
+
+export interface UserReducerType {
+  id: number;
+  name: string;
+  identity: string;
+  email: string;
+  password: string;
+  idUserType: number;
+}
+
 export interface UsersReducerType {
-    id: number,
-    country: string,
-    state: string,
-    city: string,
-    district: string,
-    street: string,
-    number: string,
-    complement: string,
-    userId: string,
-}[]
+  users: UserReducerType[];
+}
 
 export function usersReducer(state: UsersReducerType, action: UsersActions) {
-    switch(action.type) {
-        case UsersActionTypes.CREATE:
-            
-        case UsersActionTypes.DELETE:
+  switch (action.type) {
+    case UsersActionTypes.CREATE:
+      return produce(state, function (draft) {
+        draft.users.push(action.payload.data);
+      });
+    case UsersActionTypes.DELETE:
+      return produce(state, function (draft) {
+        const findIndex = draft.users.findIndex(
+          (index) => index.id === action.payload.data.id,
+        );
 
-        case UsersActionTypes.LIST:
+        if (findIndex !== -1) {
+          draft.users.splice(findIndex, 1);
+        }
+      });
+    case UsersActionTypes.LIST:
+      return produce(state, function (draft) {
+        draft.users;
+      });
+    case UsersActionTypes.SELECT:
+    // implement
+    case UsersActionTypes.UPDATE:
+      return produce(state, function (draft) {
+        const findIndex = draft.users.findIndex((orderItem) => {
+          orderItem.id === action.payload.data.id;
+        });
 
-        case UsersActionTypes.SELECT:
-
-        case UsersActionTypes.UPDATE:
-
-        default:
-            return state
-    }
+        if (findIndex !== -1) {
+          draft.users[findIndex] = action.payload.data;
+        }
+      });
+    default:
+      return state;
+  }
 }

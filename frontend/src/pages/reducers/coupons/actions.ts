@@ -1,68 +1,66 @@
-import { CouponsReducerType } from "./reducer"
+import { CouponsReducerType } from "./reducer";
 
 export enum CouponsActionTypes {
-    CREATE = "CREATE",
-    UPDATE = "UPDATE",
-    SELECT = "SELECT",
-    LIST = "LIST",
-    DELETE = "DELETE",
+  CREATE = "CREATE",
+  UPDATE = "UPDATE",
+  SELECT = "SELECT",
+  LIST = "LIST",
+  DELETE = "DELETE",
 }
 
 export type CouponsActions = {
-    type: 
-        | CouponsActionTypes.CREATE
-        | CouponsActionTypes.DELETE
-        | CouponsActionTypes.LIST
-        | CouponsActionTypes.SELECT
-        | CouponsActionTypes.UPDATE,
+  type:
+    | CouponsActionTypes.CREATE
+    | CouponsActionTypes.DELETE
+    | CouponsActionTypes.LIST
+    | CouponsActionTypes.SELECT
+    | CouponsActionTypes.UPDATE;
+  payload: {
+    data: CouponsReducerType;
+  };
+};
+
+export function createCouponsAction(data: CouponsReducerType) {
+  return {
+    type: CouponsActionTypes.CREATE,
     payload: {
-        item: CouponsReducerType
-    }
+      data,
+    },
+  };
 }
 
-
-
-export function createCouponsAction(item: any) {
-    return {
-        type: CouponsActionTypes.CREATE,
-        payload: {
-            item,
-        }
-    }
+export function updateCouponsAction(data: CouponsReducerType) {
+  return {
+    type: CouponsActionTypes.UPDATE,
+    payload: {
+      data,
+    },
+  };
 }
 
-export function updateCouponsAction(item: any) {
-    return {
-        type: CouponsActionTypes.UPDATE,
-        payload: {
-            item,
-        }
-    }
+export function selectCouponsAction(data: CouponsReducerType) {
+  return {
+    type: CouponsActionTypes.SELECT,
+    payload: {
+      data,
+    },
+  };
 }
 
-export function selectCouponsAction(item: any) {
-    return {
-        type: CouponsActionTypes.SELECT,
-        payload: {
-            item,
-        }
-    }
+export function listCouponsAction(data: CouponsReducerType) {
+  return {
+    type: CouponsActionTypes.LIST,
+    payload: {
+      data,
+    },
+  };
 }
 
-export function listCouponsAction(item: any) {
-    return {
-        type: CouponsActionTypes.LIST,
-        payload: {
-            item,
-        }
-    }
-}
-
-export function deleteCouponsAction(item: any) {
-    return {
-        type: CouponsActionTypes.DELETE,
-        payload: {
-            item,
-        }
-    }
+export function deleteCouponsAction(data: CouponsReducerType) {
+  return {
+    type: CouponsActionTypes.DELETE,
+    payload: {
+      data,
+    },
+  };
 }

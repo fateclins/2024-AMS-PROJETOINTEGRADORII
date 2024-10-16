@@ -1,68 +1,66 @@
-import { SubcategoriesReducerType } from "./reducer"
+import { SubcategoryReducerType } from "./reducer";
 
 export enum SubcategoriesActionTypes {
-    CREATE = "CREATE",
-    UPDATE = "UPDATE",
-    SELECT = "SELECT",
-    LIST = "LIST",
-    DELETE = "DELETE",
+  CREATE = "CREATE",
+  UPDATE = "UPDATE",
+  SELECT = "SELECT",
+  LIST = "LIST",
+  DELETE = "DELETE",
 }
 
 export type SubcategoriesActions = {
-    type: 
-        | SubcategoriesActionTypes.CREATE
-        | SubcategoriesActionTypes.DELETE
-        | SubcategoriesActionTypes.LIST
-        | SubcategoriesActionTypes.SELECT
-        | SubcategoriesActionTypes.UPDATE,
+  type:
+    | SubcategoriesActionTypes.CREATE
+    | SubcategoriesActionTypes.DELETE
+    | SubcategoriesActionTypes.LIST
+    | SubcategoriesActionTypes.SELECT
+    | SubcategoriesActionTypes.UPDATE;
+  payload: {
+    data: SubcategoryReducerType;
+  };
+};
+
+export function createSubcategoriesAction(data: SubcategoryReducerType) {
+  return {
+    type: SubcategoriesActionTypes.CREATE,
     payload: {
-        item: SubcategoriesReducerType
-    }
+      data,
+    },
+  };
 }
 
-
-
-export function createSubcategoriesAction(item: any) {
-    return {
-        type: SubcategoriesActionTypes.CREATE,
-        payload: {
-            item,
-        }
-    }
+export function updateSubcategoriesAction(data: SubcategoryReducerType) {
+  return {
+    type: SubcategoriesActionTypes.UPDATE,
+    payload: {
+      data,
+    },
+  };
 }
 
-export function updateSubcategoriesAction(item: any) {
-    return {
-        type: SubcategoriesActionTypes.UPDATE,
-        payload: {
-            item,
-        }
-    }
+export function selectSubcategoriesAction(data: SubcategoryReducerType) {
+  return {
+    type: SubcategoriesActionTypes.SELECT,
+    payload: {
+      data,
+    },
+  };
 }
 
-export function selectSubcategoriesAction(item: any) {
-    return {
-        type: SubcategoriesActionTypes.SELECT,
-        payload: {
-            item,
-        }
-    }
+export function listSubcategoriesAction(data: SubcategoryReducerType) {
+  return {
+    type: SubcategoriesActionTypes.LIST,
+    payload: {
+      data,
+    },
+  };
 }
 
-export function listSubcategoriesAction(item: any) {
-    return {
-        type: SubcategoriesActionTypes.LIST,
-        payload: {
-            item,
-        }
-    }
-}
-
-export function deleteSubcategoriesAction(item: any) {
-    return {
-        type: SubcategoriesActionTypes.DELETE,
-        payload: {
-            item,
-        }
-    }
+export function deleteSubcategoriesAction(data: SubcategoryReducerType) {
+  return {
+    type: SubcategoriesActionTypes.DELETE,
+    payload: {
+      data,
+    },
+  };
 }

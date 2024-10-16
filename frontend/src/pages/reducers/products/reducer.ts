@@ -1,30 +1,58 @@
 import { ProductsActions, ProductsActionTypes } from "./actions";
 
+import { produce } from "immer";
+
+export interface ProductReducerType {
+  id: number;
+  quantity: number;
+  value: number;
+  model: string;
+  bestsellerProduct: boolean;
+  idv1: number;
+  idv2: number;
+  idStore: number;
+}
+
 export interface ProductsReducerType {
-    id: number,
-    country: string,
-    state: string,
-    city: string,
-    district: string,
-    street: string,
-    number: string,
-    complement: string,
-    userId: string,
-}[]
+  products: ProductReducerType[];
+}
 
-export function productsReducer(state: ProductsReducerType, action: ProductsActions) {
-    switch(action.type) {
-        case ProductsActionTypes.CREATE:
-            
-        case ProductsActionTypes.DELETE:
+export function productsReducer(
+  state: ProductsReducerType,
+  action: ProductsActions,
+) {
+  switch (action.type) {
+    case ProductsActionTypes.CREATE:
+      return produce(state, function (draft) {
+        draft.products.push(action.payload.data);
+      });
+    case ProductsActionTypes.DELETE:
+      return produce(state, function (draft) {
+        const findIndex = draft.products.findIndex(
+          (index) => index.id === action.payload.data.id,
+        );
 
-        case ProductsActionTypes.LIST:
+        if (findIndex !== -1) {
+          draft.products.splice(findIndex, 1);
+        }
+      });
+    case ProductsActionTypes.LIST:
+      return produce(state, function (draft) {
+        draft.products;
+      });
+    case ProductsActionTypes.SELECT:
+    // implement
+    case ProductsActionTypes.UPDATE:
+      return produce(state, function (draft) {
+        const findIndex = draft.products.findIndex((orderItem) => {
+          orderItem.id === action.payload.data.id;
+        });
 
-        case ProductsActionTypes.SELECT:
-
-        case ProductsActionTypes.UPDATE:
-
-        default:
-            return state
-    }
+        if (findIndex !== -1) {
+          draft.products[findIndex] = action.payload.data;
+        }
+      });
+    default:
+      return state;
+  }
 }

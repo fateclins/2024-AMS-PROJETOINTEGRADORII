@@ -1,68 +1,66 @@
-import { OrdersReducerType } from "./reducer"
+import { OrderReducerType } from "./reducer";
 
 export enum OrdersActionTypes {
-    CREATE = "CREATE",
-    UPDATE = "UPDATE",
-    SELECT = "SELECT",
-    LIST = "LIST",
-    DELETE = "DELETE",
+  CREATE = "CREATE",
+  UPDATE = "UPDATE",
+  SELECT = "SELECT",
+  LIST = "LIST",
+  DELETE = "DELETE",
 }
 
 export type OrdersActions = {
-    type: 
-        | OrdersActionTypes.CREATE
-        | OrdersActionTypes.DELETE
-        | OrdersActionTypes.LIST
-        | OrdersActionTypes.SELECT
-        | OrdersActionTypes.UPDATE,
+  type:
+    | OrdersActionTypes.CREATE
+    | OrdersActionTypes.DELETE
+    | OrdersActionTypes.LIST
+    | OrdersActionTypes.SELECT
+    | OrdersActionTypes.UPDATE;
+  payload: {
+    data: OrderReducerType;
+  };
+};
+
+export function createOrdersAction(data: OrderReducerType) {
+  return {
+    type: OrdersActionTypes.CREATE,
     payload: {
-        item: OrdersReducerType
-    }
+      data,
+    },
+  };
 }
 
-
-
-export function createOrdersAction(item: any) {
-    return {
-        type: OrdersActionTypes.CREATE,
-        payload: {
-            item,
-        }
-    }
+export function updateOrdersAction(data: OrderReducerType) {
+  return {
+    type: OrdersActionTypes.UPDATE,
+    payload: {
+      data,
+    },
+  };
 }
 
-export function updateOrdersAction(item: any) {
-    return {
-        type: OrdersActionTypes.UPDATE,
-        payload: {
-            item,
-        }
-    }
+export function selectOrdersAction(data: OrderReducerType) {
+  return {
+    type: OrdersActionTypes.SELECT,
+    payload: {
+      data,
+    },
+  };
 }
 
-export function selectOrdersAction(item: any) {
-    return {
-        type: OrdersActionTypes.SELECT,
-        payload: {
-            item,
-        }
-    }
+export function listOrdersAction(data: OrderReducerType) {
+  return {
+    type: OrdersActionTypes.LIST,
+    payload: {
+      data,
+    },
+  };
 }
 
-export function listOrdersAction(item: any) {
-    return {
-        type: OrdersActionTypes.LIST,
-        payload: {
-            item,
-        }
-    }
-}
-
-export function deleteOrdersAction(item: any) {
-    return {
-        type: OrdersActionTypes.DELETE,
-        payload: {
-            item,
-        }
-    }
+export function deleteOrdersAction(data: OrderReducerType) {
+  return {
+    type: OrdersActionTypes.DELETE,
+    payload: {
+      data,
+    },
+  };
 }

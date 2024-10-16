@@ -1,30 +1,55 @@
-import { VariationDescriptionsActions, VariationDescriptionsActionTypes } from "./actions";
+import {
+  VariationDescriptionsActions,
+  VariationDescriptionsActionTypes,
+} from "./actions";
+
+import { produce } from "immer";
+
+export interface VariationDescriptionReducerType {
+  id: number;
+  description: string;
+}
 
 export interface VariationDescriptionsReducerType {
-    id: number,
-    country: string,
-    state: string,
-    city: string,
-    district: string,
-    street: string,
-    number: string,
-    complement: string,
-    userId: string,
-}[]
+  variationDescriptions: VariationDescriptionReducerType[];
+}
 
-export function variationdescriptionsReducer(state: VariationDescriptionsReducerType, action: VariationDescriptionsActions) {
-    switch(action.type) {
-        case VariationDescriptionsActionTypes.CREATE:
-            
-        case VariationDescriptionsActionTypes.DELETE:
+export function variationDescriptionsReducer(
+  state: VariationDescriptionsReducerType,
+  action: VariationDescriptionsActions,
+) {
+  switch (action.type) {
+    case VariationDescriptionsActionTypes.CREATE:
+      return produce(state, function (draft) {
+        draft.variationDescriptions.push(action.payload.data);
+      });
+    case VariationDescriptionsActionTypes.DELETE:
+      return produce(state, function (draft) {
+        const findIndex = draft.variationDescriptions.findIndex(
+          (index) => index.id === action.payload.data.id,
+        );
 
-        case VariationDescriptionsActionTypes.LIST:
+        if (findIndex !== -1) {
+          draft.variationDescriptions.splice(findIndex, 1);
+        }
+      });
+    case VariationDescriptionsActionTypes.LIST:
+      return produce(state, function (draft) {
+        draft.variationDescriptions;
+      });
+    case VariationDescriptionsActionTypes.SELECT:
+    // implement
+    case VariationDescriptionsActionTypes.UPDATE:
+      return produce(state, function (draft) {
+        const findIndex = draft.variationDescriptions.findIndex((orderItem) => {
+          orderItem.id === action.payload.data.id;
+        });
 
-        case VariationDescriptionsActionTypes.SELECT:
-
-        case VariationDescriptionsActionTypes.UPDATE:
-
-        default:
-            return state
-    }
+        if (findIndex !== -1) {
+          draft.variationDescriptions[findIndex] = action.payload.data;
+        }
+      });
+    default:
+      return state;
+  }
 }

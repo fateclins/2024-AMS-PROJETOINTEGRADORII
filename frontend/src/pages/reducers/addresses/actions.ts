@@ -1,68 +1,66 @@
-import { AddressesReducerType } from "./reducer"
+import { AddressReducerType } from "./reducer";
 
 export enum AddressesActionTypes {
-    CREATE = "CREATE",
-    UPDATE = "UPDATE",
-    SELECT = "SELECT",
-    LIST = "LIST",
-    DELETE = "DELETE",
+  CREATE = "CREATE",
+  UPDATE = "UPDATE",
+  SELECT = "SELECT",
+  LIST = "LIST",
+  DELETE = "DELETE",
 }
 
 export type AddressesActions = {
-    type: 
-        | AddressesActionTypes.CREATE
-        | AddressesActionTypes.DELETE
-        | AddressesActionTypes.LIST
-        | AddressesActionTypes.SELECT
-        | AddressesActionTypes.UPDATE,
+  type:
+    | AddressesActionTypes.CREATE
+    | AddressesActionTypes.DELETE
+    | AddressesActionTypes.LIST
+    | AddressesActionTypes.SELECT
+    | AddressesActionTypes.UPDATE;
+  payload: {
+    data: AddressReducerType;
+  };
+};
+
+export function createAddressesAction(data: AddressReducerType) {
+  return {
+    type: AddressesActionTypes.CREATE,
     payload: {
-        item: AddressesReducerType
-    }
+      data,
+    },
+  };
 }
 
-
-
-export function createAddressesAction(item: any) {
-    return {
-        type: AddressesActionTypes.CREATE,
-        payload: {
-            item,
-        }
-    }
+export function updateAddressesAction(data: AddressReducerType) {
+  return {
+    type: AddressesActionTypes.UPDATE,
+    payload: {
+      data,
+    },
+  };
 }
 
-export function updateAddressesAction(item: any) {
-    return {
-        type: AddressesActionTypes.UPDATE,
-        payload: {
-            item,
-        }
-    }
+export function selectAddressesAction(data: AddressReducerType) {
+  return {
+    type: AddressesActionTypes.SELECT,
+    payload: {
+      data,
+    },
+  };
 }
 
-export function selectAddressesAction(item: any) {
-    return {
-        type: AddressesActionTypes.SELECT,
-        payload: {
-            item,
-        }
-    }
+export function listAddressesAction(data: AddressReducerType) {
+  return {
+    type: AddressesActionTypes.LIST,
+    payload: {
+      data,
+    },
+  };
 }
 
-export function listAddressesAction(item: any) {
-    return {
-        type: AddressesActionTypes.LIST,
-        payload: {
-            item,
-        }
-    }
-}
-
-export function deleteAddressesAction(item: any) {
-    return {
-        type: AddressesActionTypes.DELETE,
-        payload: {
-            item,
-        }
-    }
+export function deleteAddressesAction(data: AddressReducerType) {
+  return {
+    type: AddressesActionTypes.DELETE,
+    payload: {
+      data,
+    },
+  };
 }

@@ -1,30 +1,56 @@
 import { PaymentsActions, PaymentsActionTypes } from "./actions";
 
+import { produce } from "immer";
+
+export interface PaymentReducerType {
+  id: number;
+  date: Date;
+  value: number;
+  operation: number;
+  status: number;
+  idOrder: number;
+}
+
 export interface PaymentsReducerType {
-    id: number,
-    country: string,
-    state: string,
-    city: string,
-    district: string,
-    street: string,
-    number: string,
-    complement: string,
-    userId: string,
-}[]
+  payments: PaymentReducerType[];
+}
 
-export function paymentsReducer(state: PaymentsReducerType, action: PaymentsActions) {
-    switch(action.type) {
-        case PaymentsActionTypes.CREATE:
-            
-        case PaymentsActionTypes.DELETE:
+export function paymentsReducer(
+  state: PaymentsReducerType,
+  action: PaymentsActions,
+) {
+  switch (action.type) {
+    case PaymentsActionTypes.CREATE:
+      return produce(state, function (draft) {
+        draft.payments.push(action.payload.data);
+      });
+    case PaymentsActionTypes.DELETE:
+      return produce(state, function (draft) {
+        const findIndex = draft.payments.findIndex(
+          (index) => index.id === action.payload.data.id,
+        );
 
-        case PaymentsActionTypes.LIST:
+        if (findIndex !== -1) {
+          draft.payments.splice(findIndex, 1);
+        }
+      });
+    case PaymentsActionTypes.LIST:
+      return produce(state, function (draft) {
+        draft.payments;
+      });
+    case PaymentsActionTypes.SELECT:
+    // implement
+    case PaymentsActionTypes.UPDATE:
+      return produce(state, function (draft) {
+        const findIndex = draft.payments.findIndex((orderItem) => {
+          orderItem.id === action.payload.data.id;
+        });
 
-        case PaymentsActionTypes.SELECT:
-
-        case PaymentsActionTypes.UPDATE:
-
-        default:
-            return state
-    }
+        if (findIndex !== -1) {
+          draft.payments[findIndex] = action.payload.data;
+        }
+      });
+    default:
+      return state;
+  }
 }

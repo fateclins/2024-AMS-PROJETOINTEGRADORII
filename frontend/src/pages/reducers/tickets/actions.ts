@@ -1,68 +1,66 @@
-import { TicketsReducerType } from "./reducer"
+import { TicketReducerType } from "./reducer";
 
 export enum TicketsActionTypes {
-    CREATE = "CREATE",
-    UPDATE = "UPDATE",
-    SELECT = "SELECT",
-    LIST = "LIST",
-    DELETE = "DELETE",
+  CREATE = "CREATE",
+  UPDATE = "UPDATE",
+  SELECT = "SELECT",
+  LIST = "LIST",
+  DELETE = "DELETE",
 }
 
 export type TicketsActions = {
-    type: 
-        | TicketsActionTypes.CREATE
-        | TicketsActionTypes.DELETE
-        | TicketsActionTypes.LIST
-        | TicketsActionTypes.SELECT
-        | TicketsActionTypes.UPDATE,
+  type:
+    | TicketsActionTypes.CREATE
+    | TicketsActionTypes.DELETE
+    | TicketsActionTypes.LIST
+    | TicketsActionTypes.SELECT
+    | TicketsActionTypes.UPDATE;
+  payload: {
+    data: TicketReducerType;
+  };
+};
+
+export function createTicketsAction(data: TicketReducerType) {
+  return {
+    type: TicketsActionTypes.CREATE,
     payload: {
-        item: TicketsReducerType
-    }
+      data,
+    },
+  };
 }
 
-
-
-export function createTicketsAction(item: any) {
-    return {
-        type: TicketsActionTypes.CREATE,
-        payload: {
-            item,
-        }
-    }
+export function updateTicketsAction(data: TicketReducerType) {
+  return {
+    type: TicketsActionTypes.UPDATE,
+    payload: {
+      data,
+    },
+  };
 }
 
-export function updateTicketsAction(item: any) {
-    return {
-        type: TicketsActionTypes.UPDATE,
-        payload: {
-            item,
-        }
-    }
+export function selectTicketsAction(data: TicketReducerType) {
+  return {
+    type: TicketsActionTypes.SELECT,
+    payload: {
+      data,
+    },
+  };
 }
 
-export function selectTicketsAction(item: any) {
-    return {
-        type: TicketsActionTypes.SELECT,
-        payload: {
-            item,
-        }
-    }
+export function listTicketsAction(data: TicketReducerType) {
+  return {
+    type: TicketsActionTypes.LIST,
+    payload: {
+      data,
+    },
+  };
 }
 
-export function listTicketsAction(item: any) {
-    return {
-        type: TicketsActionTypes.LIST,
-        payload: {
-            item,
-        }
-    }
-}
-
-export function deleteTicketsAction(item: any) {
-    return {
-        type: TicketsActionTypes.DELETE,
-        payload: {
-            item,
-        }
-    }
+export function deleteTicketsAction(data: TicketReducerType) {
+  return {
+    type: TicketsActionTypes.DELETE,
+    payload: {
+      data,
+    },
+  };
 }

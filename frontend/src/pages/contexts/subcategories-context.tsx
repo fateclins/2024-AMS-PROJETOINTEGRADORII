@@ -3,23 +3,32 @@ import { createContext, useContextSelector } from "use-context-selector";
 
 interface SubcategoriesContextTypes {}
 
-export const SubcategoriesContext = createContext({} as SubcategoriesContextTypes)
+export const SubcategoriesContext = createContext(
+  {} as SubcategoriesContextTypes,
+);
 
 interface SubcategoriesProviderProps {
-    children: ReactNode
+  children: ReactNode;
 }
 
-export function SubcategoriesProvider({ children }: SubcategoriesProviderProps) {
-    return (
-        <SubcategoriesContext.Provider value={{}}>
-            { children }
-        </SubcategoriesContext.Provider>
-    )
+export function SubcategoriesProvider({
+  children,
+}: SubcategoriesProviderProps) {
+  return (
+    <SubcategoriesContext.Provider value={{}}>
+      {children}
+    </SubcategoriesContext.Provider>
+  );
 }
 
-export const useSubcategoriesContext = <T, >(selector: (context: SubcategoriesContextTypes) => T) => {
-    const context = useContextSelector(SubcategoriesContext, selector);
+export const useSubcategoriesContext = function () {
+  const context = useContextSelector(SubcategoriesContext, (context) => {
+    return context;
+  });
 
-    if (!context) throw new Error('useSubcategoriesContext must be used within SubcategoriesProvider');
-        return context;
+  if (!context)
+    throw new Error(
+      "useSubcategoriesContext must be used within SubcategoriesProvider",
+    );
+  return context;
 };
