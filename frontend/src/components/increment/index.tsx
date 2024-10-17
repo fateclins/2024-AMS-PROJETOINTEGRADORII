@@ -16,8 +16,6 @@ export const Increment: React.FC = function () {
     }
   }
 
-  console.log(count)
-
   return (
     <div className="flex w-24 items-center rounded-lg border-2 border-zinc-950 px-2">
       <Plus

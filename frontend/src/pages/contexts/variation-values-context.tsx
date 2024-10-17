@@ -1,9 +1,28 @@
-import { ReactNode } from "react";
+import { ReactNode, useReducer } from "react";
 import { createContext, useContextSelector } from "use-context-selector";
+import {
+  VariationValueReducerType,
+  VariationValuesReducerType,
+  variationValuesReducer,
+} from "../reducers/variation-values/reducer";
+import {
+  createVariationValuesAction,
+  deleteVariationValuesAction,
+  listVariationValuesAction,
+  selectVariationValuesAction,
+  updateVariationValuesAction,
+} from "../reducers/variation-values/actions";
 
-interface VariationValuesContextTypes {}
+export interface VariationValuesContextTypes {
+  variationValuesState: VariationValuesReducerType;
+  createVariationValues(data: VariationValueReducerType): void;
+  updateVariationValues(data: VariationValueReducerType): void;
+  selectVariationValues(data: VariationValueReducerType): void;
+  listVariationValues(data: VariationValueReducerType): void;
+  deleteVariationValues(data: VariationValueReducerType): void;
+}
 
-export const VariationValuesContext = createContext(
+export const VariationValuesContext = createContext<VariationValuesContextTypes>(
   {} as VariationValuesContextTypes,
 );
 
@@ -11,11 +30,42 @@ interface VariationValuesProviderProps {
   children: ReactNode;
 }
 
-export function VariationValuesProvider({
-  children,
-}: VariationValuesProviderProps) {
+export function VariationValuesProvider({ children }: VariationValuesProviderProps) {
+  const [variationValuesState, variationValuesDispatcher] = useReducer(variationValuesReducer, {
+    variationValues: [],
+  });
+
+  function createVariationValues(data: VariationValueReducerType) {
+    variationValuesDispatcher(createVariationValuesAction(data));
+  }
+
+  function updateVariationValues(data: VariationValueReducerType) {
+    variationValuesDispatcher(updateVariationValuesAction(data));
+  }
+
+  function selectVariationValues(data: VariationValueReducerType) {
+    variationValuesDispatcher(selectVariationValuesAction(data));
+  }
+
+  function listVariationValues(data: VariationValueReducerType) {
+    variationValuesDispatcher(listVariationValuesAction(data));
+  }
+
+  function deleteVariationValues(data: VariationValueReducerType) {
+    variationValuesDispatcher(deleteVariationValuesAction(data));
+  }
+
   return (
-    <VariationValuesContext.Provider value={{}}>
+    <VariationValuesContext.Provider
+      value={{
+        variationValuesState,
+        createVariationValues,
+        updateVariationValues,
+        listVariationValues,
+        deleteVariationValues,
+        selectVariationValues,
+      }}
+    >
       {children}
     </VariationValuesContext.Provider>
   );
@@ -25,6 +75,8 @@ export const useVariationValuesContext = function () {
   const context = useContextSelector(VariationValuesContext, (context) => {
     return context;
   });
+
+  ;
 
   if (!context)
     throw new Error(

@@ -8,8 +8,6 @@ export const Favorite: React.FC = function () {
     setFavorite(!favorite)
   }
 
-  console.log(favorite)
-
   return (
     <div
       data-check={favorite}

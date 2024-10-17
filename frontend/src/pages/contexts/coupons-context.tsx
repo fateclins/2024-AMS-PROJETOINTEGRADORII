@@ -1,17 +1,73 @@
-import { ReactNode } from "react";
+import { ReactNode, useReducer } from "react";
 import { createContext, useContextSelector } from "use-context-selector";
+import {
+  CouponReducerType,
+  CouponsReducerType,
+  couponsReducer,
+} from "../reducers/coupons/reducer";
+import {
+  createCouponsAction,
+  deleteCouponsAction,
+  listCouponsAction,
+  selectCouponsAction,
+  updateCouponsAction,
+} from "../reducers/coupons/actions";
 
-interface CouponsContextTypes {}
+export interface CouponsContextTypes {
+  couponsState: CouponsReducerType;
+  createCoupons(data: CouponReducerType): void;
+  updateCoupons(data: CouponReducerType): void;
+  selectCoupons(data: CouponReducerType): void;
+  listCoupons(data: CouponReducerType): void;
+  deleteCoupons(data: CouponReducerType): void;
+}
 
-export const CouponsContext = createContext({} as CouponsContextTypes);
+export const CouponsContext = createContext<CouponsContextTypes>(
+  {} as CouponsContextTypes,
+);
 
 interface CouponsProviderProps {
   children: ReactNode;
 }
 
 export function CouponsProvider({ children }: CouponsProviderProps) {
+  const [couponsState, couponsDispatcher] = useReducer(couponsReducer, {
+    coupons: [],
+  });
+
+  function createCoupons(data: CouponReducerType) {
+    couponsDispatcher(createCouponsAction(data));
+  }
+
+  function updateCoupons(data: CouponReducerType) {
+    couponsDispatcher(updateCouponsAction(data));
+  }
+
+  function selectCoupons(data: CouponReducerType) {
+    couponsDispatcher(selectCouponsAction(data));
+  }
+
+  function listCoupons(data: CouponReducerType) {
+    couponsDispatcher(listCouponsAction(data));
+  }
+
+  function deleteCoupons(data: CouponReducerType) {
+    couponsDispatcher(deleteCouponsAction(data));
+  }
+
   return (
-    <CouponsContext.Provider value={{}}>{children}</CouponsContext.Provider>
+    <CouponsContext.Provider
+      value={{
+        couponsState,
+        createCoupons,
+        updateCoupons,
+        listCoupons,
+        deleteCoupons,
+        selectCoupons,
+      }}
+    >
+      {children}
+    </CouponsContext.Provider>
   );
 }
 
@@ -20,7 +76,11 @@ export const useCouponsContext = function () {
     return context;
   });
 
+  ;
+
   if (!context)
-    throw new Error("useCouponsContext must be used within CouponsProvider");
+    throw new Error(
+      "useCouponsContext must be used within CouponsProvider",
+    );
   return context;
 };

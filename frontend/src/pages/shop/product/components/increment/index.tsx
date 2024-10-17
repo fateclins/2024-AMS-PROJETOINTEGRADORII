@@ -16,8 +16,6 @@ export const Increment: React.FC = function () {
     }
   }
 
-  console.log(count)
-
   return (
     <div className="flex items-center rounded-lg border-2 border-zinc-950 px-3">
       <Plus size={24} weight="regular" onClick={() => increment()} />

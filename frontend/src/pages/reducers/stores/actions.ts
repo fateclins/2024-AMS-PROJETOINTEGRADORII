@@ -14,7 +14,7 @@ export type StoresActions = {
     | StoresActionTypes.DELETE
     | StoresActionTypes.LIST
     | StoresActionTypes.SELECT
-    | StoresActionTypes.UPDATE;
+    | StoresActionTypes.UPDATE,
   payload: {
     data: StoreReducerType;
   };

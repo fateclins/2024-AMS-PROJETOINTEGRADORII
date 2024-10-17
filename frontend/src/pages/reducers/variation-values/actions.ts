@@ -14,7 +14,7 @@ export type VariationValuesActions = {
     | VariationValuesActionTypes.DELETE
     | VariationValuesActionTypes.LIST
     | VariationValuesActionTypes.SELECT
-    | VariationValuesActionTypes.UPDATE;
+    | VariationValuesActionTypes.UPDATE,
   payload: {
     data: VariationValueReducerType;
   };

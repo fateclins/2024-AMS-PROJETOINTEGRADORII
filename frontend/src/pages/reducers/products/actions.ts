@@ -14,7 +14,7 @@ export type ProductsActions = {
     | ProductsActionTypes.DELETE
     | ProductsActionTypes.LIST
     | ProductsActionTypes.SELECT
-    | ProductsActionTypes.UPDATE;
+    | ProductsActionTypes.UPDATE,
   payload: {
     data: ProductReducerType;
   };

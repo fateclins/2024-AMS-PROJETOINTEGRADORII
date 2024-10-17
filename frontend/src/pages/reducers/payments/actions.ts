@@ -14,7 +14,7 @@ export type PaymentsActions = {
     | PaymentsActionTypes.DELETE
     | PaymentsActionTypes.LIST
     | PaymentsActionTypes.SELECT
-    | PaymentsActionTypes.UPDATE;
+    | PaymentsActionTypes.UPDATE,
   payload: {
     data: PaymentReducerType;
   };

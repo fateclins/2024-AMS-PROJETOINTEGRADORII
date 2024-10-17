@@ -1,32 +1,32 @@
 <?php
     namespace App\Services;
 
-    use App\Models\Endereco;
+    use App\Models\Address;
 
-    class EnderecoService
+    class AddressService
     {
    
-        public $endereco;
+        public $address;
         
         public function __construct(){
-            $this->endereco = new Endereco();
+            $this->address = new Address();
         }
         
         public function get($id = null) 
         {
             if ($id) {
-                $this->endereco->pk = $id;
-                $this->endereco->find($id);
-                return $this->endereco->variables;
+                $this->address->pk = $id;
+                $this->address->find($id);
+                return $this->address->variables;
             } else {
                 $input = file_get_contents('php://input');
 
                 $data = json_decode($input, true);
 
-                $this->endereco->pagination = $data["pagination"];
-                $this->endereco->variables = $data["filter"];
+                $this->address->pagination = $data["pagination"];
+                $this->address->variables = $data["filter"];
 
-                return $this->endereco->search();
+                return $this->address->search();
             }
         }
 
@@ -40,13 +40,13 @@
                 throw new \Exception('Dados devem ter formato json');
             } 
             
-            $this->endereco->variables = $data;
+            $this->address->variables = $data;
 
-            $this->endereco->create($data);
+            $this->address->create($data);
 
            
             
-            return $this->endereco->db->lastInsertId();
+            return $this->address->db->lastInsertId();
         }
 
         public function put() 
@@ -62,14 +62,14 @@
             } 
             
 
-            $this->endereco->variables = $jsonData;
+            $this->address->variables = $jsonData;
 
             if (!isset($jsonData['id'])){
                 throw new \Exception('Id não enviado na requisição');
             }
         
 
-            return $this->endereco->save();
+            return $this->address->save();
             
         }
 
@@ -85,13 +85,13 @@
             } 
             
 
-            $this->endereco->variables = $jsonData;
+            $this->address->variables = $jsonData;
 
             if (!isset($jsonData['id'])){
                 throw new \Exception('Id não enviado na requisição');
             }
         
 
-            return $this->endereco->delete();
+            return $this->address->delete();
         }
     }

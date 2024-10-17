@@ -1,4 +1,4 @@
-import { CouponsReducerType } from "./reducer";
+import { CouponReducerType } from "./reducer";
 
 export enum CouponsActionTypes {
   CREATE = "CREATE",
@@ -14,13 +14,13 @@ export type CouponsActions = {
     | CouponsActionTypes.DELETE
     | CouponsActionTypes.LIST
     | CouponsActionTypes.SELECT
-    | CouponsActionTypes.UPDATE;
+    | CouponsActionTypes.UPDATE,
   payload: {
-    data: CouponsReducerType;
+    data: CouponReducerType;
   };
 };
 
-export function createCouponsAction(data: CouponsReducerType) {
+export function createCouponsAction(data: CouponReducerType) {
   return {
     type: CouponsActionTypes.CREATE,
     payload: {
@@ -29,7 +29,7 @@ export function createCouponsAction(data: CouponsReducerType) {
   };
 }
 
-export function updateCouponsAction(data: CouponsReducerType) {
+export function updateCouponsAction(data: CouponReducerType) {
   return {
     type: CouponsActionTypes.UPDATE,
     payload: {
@@ -38,7 +38,7 @@ export function updateCouponsAction(data: CouponsReducerType) {
   };
 }
 
-export function selectCouponsAction(data: CouponsReducerType) {
+export function selectCouponsAction(data: CouponReducerType) {
   return {
     type: CouponsActionTypes.SELECT,
     payload: {
@@ -47,7 +47,7 @@ export function selectCouponsAction(data: CouponsReducerType) {
   };
 }
 
-export function listCouponsAction(data: CouponsReducerType) {
+export function listCouponsAction(data: CouponReducerType) {
   return {
     type: CouponsActionTypes.LIST,
     payload: {
@@ -56,7 +56,7 @@ export function listCouponsAction(data: CouponsReducerType) {
   };
 }
 
-export function deleteCouponsAction(data: CouponsReducerType) {
+export function deleteCouponsAction(data: CouponReducerType) {
   return {
     type: CouponsActionTypes.DELETE,
     payload: {

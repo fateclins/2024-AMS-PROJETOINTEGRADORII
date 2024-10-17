@@ -1,6 +1,7 @@
 import { ReactNode, useReducer } from "react";
 import { createContext, useContextSelector } from "use-context-selector";
 import {
+  AddressReducerType,
   AddressesReducerType,
   addressesReducer,
 } from "../reducers/addresses/reducer";
@@ -12,13 +13,13 @@ import {
   updateAddressesAction,
 } from "../reducers/addresses/actions";
 
-interface AddressesContextTypes {
+export interface AddressesContextTypes {
   addressesState: AddressesReducerType;
-  createAddresses(data: AddressesReducerType): void;
-  updateAddresses(data: AddressesReducerType): void;
-  selectAddresses(data: AddressesReducerType): void;
-  listAddresses(data: AddressesReducerType): void;
-  deleteAddresses(data: AddressesReducerType): void;
+  createAddresses(data: AddressReducerType): void;
+  updateAddresses(data: AddressReducerType): void;
+  selectAddresses(data: AddressReducerType): void;
+  listAddresses(data: AddressReducerType): void;
+  deleteAddresses(data: AddressReducerType): void;
 }
 
 export const AddressesContext = createContext<AddressesContextTypes>(
@@ -34,23 +35,23 @@ export function AddressesProvider({ children }: AddressesProviderProps) {
     addresses: [],
   });
 
-  function createAddresses(data: AddressesReducerType) {
+  function createAddresses(data: AddressReducerType) {
     addressesDispatcher(createAddressesAction(data));
   }
 
-  function updateAddresses(data: AddressesReducerType) {
+  function updateAddresses(data: AddressReducerType) {
     addressesDispatcher(updateAddressesAction(data));
   }
 
-  function selectAddresses(data: AddressesReducerType) {
+  function selectAddresses(data: AddressReducerType) {
     addressesDispatcher(selectAddressesAction(data));
   }
 
-  function listAddresses(data: AddressesReducerType) {
+  function listAddresses(data: AddressReducerType) {
     addressesDispatcher(listAddressesAction(data));
   }
 
-  function deleteAddresses(data: AddressesReducerType) {
+  function deleteAddresses(data: AddressReducerType) {
     addressesDispatcher(deleteAddressesAction(data));
   }
 
@@ -74,8 +75,6 @@ export const useAddressesContext = function () {
   const context = useContextSelector(AddressesContext, (context) => {
     return context;
   });
-
-  console.log(context);
 
   if (!context)
     throw new Error(

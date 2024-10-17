@@ -1,15 +1,15 @@
 <?php
     namespace App\Services;
 
-    use App\Models\Loja;
+    use App\Models\Store;
 
-    class LojaService
+    class StoreService
     {
    
         public $product;
         
         public function __construct(){
-            $this->product = new Loja();
+            $this->product = new Store();
 
 
         }

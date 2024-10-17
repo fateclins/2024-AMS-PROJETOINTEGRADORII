@@ -1,54 +1,46 @@
 <?php
     namespace App\Services;
 
-    use App\Models\VariacaoDescricao;
+    use App\Models\Coupon;
 
-    class VariacaoDescricaoService
+    class CouponService
     {
-   
-        public $variacaoDescricao;
+
+        public $coupon;
         
         public function __construct(){
-            $this->variacaoDescricao = new VariacaoDescricao();
+            $this->coupon = new Coupon();
+
         }
         
-        public function get($id = null) 
-        {
+        public function get($id = null) {
             if ($id) {
-                $this->variacaoDescricao->pk = $id;
-                $this->variacaoDescricao->find($id);
-                return $this->variacaoDescricao->variables;
+                $this->coupon->pk = $id;
+                $this->coupon->find($id);
+                return $this->coupon->variables;
             } else {
                 
-                return $this->variacaoDescricao->all();
+                return $this->coupon->all();
             }
         }
 
-        public function post() 
-        {
+        public function post(){
             $input = file_get_contents('php://input');
-
             $data = json_decode($input, true);
 
             if (json_last_error() !== JSON_ERROR_NONE) {
                 throw new \Exception('Dados devem ter formato json');
             } 
             
-            $this->variacaoDescricao->variables = $data;
+            $this->coupon->variables = $data;
+            $this->coupon->create($data);
 
-            $this->variacaoDescricao->create($data);
-
-           
             
-            return $this->variacaoDescricao->db->lastInsertId();
+            return $this->coupon->db->lastInsertId();
         }
 
-        public function put() 
-        {
-       
-          
+        public function put(){
             $input = file_get_contents('php://input');
-
             $jsonData = json_decode($input, true);
             
             if (json_last_error() !== JSON_ERROR_NONE) {
@@ -56,36 +48,29 @@
             } 
             
 
-            $this->variacaoDescricao->variables = $jsonData;
+            $this->coupon->variables = $jsonData;
 
             if (!isset($jsonData['id'])){
                 throw new \Exception('Id não enviado na requisição');
             }
-        
 
-            return $this->variacaoDescricao->save();
-            
+            return $this->coupon->save();
         }
 
-        public function delete() 
-        {
+        public function delete(){
             
             $input = file_get_contents('php://input');
-
             $jsonData = json_decode($input, true);
             
             if (json_last_error() !== JSON_ERROR_NONE) {
                 throw new \Exception('Dados devem ter formato json');
             } 
-            
-
-            $this->variacaoDescricao->variables = $jsonData;
+            $this->coupon->variables = $jsonData;
 
             if (!isset($jsonData['id'])){
                 throw new \Exception('Id não enviado na requisição');
             }
         
-
-            return $this->variacaoDescricao->delete();
+            return $this->coupon->delete();
         }
     }

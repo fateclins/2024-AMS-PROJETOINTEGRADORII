@@ -1,26 +1,28 @@
 <?php
     namespace App\Services;
 
-    use App\Models\Categoria;
+    use App\Models\OrderItem;
 
-    class CategoriaService
+    class OrderItemService
     {
-   
-        public $categoria;
-        
+
+        public $orderitem;
+
         public function __construct(){
-            $this->categoria = new Categoria();
+            $this->orderitem = new OrderItem();
+
+
         }
-        
+
         public function get($id = null) 
         {
             if ($id) {
-                $this->categoria->pk = $id;
-                $this->categoria->find($id);
-                return $this->categoria->variables;
+                $this->orderitem->pk = $id;
+                $this->orderitem->find($id);
+                return $this->orderitem->variables;
             } else {
-                
-                return $this->categoria->all();
+
+                return $this->orderitem->all();
             }
         }
 
@@ -33,59 +35,59 @@
             if (json_last_error() !== JSON_ERROR_NONE) {
                 throw new \Exception('Dados devem ter formato json');
             } 
-            
-            $this->categoria->variables = $data;
 
-            $this->categoria->create($data);
+            $this->orderitem->variables = $data;
 
-           
-            
-            return $this->categoria->db->lastInsertId();
+            $this->orderitem->create($data);
+
+
+
+            return $this->orderitem->db->lastInsertId();
         }
 
         public function put() 
         {
-       
-          
+
+
             $input = file_get_contents('php://input');
 
             $jsonData = json_decode($input, true);
-            
+
             if (json_last_error() !== JSON_ERROR_NONE) {
                 throw new \Exception('Dados devem ter formato json');
             } 
-            
 
-            $this->categoria->variables = $jsonData;
+
+            $this->orderitem->variables = $jsonData;
 
             if (!isset($jsonData['id'])){
                 throw new \Exception('Id não enviado na requisição');
             }
-        
 
-            return $this->categoria->save();
-            
+
+            return $this->orderitem->save();
+
         }
 
         public function delete() 
         {
-            
+
             $input = file_get_contents('php://input');
 
             $jsonData = json_decode($input, true);
-            
+
             if (json_last_error() !== JSON_ERROR_NONE) {
                 throw new \Exception('Dados devem ter formato json');
             } 
-            
 
-            $this->categoria->variables = $jsonData;
+
+            $this->orderitem->variables = $jsonData;
 
             if (!isset($jsonData['id'])){
                 throw new \Exception('Id não enviado na requisição');
             }
-        
 
-            return $this->categoria->delete();
+
+            return $this->orderitem->delete();
         }
     }

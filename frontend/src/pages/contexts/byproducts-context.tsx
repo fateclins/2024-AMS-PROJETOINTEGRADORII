@@ -1,6 +1,7 @@
 import { ReactNode, useReducer } from "react";
 import { createContext, useContextSelector } from "use-context-selector";
 import {
+  ByproductReducerType,
   ByproductsReducerType,
   byproductsReducer,
 } from "../reducers/byproducts/reducer";
@@ -12,13 +13,13 @@ import {
   updateByproductsAction,
 } from "../reducers/byproducts/actions";
 
-interface ByproductsContextTypes {
+export interface ByproductsContextTypes {
   byproductsState: ByproductsReducerType;
-  createByproducts(data: ByproductsReducerType): void;
-  updateByproducts(data: ByproductsReducerType): void;
-  selectByproducts(data: ByproductsReducerType): void;
-  listByproducts(data: ByproductsReducerType): void;
-  deleteByproducts(data: ByproductsReducerType): void;
+  createByproducts(data: ByproductReducerType): void;
+  updateByproducts(data: ByproductReducerType): void;
+  selectByproducts(data: ByproductReducerType): void;
+  listByproducts(data: ByproductReducerType): void;
+  deleteByproducts(data: ByproductReducerType): void;
 }
 
 export const ByproductsContext = createContext<ByproductsContextTypes>(
@@ -37,23 +38,23 @@ export function ByproductsProvider({ children }: ByproductsProviderProps) {
     },
   );
 
-  function createByproducts(data: ByproductsReducerType) {
+  function createByproducts(data: ByproductReducerType) {
     byproductsDispatcher(createByproductsAction(data));
   }
 
-  function updateByproducts(data: ByproductsReducerType) {
+  function updateByproducts(data: ByproductReducerType) {
     byproductsDispatcher(updateByproductsAction(data));
   }
 
-  function selectByproducts(data: ByproductsReducerType) {
+  function selectByproducts(data: ByproductReducerType) {
     byproductsDispatcher(selectByproductsAction(data));
   }
 
-  function listByproducts(data: ByproductsReducerType) {
+  function listByproducts(data: ByproductReducerType) {
     byproductsDispatcher(listByproductsAction(data));
   }
 
-  function deleteByproducts(data: ByproductsReducerType) {
+  function deleteByproducts(data: ByproductReducerType) {
     byproductsDispatcher(deleteByproductsAction(data));
   }
 
@@ -78,7 +79,7 @@ export const useByproductsContext = function () {
     return context;
   });
 
-  console.log(context);
+  ;
 
   if (!context)
     throw new Error(

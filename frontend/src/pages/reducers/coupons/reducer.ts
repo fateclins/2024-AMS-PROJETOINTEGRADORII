@@ -2,20 +2,15 @@ import { CouponsActions, CouponsActionTypes } from "./actions";
 
 import { produce } from "immer";
 
-export interface CouponsReducerType {
+export interface CouponReducerType {
   id: number;
-  country: string;
-  state: string;
-  city: string;
-  district: string;
-  street: string;
-  number: number;
-  complement: string;
-  userId: number;
+  phraseCode: string;
+  discount: number;
+  idProduct: number;
 }
 
 export interface CouponsReducerType {
-  coupons: CouponsReducerType[];
+  coupons: CouponReducerType[];
 }
 
 export function couponsReducer(
@@ -23,34 +18,34 @@ export function couponsReducer(
   action: CouponsActions,
 ) {
   switch (action.type) {
-    case OrderItemsActionTypes.CREATE:
+    case CouponsActionTypes.CREATE:
       return produce(state, function (draft) {
-        draft.orderItems.push(action.payload.data);
+        draft.coupons.push(action.payload.data);
       });
-    case OrderItemsActionTypes.DELETE:
+    case CouponsActionTypes.DELETE:
       return produce(state, function (draft) {
-        const findIndex = draft.orderItems.findIndex(
+        const findIndex = draft.coupons.findIndex(
           (index) => index.id === action.payload.data.id,
         );
 
         if (findIndex !== -1) {
-          draft.orderItems.splice(findIndex, 1);
+          draft.coupons.splice(findIndex, 1);
         }
       });
-    case OrderItemsActionTypes.LIST:
+    case CouponsActionTypes.LIST:
       return produce(state, function (draft) {
-        draft.orderItems;
+        draft.coupons;
       });
-    case OrderItemsActionTypes.SELECT:
+    case CouponsActionTypes.SELECT:
     // implement
-    case OrderItemsActionTypes.UPDATE:
+    case CouponsActionTypes.UPDATE:
       return produce(state, function (draft) {
-        const findIndex = draft.orderItems.findIndex((orderItem) => {
+        const findIndex = draft.coupons.findIndex((orderItem) => {
           orderItem.id === action.payload.data.id;
         });
 
         if (findIndex !== -1) {
-          draft.orderItems[findIndex] = action.payload.data;
+          draft.coupons[findIndex] = action.payload.data;
         }
       });
     default:

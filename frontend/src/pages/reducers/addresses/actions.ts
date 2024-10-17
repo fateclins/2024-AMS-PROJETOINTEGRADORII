@@ -14,7 +14,7 @@ export type AddressesActions = {
     | AddressesActionTypes.DELETE
     | AddressesActionTypes.LIST
     | AddressesActionTypes.SELECT
-    | AddressesActionTypes.UPDATE;
+    | AddressesActionTypes.UPDATE,
   payload: {
     data: AddressReducerType;
   };

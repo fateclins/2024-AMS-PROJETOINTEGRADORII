@@ -14,7 +14,7 @@ export type TicketsActions = {
     | TicketsActionTypes.DELETE
     | TicketsActionTypes.LIST
     | TicketsActionTypes.SELECT
-    | TicketsActionTypes.UPDATE;
+    | TicketsActionTypes.UPDATE,
   payload: {
     data: TicketReducerType;
   };

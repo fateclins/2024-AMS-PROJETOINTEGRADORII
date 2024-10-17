@@ -1,6 +1,6 @@
 [names]
 
-dbname = sistematray
+dbname = sistemaTray
 host = localhost
 user = root
 password = 

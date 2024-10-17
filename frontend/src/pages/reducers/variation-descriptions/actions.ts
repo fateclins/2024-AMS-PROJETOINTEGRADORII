@@ -14,7 +14,7 @@ export type VariationDescriptionsActions = {
     | VariationDescriptionsActionTypes.DELETE
     | VariationDescriptionsActionTypes.LIST
     | VariationDescriptionsActionTypes.SELECT
-    | VariationDescriptionsActionTypes.UPDATE;
+    | VariationDescriptionsActionTypes.UPDATE,
   payload: {
     data: VariationDescriptionReducerType;
   };

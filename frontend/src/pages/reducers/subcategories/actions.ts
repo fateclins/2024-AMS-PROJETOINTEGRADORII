@@ -14,7 +14,7 @@ export type SubcategoriesActions = {
     | SubcategoriesActionTypes.DELETE
     | SubcategoriesActionTypes.LIST
     | SubcategoriesActionTypes.SELECT
-    | SubcategoriesActionTypes.UPDATE;
+    | SubcategoriesActionTypes.UPDATE,
   payload: {
     data: SubcategoryReducerType;
   };

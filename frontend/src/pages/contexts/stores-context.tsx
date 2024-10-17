@@ -1,16 +1,74 @@
-import { ReactNode } from "react";
+import { ReactNode, useReducer } from "react";
 import { createContext, useContextSelector } from "use-context-selector";
+import {
+  StoreReducerType,
+  StoresReducerType,
+  storesReducer,
+} from "../reducers/stores/reducer";
+import {
+  createStoresAction,
+  deleteStoresAction,
+  listStoresAction,
+  selectStoresAction,
+  updateStoresAction,
+} from "../reducers/stores/actions";
 
-interface StoresContextTypes {}
+export interface StoresContextTypes {
+  storesState: StoresReducerType;
+  createStores(data: StoreReducerType): void;
+  updateStores(data: StoreReducerType): void;
+  selectStores(data: StoreReducerType): void;
+  listStores(data: StoreReducerType): void;
+  deleteStores(data: StoreReducerType): void;
+}
 
-export const StoresContext = createContext({} as StoresContextTypes);
+export const StoresContext = createContext<StoresContextTypes>(
+  {} as StoresContextTypes,
+);
 
 interface StoresProviderProps {
   children: ReactNode;
 }
 
 export function StoresProvider({ children }: StoresProviderProps) {
-  return <StoresContext.Provider value={{}}>{children}</StoresContext.Provider>;
+  const [storesState, storesDispatcher] = useReducer(storesReducer, {
+    stores: [],
+  });
+
+  function createStores(data: StoreReducerType) {
+    storesDispatcher(createStoresAction(data));
+  }
+
+  function updateStores(data: StoreReducerType) {
+    storesDispatcher(updateStoresAction(data));
+  }
+
+  function selectStores(data: StoreReducerType) {
+    storesDispatcher(selectStoresAction(data));
+  }
+
+  function listStores(data: StoreReducerType) {
+    storesDispatcher(listStoresAction(data));
+  }
+
+  function deleteStores(data: StoreReducerType) {
+    storesDispatcher(deleteStoresAction(data));
+  }
+
+  return (
+    <StoresContext.Provider
+      value={{
+        storesState,
+        createStores,
+        updateStores,
+        listStores,
+        deleteStores,
+        selectStores,
+      }}
+    >
+      {children}
+    </StoresContext.Provider>
+  );
 }
 
 export const useStoresContext = function () {
@@ -18,7 +76,11 @@ export const useStoresContext = function () {
     return context;
   });
 
+  ;
+
   if (!context)
-    throw new Error("useStoresContext must be used within StoresProvider");
+    throw new Error(
+      "useStoresContext must be used within StoresProvider",
+    );
   return context;
 };

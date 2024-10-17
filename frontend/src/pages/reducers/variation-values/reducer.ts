@@ -4,7 +4,7 @@ import { produce } from "immer";
 
 export interface VariationValueReducerType {
   id: number;
-  value: number;
+  value: string;
   idVariationDescription: number;
 }
 

@@ -14,7 +14,7 @@ export type CategoriesActions = {
     | CategoriesActionTypes.DELETE
     | CategoriesActionTypes.LIST
     | CategoriesActionTypes.SELECT
-    | CategoriesActionTypes.UPDATE;
+    | CategoriesActionTypes.UPDATE,
   payload: {
     data: CategoryReducerType;
   };

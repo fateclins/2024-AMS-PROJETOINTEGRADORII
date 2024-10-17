@@ -14,7 +14,7 @@ export type UsersActions = {
     | UsersActionTypes.DELETE
     | UsersActionTypes.LIST
     | UsersActionTypes.SELECT
-    | UsersActionTypes.UPDATE;
+    | UsersActionTypes.UPDATE,
   payload: {
     data: UserReducerType;
   };

@@ -1,10 +1,10 @@
 import { Outlet } from "react-router-dom";
-import { AddressesProvider } from "../contexts/addresses-context";
+import { GlobalProvider } from "../contexts/global-context";
 
 export const ShopLayout = function () {
   return (
-    <>
+    <GlobalProvider>
       <Outlet />
-    </>
+    </GlobalProvider>
   );
 };

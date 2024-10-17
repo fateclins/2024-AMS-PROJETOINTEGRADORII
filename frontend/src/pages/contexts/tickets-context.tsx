@@ -1,17 +1,73 @@
-import { ReactNode } from "react";
+import { ReactNode, useReducer } from "react";
 import { createContext, useContextSelector } from "use-context-selector";
+import {
+  TicketReducerType,
+  TicketsReducerType,
+  ticketsReducer,
+} from "../reducers/tickets/reducer";
+import {
+  createTicketsAction,
+  deleteTicketsAction,
+  listTicketsAction,
+  selectTicketsAction,
+  updateTicketsAction,
+} from "../reducers/tickets/actions";
 
-interface TicketsContextTypes {}
+export interface TicketsContextTypes {
+  ticketsState: TicketsReducerType;
+  createTickets(data: TicketReducerType): void;
+  updateTickets(data: TicketReducerType): void;
+  selectTickets(data: TicketReducerType): void;
+  listTickets(data: TicketReducerType): void;
+  deleteTickets(data: TicketReducerType): void;
+}
 
-export const TicketsContext = createContext({} as TicketsContextTypes);
+export const TicketsContext = createContext<TicketsContextTypes>(
+  {} as TicketsContextTypes,
+);
 
 interface TicketsProviderProps {
   children: ReactNode;
 }
 
 export function TicketsProvider({ children }: TicketsProviderProps) {
+  const [ticketsState, ticketsDispatcher] = useReducer(ticketsReducer, {
+    tickets: [],
+  });
+
+  function createTickets(data: TicketReducerType) {
+    ticketsDispatcher(createTicketsAction(data));
+  }
+
+  function updateTickets(data: TicketReducerType) {
+    ticketsDispatcher(updateTicketsAction(data));
+  }
+
+  function selectTickets(data: TicketReducerType) {
+    ticketsDispatcher(selectTicketsAction(data));
+  }
+
+  function listTickets(data: TicketReducerType) {
+    ticketsDispatcher(listTicketsAction(data));
+  }
+
+  function deleteTickets(data: TicketReducerType) {
+    ticketsDispatcher(deleteTicketsAction(data));
+  }
+
   return (
-    <TicketsContext.Provider value={{}}>{children}</TicketsContext.Provider>
+    <TicketsContext.Provider
+      value={{
+        ticketsState,
+        createTickets,
+        updateTickets,
+        listTickets,
+        deleteTickets,
+        selectTickets,
+      }}
+    >
+      {children}
+    </TicketsContext.Provider>
   );
 }
 
@@ -20,7 +76,11 @@ export const useTicketsContext = function () {
     return context;
   });
 
+  ;
+
   if (!context)
-    throw new Error("useTicketsContext must be used within TicketsProvider");
+    throw new Error(
+      "useTicketsContext must be used within TicketsProvider",
+    );
   return context;
 };

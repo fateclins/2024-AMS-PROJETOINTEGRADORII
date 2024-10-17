@@ -1,16 +1,74 @@
-import { ReactNode } from "react";
+import { ReactNode, useReducer } from "react";
 import { createContext, useContextSelector } from "use-context-selector";
+import {
+  UserReducerType,
+  UsersReducerType,
+  usersReducer,
+} from "../reducers/users/reducer";
+import {
+  createUsersAction,
+  deleteUsersAction,
+  listUsersAction,
+  selectUsersAction,
+  updateUsersAction,
+} from "../reducers/users/actions";
 
-interface UsersContextTypes {}
+export interface UsersContextTypes {
+  usersState: UsersReducerType;
+  createUsers(data: UserReducerType): void;
+  updateUsers(data: UserReducerType): void;
+  selectUsers(data: UserReducerType): void;
+  listUsers(data: UserReducerType): void;
+  deleteUsers(data: UserReducerType): void;
+}
 
-export const UsersContext = createContext({} as UsersContextTypes);
+export const UsersContext = createContext<UsersContextTypes>(
+  {} as UsersContextTypes,
+);
 
 interface UsersProviderProps {
   children: ReactNode;
 }
 
 export function UsersProvider({ children }: UsersProviderProps) {
-  return <UsersContext.Provider value={{}}>{children}</UsersContext.Provider>;
+  const [usersState, usersDispatcher] = useReducer(usersReducer, {
+    users: [],
+  });
+
+  function createUsers(data: UserReducerType) {
+    usersDispatcher(createUsersAction(data));
+  }
+
+  function updateUsers(data: UserReducerType) {
+    usersDispatcher(updateUsersAction(data));
+  }
+
+  function selectUsers(data: UserReducerType) {
+    usersDispatcher(selectUsersAction(data));
+  }
+
+  function listUsers(data: UserReducerType) {
+    usersDispatcher(listUsersAction(data));
+  }
+
+  function deleteUsers(data: UserReducerType) {
+    usersDispatcher(deleteUsersAction(data));
+  }
+
+  return (
+    <UsersContext.Provider
+      value={{
+        usersState,
+        createUsers,
+        updateUsers,
+        listUsers,
+        deleteUsers,
+        selectUsers,
+      }}
+    >
+      {children}
+    </UsersContext.Provider>
+  );
 }
 
 export const useUsersContext = function () {
@@ -18,7 +76,11 @@ export const useUsersContext = function () {
     return context;
   });
 
+  ;
+
   if (!context)
-    throw new Error("useUsersContext must be used within UsersProvider");
+    throw new Error(
+      "useUsersContext must be used within UsersProvider",
+    );
   return context;
 };

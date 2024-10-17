@@ -14,7 +14,7 @@ export type OrderItemsActions = {
     | OrderItemsActionTypes.DELETE
     | OrderItemsActionTypes.LIST
     | OrderItemsActionTypes.SELECT
-    | OrderItemsActionTypes.UPDATE;
+    | OrderItemsActionTypes.UPDATE,
   payload: {
     data: OrderItemReducerType;
   };

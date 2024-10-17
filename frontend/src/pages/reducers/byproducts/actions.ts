@@ -14,7 +14,7 @@ export type ByproductsActions = {
     | ByproductsActionTypes.DELETE
     | ByproductsActionTypes.LIST
     | ByproductsActionTypes.SELECT
-    | ByproductsActionTypes.UPDATE;
+    | ByproductsActionTypes.UPDATE,
   payload: {
     data: ByproductReducerType;
   };

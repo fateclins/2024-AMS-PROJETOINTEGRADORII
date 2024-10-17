@@ -7,8 +7,13 @@ import { Header } from "@/components/header/index.tsx";
 import { Bestseller } from "./components/bestseller";
 import { Categories } from "./components/categories";
 import { Testimonies } from "./components/testimonies";
+import { createAddressesController, selectAddressesController } from "@/api/shop/addresses";
 
-export const Home: React.FC = function () {
+export const Home = async function () {
+  const test = selectAddressesController("J");
+
+  console.log(test);
+
   return (
     <>
       <Helmet title="Principal" />
