@@ -1,82 +1,43 @@
+import { NavLink } from '../nav-link'
+
 import {
-  BellRinging,
-  CreditCard,
-  Gear,
-  Heart,
-  MapPin,
-  Package,
-  User,
-} from '@phosphor-icons/react'
-import React from 'react'
-import { Link } from 'react-router-dom'
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger
+} from "@/components/ui/navigation-menu"
 
-import { Separator } from '../ui/separator'
-
-export const Menubar: React.FC = function () {
+export function Menubar() {
   return (
-    <div>
-      <div className="h-min w-full border-[1px]">
-        <div className="ml-5 mt-5 flex flex-row">
-          <img
-            src=""
-            alt=""
-            className="mr-4 h-[51px] w-[51px] rounded-full bg-zinc-500"
-          />
-          <div className="flex flex-col">
-            <span>Olá</span>
-            <strong>John Doe</strong>
-          </div>
-        </div>
+    <div className='flex items-center gap-4 border-b py-2'>
+      <NavLink to='/profile'>Meu Perfil</NavLink>
+      <NavLink to='/profile/orders'>Meus Pedidos</NavLink>
+      <NavigationMenu>
+        <NavigationMenuList>
+          <NavigationMenuItem>
+            <NavigationMenuTrigger className='text-muted-foreground'>Área do vendedor</NavigationMenuTrigger>
+            <NavigationMenuContent>
+              <div className='w-[200px] p-2 space-y-2'>
+                <NavigationMenuLink asChild>
+                  <NavLink to='/profile/dashboard'>Dashboard</NavLink>
+                </NavigationMenuLink>
+                <NavigationMenuLink asChild>
+                  <NavLink to='/profile/my-shop'>Página da loja</NavLink>
+                </NavigationMenuLink>
+                <NavigationMenuLink asChild>
+                  <NavLink to='/profile/products'>Produtos</NavLink>
+                </NavigationMenuLink>
+                <NavigationMenuLink asChild>
+                  <NavLink to='/profile/categories'>Categorias</NavLink>
+                </NavigationMenuLink>
+              </div>
+            </NavigationMenuContent>
+          </NavigationMenuItem>
+        </NavigationMenuList>
+    </NavigationMenu>
 
-        <Separator className="my-5" />
-
-        <nav>
-          <ul>
-            <Link to="">
-              <li className="ml-5 flex h-[56px] flex-row items-center gap-3 text-foreground">
-                <User size={24} />
-                Informações pessoais
-              </li>
-            </Link>
-            <Link to="">
-              <li className="ml-5 flex h-[56px] flex-row items-center gap-3 text-foreground">
-                <Package size={24} />
-                Pedidos
-              </li>
-            </Link>
-            <Link to="">
-              <li className="ml-5 flex h-[56px] flex-row items-center gap-3 text-foreground">
-                <Heart size={24} />
-                Lista de desejos
-              </li>
-            </Link>
-            <Link to="">
-              <li className="ml-5 flex h-[56px] flex-row items-center gap-3 text-foreground">
-                <MapPin size={24} />
-                Gerenciar endereços
-              </li>
-            </Link>
-            <Link to="">
-              <li className="ml-5 flex h-[56px] flex-row items-center gap-3 text-foreground">
-                <CreditCard size={24} />
-                Cartões salvos
-              </li>
-            </Link>
-            <Link to="">
-              <li className="ml-5 flex h-[56px] flex-row items-center gap-3 text-foreground">
-                <BellRinging size={24} />
-                Notificações
-              </li>
-            </Link>
-            <Link to="">
-              <li className="ml-5 flex h-[56px] flex-row items-center gap-3 text-foreground">
-                <Gear size={24} />
-                Configurações
-              </li>
-            </Link>
-          </ul>
-        </nav>
-      </div>
     </div>
   )
 }

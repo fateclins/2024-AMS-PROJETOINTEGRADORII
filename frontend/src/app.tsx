@@ -11,7 +11,7 @@ import { router } from './pages/routes'
 export function App() {
   return (
     <HelmetProvider>
-      <Helmet titleTemplate="%s | Fristtech" />
+      <Helmet titleTemplate="%s | Firsttech" />
       <Toaster richColors />
       <QueryClientProvider client={queryClient}>
         <RouterProvider router={router} />
