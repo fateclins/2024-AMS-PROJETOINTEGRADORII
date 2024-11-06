@@ -8,7 +8,8 @@ interface ByproductBody {
 }
 
 interface ByproductResponse {
-  data: ByproductBody[];
+  status: string;
+  message: string;
 }
 
 export async function deleteByproductsController(
@@ -17,7 +18,7 @@ export async function deleteByproductsController(
   const response = await api.delete<ByproductResponse>("/byproduct", {
     data: {
       id: byproduct.id,
-    }
+    },
   });
 
   return response.data;
@@ -26,6 +27,6 @@ export async function deleteByproductsController(
 export function deleteByproduct() {
   return useMutation({
     mutationKey: ["deleteByproduct"],
-    mutationFn: deleteByproductsController
-  })
+    mutationFn: deleteByproductsController,
+  });
 }

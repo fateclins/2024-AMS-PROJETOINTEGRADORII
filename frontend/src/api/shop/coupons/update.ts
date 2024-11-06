@@ -10,11 +10,12 @@ interface CouponBody {
 }
 
 interface CouponResponse {
-  data: CouponBody[];
+  status: string;
+  message: string;
 }
 
 export async function updateCouponsController(coupons: Partial<CouponBody>) {
-  const data = CouponMapper.toHTTP(coupons)
+  const data = CouponMapper.toHTTP(coupons);
 
   const response = await api.put<CouponResponse>("/coupon", { ...data });
 
@@ -24,6 +25,6 @@ export async function updateCouponsController(coupons: Partial<CouponBody>) {
 export function updateCoupon() {
   return useMutation({
     mutationKey: ["updateCoupon"],
-    mutationFn: updateCouponsController
-  })
+    mutationFn: updateCouponsController,
+  });
 }

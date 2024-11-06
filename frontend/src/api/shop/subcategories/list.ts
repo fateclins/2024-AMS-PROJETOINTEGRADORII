@@ -8,6 +8,7 @@ interface SubcategoryBody {
 }
 
 interface SubcategoryResponse {
+  status: string;
   data: SubcategoryBody[];
 }
 
@@ -20,6 +21,6 @@ export async function listSubcategoriesController() {
 export function listSubcategories() {
   return useQuery({
     queryKey: ["listSubcategory"],
-    queryFn: listSubcategoriesController
-  })
+    queryFn: listSubcategoriesController,
+  });
 }

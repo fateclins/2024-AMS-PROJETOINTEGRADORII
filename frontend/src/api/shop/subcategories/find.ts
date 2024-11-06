@@ -8,12 +8,11 @@ interface SubcategoryBody {
 }
 
 interface SubcategoryResponse {
+  status: string;
   data: SubcategoryBody[];
 }
 
-export async function findSubcategoriesController(
-  id: number,
-) {
+export async function findSubcategoriesController(id: number) {
   const response = await api.get<SubcategoryResponse>(`/subcategory/${id}`);
 
   return response.data;
@@ -23,6 +22,6 @@ export function findSubcategory(id: number) {
   return useQuery({
     queryKey: ["findSubcategory", id],
     queryFn: () => findSubcategoriesController(id),
-    enabled: !!id
-  })
+    enabled: !!id,
+  });
 }

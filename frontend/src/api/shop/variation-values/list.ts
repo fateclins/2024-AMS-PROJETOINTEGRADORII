@@ -8,6 +8,7 @@ interface VariationValueBody {
 }
 
 interface VariationValuesResponse {
+  status: string;
   data: VariationValueBody[];
 }
 
@@ -20,6 +21,6 @@ export async function listVariationValuesController() {
 export function listVariationValues() {
   return useQuery({
     queryKey: ["listVariationValue"],
-    queryFn: listVariationValuesController
-  })
+    queryFn: listVariationValuesController,
+  });
 }

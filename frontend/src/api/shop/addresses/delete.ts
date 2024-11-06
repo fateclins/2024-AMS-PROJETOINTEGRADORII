@@ -14,13 +14,14 @@ interface AddressBody {
 }
 
 interface AddressResponse {
-  data: AddressBody[];
+  status: string;
+  message: string;
 }
 
 export async function deleteAddressesController(address: Partial<AddressBody>) {
   const response = await api.delete<AddressResponse>("/address", {
     data: {
-      id: address.id
+      id: address.id,
     },
   });
 
@@ -30,6 +31,6 @@ export async function deleteAddressesController(address: Partial<AddressBody>) {
 export function deleteAddress() {
   return useMutation({
     mutationKey: ["deleteAddress"],
-    mutationFn: deleteAddressesController
-  })
+    mutationFn: deleteAddressesController,
+  });
 }

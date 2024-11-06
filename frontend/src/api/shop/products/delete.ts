@@ -13,12 +13,13 @@ interface ProductBody {
 }
 
 interface ProductResponse {
-  data: ProductBody[];
+  status: string;
+  message: string;
 }
 
 export async function deleteProductsController(product: Partial<ProductBody>) {
   const response = await api.delete<ProductResponse>("/product", {
-    data: { id: product.id, }
+    data: { id: product.id },
   });
 
   return response.data;
@@ -27,6 +28,6 @@ export async function deleteProductsController(product: Partial<ProductBody>) {
 export function deleteProduct() {
   return useMutation({
     mutationKey: ["deleteProduct"],
-    mutationFn: deleteProductsController
-  })
+    mutationFn: deleteProductsController,
+  });
 }

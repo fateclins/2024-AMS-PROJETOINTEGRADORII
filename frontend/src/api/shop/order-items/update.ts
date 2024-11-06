@@ -11,14 +11,15 @@ interface OrderItemBody {
 }
 
 interface OrderItemResponse {
-  data: OrderItemBody[];
+  status: string;
+  message: string;
 }
 
 export async function updateOrderItemsController(
   orderItems: Partial<OrderItemBody>,
 ) {
   const data = OrderItemMapper.toHTTP(orderItems);
-  
+
   const response = await api.put<OrderItemResponse>("/orderitem", {
     ...data,
   });
@@ -29,6 +30,6 @@ export async function updateOrderItemsController(
 export function updateOrderItem() {
   return useMutation({
     mutationKey: ["updateOrderItem"],
-    mutationFn: updateOrderItemsController
-  })
+    mutationFn: updateOrderItemsController,
+  });
 }

@@ -12,6 +12,7 @@ interface TicketBody {
 }
 
 interface TicketResponse {
+  status: string;
   data: TicketBody[];
 }
 
@@ -25,6 +26,6 @@ export function findTicket(id: number) {
   return useQuery({
     queryKey: ["findTicket", id],
     queryFn: () => findTicketsController(id),
-    enabled: !!id
-  })
+    enabled: !!id,
+  });
 }

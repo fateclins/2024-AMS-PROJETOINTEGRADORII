@@ -10,7 +10,8 @@ export interface CouponBody {
 }
 
 interface CouponResponse {
-  data: CouponBody[];
+  status: string;
+  message: string;
 }
 
 export async function createCouponsController(coupons: Partial<CouponBody>) {
@@ -24,6 +25,6 @@ export async function createCouponsController(coupons: Partial<CouponBody>) {
 export function createCoupon() {
   return useMutation({
     mutationKey: ["createCoupon"],
-    mutationFn: createCouponsController
-  })
+    mutationFn: createCouponsController,
+  });
 }

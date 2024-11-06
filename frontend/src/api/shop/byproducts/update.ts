@@ -9,7 +9,8 @@ interface ByproductBody {
 }
 
 interface ByproductResponse {
-  data: ByproductBody[];
+  status: string;
+  message: string;
 }
 
 export async function updateByproductsController(
@@ -27,6 +28,6 @@ export async function updateByproductsController(
 export function updateByproduct() {
   return useMutation({
     mutationKey: ["updateByproduct"],
-    mutationFn: updateByproductsController
-  })
+    mutationFn: updateByproductsController,
+  });
 }

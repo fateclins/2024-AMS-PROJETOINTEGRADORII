@@ -8,14 +8,15 @@ interface SubcategoryBody {
 }
 
 interface SubcategoryResponse {
-  data: SubcategoryBody[];
+  status: string;
+  message: string;
 }
 
 export async function deleteSubcategoriesController(
   subcategory: Partial<SubcategoryBody>,
 ) {
   const response = await api.delete<SubcategoryResponse>("/subcategory", {
-    data: { id: subcategory.id, }
+    data: { id: subcategory.id },
   });
 
   return response.data;
@@ -24,6 +25,6 @@ export async function deleteSubcategoriesController(
 export function deleteSubcategory() {
   return useMutation({
     mutationKey: ["deleteSubcategory"],
-    mutationFn: deleteSubcategoriesController
-  })
+    mutationFn: deleteSubcategoriesController,
+  });
 }

@@ -11,11 +11,14 @@ interface UserBody {
 }
 
 interface UserResponse {
-  data: UserBody[];
+  status: string;
+  message: string;
 }
 
 export async function deleteUsersController(user: Partial<UserBody>) {
-  const response = await api.delete<UserResponse>("/user", { data: { id: user.id } });
+  const response = await api.delete<UserResponse>("/user", {
+    data: { id: user.id },
+  });
 
   return response.data;
 }
@@ -23,6 +26,6 @@ export async function deleteUsersController(user: Partial<UserBody>) {
 export function deleteUser() {
   return useMutation({
     mutationKey: ["deleteUser"],
-    mutationFn: deleteUsersController
-  })
+    mutationFn: deleteUsersController,
+  });
 }

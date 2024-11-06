@@ -11,6 +11,7 @@ interface PaymentBody {
 }
 
 interface PaymentResponse {
+  status: string;
   data: PaymentBody[];
 }
 
@@ -23,6 +24,6 @@ export async function listPaymentsController() {
 export function listPayments() {
   return useQuery({
     queryKey: ["listPayment"],
-    queryFn: listPaymentsController
-  })
+    queryFn: listPaymentsController,
+  });
 }

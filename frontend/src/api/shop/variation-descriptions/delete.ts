@@ -7,7 +7,8 @@ interface VariationDescriptionBody {
 }
 
 interface VariationDescriptionResponse {
-  data: VariationDescriptionBody[];
+  status: string;
+  message: string;
 }
 
 export async function deleteVariationDescriptionsController(
@@ -15,7 +16,7 @@ export async function deleteVariationDescriptionsController(
 ) {
   const response = await api.delete<VariationDescriptionResponse>(
     "/variationdescription",
-      { data: { id: variationDescription.id } },
+    { data: { id: variationDescription.id } },
   );
 
   return response.data;
@@ -24,6 +25,6 @@ export async function deleteVariationDescriptionsController(
 export function deleteVariationDescription() {
   return useMutation({
     mutationKey: ["deleteVariationDescription"],
-    mutationFn: deleteVariationDescriptionsController
-  })
+    mutationFn: deleteVariationDescriptionsController,
+  });
 }

@@ -7,6 +7,7 @@ interface VariationDescriptionBody {
 }
 
 interface VariationDescriptionResponse {
+  status: string;
   data: VariationDescriptionBody[];
 }
 
@@ -21,6 +22,6 @@ export async function listVariationDescriptionsController() {
 export function listVariationDescriptions() {
   return useQuery({
     queryKey: ["listVariationDescription"],
-    queryFn: listVariationDescriptionsController
-  })
+    queryFn: listVariationDescriptionsController,
+  });
 }

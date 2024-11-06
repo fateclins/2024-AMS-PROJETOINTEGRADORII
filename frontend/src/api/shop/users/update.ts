@@ -12,11 +12,12 @@ interface UserBody {
 }
 
 interface UserResponse {
-  data: UserBody[];
+  status: string;
+  message: string;
 }
 
 export async function updateUsersController(user: Partial<UserBody>) {
-  const data = UserMapper.toHTTP(user)
+  const data = UserMapper.toHTTP(user);
 
   const response = await api.put<UserResponse>("/user", { ...data });
 
@@ -26,6 +27,6 @@ export async function updateUsersController(user: Partial<UserBody>) {
 export function updateUser() {
   return useMutation({
     mutationKey: ["updateUser"],
-    mutationFn: updateUsersController
-  })
+    mutationFn: updateUsersController,
+  });
 }

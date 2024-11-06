@@ -15,11 +15,14 @@ interface StoreBody {
 }
 
 interface StoreResponse {
-  data: StoreBody[];
+  status: string;
+  message: string;
 }
 
 export async function deleteStoresController(store: Partial<StoreBody>) {
-  const response = await api.delete<StoreResponse>("/store", { data: { id: store.id } });
+  const response = await api.delete<StoreResponse>("/store", {
+    data: { id: store.id },
+  });
 
   return response.data;
 }
@@ -27,6 +30,6 @@ export async function deleteStoresController(store: Partial<StoreBody>) {
 export function deleteStore() {
   return useMutation({
     mutationKey: ["deleteStore"],
-    mutationFn: deleteStoresController
-  })
+    mutationFn: deleteStoresController,
+  });
 }

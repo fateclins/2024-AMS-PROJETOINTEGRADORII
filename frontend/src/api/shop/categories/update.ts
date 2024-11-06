@@ -9,7 +9,8 @@ interface CategoryBody {
 }
 
 interface CategoryResponse {
-  data: CategoryBody[];
+  status: string;
+  message: string;
 }
 
 export async function updateCategoriesController(
@@ -27,6 +28,6 @@ export async function updateCategoriesController(
 export function updateCategory() {
   return useMutation({
     mutationKey: ["updateCategory"],
-    mutationFn: updateCategoriesController
-  })
+    mutationFn: updateCategoriesController,
+  });
 }

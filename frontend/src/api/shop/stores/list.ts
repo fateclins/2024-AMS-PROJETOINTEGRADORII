@@ -15,6 +15,7 @@ interface StoreBody {
 }
 
 interface StoreResponse {
+  status: string;
   data: StoreBody[];
 }
 
@@ -27,6 +28,6 @@ export async function listStoresController() {
 export function listStores() {
   return useQuery({
     queryKey: ["listStore"],
-    queryFn: listStoresController
-  })
+    queryFn: listStoresController,
+  });
 }

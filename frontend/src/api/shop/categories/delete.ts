@@ -8,7 +8,8 @@ interface CategoryBody {
 }
 
 interface CategoryResponse {
-  data: CategoryBody[];
+  status: string;
+  message: string;
 }
 
 export async function deleteCategoriesController(
@@ -16,7 +17,7 @@ export async function deleteCategoriesController(
 ) {
   const response = await api.delete<CategoryResponse>("/category", {
     data: {
-      id: category.id
+      id: category.id,
     },
   });
 
@@ -27,5 +28,5 @@ export function deleteCategory() {
   return useMutation({
     mutationKey: ["deleteCategory"],
     mutationFn: deleteCategoriesController,
-  })
+  });
 }

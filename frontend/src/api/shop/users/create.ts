@@ -12,7 +12,8 @@ export interface UserBody {
 }
 
 interface UserResponse {
-  data: UserBody[];
+  status: string;
+  message: string;
 }
 
 export async function createUsersController(user: Partial<UserBody>) {
@@ -26,6 +27,6 @@ export async function createUsersController(user: Partial<UserBody>) {
 export function createUser() {
   return useMutation({
     mutationKey: ["createUser"],
-    mutationFn: createUsersController
-  })
+    mutationFn: createUsersController,
+  });
 }

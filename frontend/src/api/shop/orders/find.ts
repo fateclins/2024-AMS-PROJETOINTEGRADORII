@@ -12,11 +12,12 @@ interface OrderBody {
 }
 
 interface OrderResponse {
+  status: string;
   data: OrderBody[];
 }
 
 export async function findOrdersController(id: number) {
-const response = await api.get<OrderResponse>(`/order/${id}`);
+  const response = await api.get<OrderResponse>(`/order/${id}`);
 
   return response.data;
 }
@@ -25,6 +26,6 @@ export function findOrder(id: number) {
   return useQuery({
     queryKey: ["findOrder", id],
     queryFn: () => findOrdersController(id),
-    enabled: !!id
-  })
+    enabled: !!id,
+  });
 }

@@ -9,13 +9,14 @@ export interface CategoryBody {
 }
 
 export interface CategoryResponse {
-  data: CategoryBody[];
+  status: string;
+  message: string;
 }
 
 export async function createCategoriesController(
   categories: Partial<CategoryBody>,
 ) {
-  const data = CategoryMapper.toHTTP(categories)
+  const data = CategoryMapper.toHTTP(categories);
 
   const response = await api.post<CategoryResponse>("/category", {
     ...data,
@@ -28,5 +29,5 @@ export function createCategory() {
   return useMutation({
     mutationKey: ["createCategory"],
     mutationFn: createCategoriesController,
-  })
+  });
 }

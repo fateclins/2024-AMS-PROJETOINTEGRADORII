@@ -13,6 +13,7 @@ interface ProductBody {
 }
 
 interface ProductResponse {
+  status: string;
   data: ProductBody[];
 }
 
@@ -26,6 +27,6 @@ export function findProduct(id: number) {
   return useQuery({
     queryKey: ["findProduct", id],
     queryFn: () => findProductsController(id),
-    enabled: !!id
-  })
+    enabled: !!id,
+  });
 }

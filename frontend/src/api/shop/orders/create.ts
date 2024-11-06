@@ -13,7 +13,8 @@ export interface OrderBody {
 }
 
 interface OrderResponse {
-  data: OrderBody[];
+  status: string;
+  message: string;
 }
 
 export async function createOrdersController(order: Partial<OrderBody>) {
@@ -27,6 +28,6 @@ export async function createOrdersController(order: Partial<OrderBody>) {
 export function createOrder() {
   return useMutation({
     mutationKey: ["createOrder"],
-    mutationFn: createOrdersController
-  })
+    mutationFn: createOrdersController,
+  });
 }

@@ -7,6 +7,7 @@ interface UserTypeBody {
 }
 
 interface UserTypeResponse {
+  status: string;
   data: UserTypeBody[];
 }
 
@@ -19,6 +20,6 @@ export async function listUserTypesController() {
 export function listUserTypes() {
   return useQuery({
     queryKey: ["listUserType"],
-    queryFn: listUserTypesController
-  })
+    queryFn: listUserTypesController,
+  });
 }

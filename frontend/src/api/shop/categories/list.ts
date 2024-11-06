@@ -8,6 +8,7 @@ interface CategoryBody {
 }
 
 interface CategoryResponse {
+  status: string;
   data: CategoryBody[];
 }
 
@@ -20,6 +21,6 @@ export async function listCategoriesController() {
 export function listCategories() {
   return useQuery({
     queryKey: ["listCategory"],
-    queryFn: listCategoriesController
-  })
+    queryFn: listCategoriesController,
+  });
 }

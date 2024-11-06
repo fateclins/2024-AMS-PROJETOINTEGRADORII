@@ -13,11 +13,12 @@ export interface TicketBody {
 }
 
 interface TicketResponse {
-  data: TicketBody[];
+  status: string;
+  message: string;
 }
 
 export async function createTicketsController(ticket: Partial<TicketBody>) {
-  const data = TicketMapper.toHTTP(ticket)
+  const data = TicketMapper.toHTTP(ticket);
 
   const response = await api.post<TicketResponse>("/ticket", { ...data });
 
@@ -27,6 +28,6 @@ export async function createTicketsController(ticket: Partial<TicketBody>) {
 export function createTicket() {
   return useMutation({
     mutationKey: ["createTicket"],
-    mutationFn: createTicketsController
-  })
+    mutationFn: createTicketsController,
+  });
 }

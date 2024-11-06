@@ -12,12 +12,13 @@ interface TicketBody {
 }
 
 interface TicketResponse {
-  data: TicketBody[];
+  status: string;
+  message: string;
 }
 
 export async function deleteTicketsController(ticket: Partial<TicketBody>) {
   const response = await api.delete<TicketResponse>("/ticket", {
-    data: { id: ticket.id, }
+    data: { id: ticket.id },
   });
 
   return response.data;
@@ -26,6 +27,6 @@ export async function deleteTicketsController(ticket: Partial<TicketBody>) {
 export function deleteTicket() {
   return useMutation({
     mutationKey: ["deleteTicket"],
-    mutationFn: deleteTicketsController
-  })
+    mutationFn: deleteTicketsController,
+  });
 }

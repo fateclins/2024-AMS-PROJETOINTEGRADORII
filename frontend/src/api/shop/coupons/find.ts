@@ -9,6 +9,7 @@ interface CouponBody {
 }
 
 interface CouponResponse {
+  status: string;
   data: CouponBody[];
 }
 
@@ -22,6 +23,6 @@ export function findCoupon(id: number) {
   return useQuery({
     queryKey: ["findCoupon", id],
     queryFn: () => findCouponsController(id),
-    enabled: !!id
-  })
+    enabled: !!id,
+  });
 }

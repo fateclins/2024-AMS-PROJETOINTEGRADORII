@@ -8,6 +8,7 @@ interface ByproductBody {
 }
 
 interface ByproductResponse {
+  status: string;
   data: ByproductBody[];
 }
 
@@ -20,6 +21,6 @@ export async function listByproductsController() {
 export function listByproducts() {
   return useQuery({
     queryKey: ["listByproduct"],
-    queryFn: listByproductsController
-  })
+    queryFn: listByproductsController,
+  });
 }

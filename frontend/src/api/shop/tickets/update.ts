@@ -13,11 +13,12 @@ interface TicketBody {
 }
 
 interface TicketResponse {
-  data: TicketBody[];
+  status: string;
+  message: string;
 }
 
 export async function updateTicketsController(ticket: Partial<TicketBody>) {
-  const data = TicketMapper.toHTTP(ticket)
+  const data = TicketMapper.toHTTP(ticket);
 
   const response = await api.put<TicketResponse>("/ticket", { ...data });
 
@@ -27,6 +28,6 @@ export async function updateTicketsController(ticket: Partial<TicketBody>) {
 export function updateTicket() {
   return useMutation({
     mutationKey: ["updateTicket"],
-    mutationFn: updateTicketsController
-  })
+    mutationFn: updateTicketsController,
+  });
 }

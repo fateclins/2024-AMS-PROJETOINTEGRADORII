@@ -7,14 +7,14 @@ interface VariationDescriptionBody {
 }
 
 interface VariationDescriptionResponse {
+  status: string;
   data: VariationDescriptionBody[];
 }
 
-export async function findVariationDescriptionsController(
-  id: number,
-) {
+export async function findVariationDescriptionsController(id: number) {
   const response = await api.get<VariationDescriptionResponse>(
-    `/variationdescription/${id}`);
+    `/variationdescription/${id}`,
+  );
 
   return response.data;
 }
@@ -23,6 +23,6 @@ export function findVariationDescription(id: number) {
   return useQuery({
     queryKey: ["findVariationDescription", id],
     queryFn: () => findVariationDescriptionsController(id),
-    enabled: !!id
-  })
+    enabled: !!id,
+  });
 }

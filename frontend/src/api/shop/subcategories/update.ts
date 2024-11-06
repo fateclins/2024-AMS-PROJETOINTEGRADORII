@@ -9,13 +9,14 @@ interface SubcategoryBody {
 }
 
 interface SubcategoryResponse {
-  data: SubcategoryBody[];
+  status: string;
+  message: string;
 }
 
 export async function updateSubcategoriesController(
   subcategory: Partial<SubcategoryBody>,
 ) {
-  const data = SubcategoryMapper.toHTTP(subcategory)
+  const data = SubcategoryMapper.toHTTP(subcategory);
 
   const response = await api.put<SubcategoryResponse>("/subcategory", {
     ...data,
@@ -27,6 +28,6 @@ export async function updateSubcategoriesController(
 export function updateSubcategory() {
   return useMutation({
     mutationKey: ["updateSubcategory"],
-    mutationFn: updateSubcategoriesController
-  })
+    mutationFn: updateSubcategoriesController,
+  });
 }

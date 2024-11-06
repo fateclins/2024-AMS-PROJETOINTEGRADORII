@@ -15,7 +15,8 @@ interface AddressBody {
 }
 
 interface AddressResponse {
-  data: AddressBody[];
+  status: string;
+  message: string;
 }
 
 export async function updateAddressesController(address: AddressBody) {
@@ -29,6 +30,6 @@ export async function updateAddressesController(address: AddressBody) {
 export function updateAddress() {
   return useMutation({
     mutationKey: ["updateAddress"],
-    mutationFn: updateAddressesController
-  })
+    mutationFn: updateAddressesController,
+  });
 }

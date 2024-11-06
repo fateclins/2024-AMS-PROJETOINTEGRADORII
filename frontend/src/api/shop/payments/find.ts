@@ -11,11 +11,12 @@ interface PaymentBody {
 }
 
 interface PaymentResponse {
+  status: string;
   data: PaymentBody[];
 }
 
 export async function findPaymentsController(id: number) {
-const response = await api.get<PaymentResponse>(`/payment/${id}`);
+  const response = await api.get<PaymentResponse>(`/payment/${id}`);
 
   return response.data;
 }
@@ -24,6 +25,6 @@ export function findPayment(id: number) {
   return useQuery({
     queryKey: ["findPayment", id],
     queryFn: () => findPaymentsController(id),
-    enabled: !!id
-  })
+    enabled: !!id,
+  });
 }

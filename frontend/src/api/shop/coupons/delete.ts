@@ -9,14 +9,15 @@ interface CouponBody {
 }
 
 interface CouponResponse {
-  data: CouponBody[];
+  status: string;
+  message: string;
 }
 
 export async function deleteCouponsController(coupon: Partial<CouponBody>) {
   const response = await api.delete<CouponResponse>("/coupon", {
     data: {
       id: coupon.id,
-    }
+    },
   });
 
   return response.data;
@@ -25,6 +26,6 @@ export async function deleteCouponsController(coupon: Partial<CouponBody>) {
 export function deleteCoupon() {
   return useMutation({
     mutationKey: ["deleteCoupon"],
-    mutationFn: deleteCouponsController
-  })
+    mutationFn: deleteCouponsController,
+  });
 }

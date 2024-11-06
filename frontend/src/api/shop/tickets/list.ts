@@ -12,6 +12,7 @@ interface TicketBody {
 }
 
 interface TicketResponse {
+  status: string;
   data: TicketBody[];
 }
 
@@ -24,6 +25,6 @@ export async function listTicketsController() {
 export function listTickets() {
   return useQuery({
     queryKey: ["listTicket"],
-    queryFn: listTicketsController
-  })
+    queryFn: listTicketsController,
+  });
 }

@@ -7,6 +7,7 @@ interface UserTypeBody {
 }
 
 interface UserTypeResponse {
+  status: string;
   data: UserTypeBody[];
 }
 
@@ -20,6 +21,6 @@ export function findUserType(id: number) {
   return useQuery({
     queryKey: ["findUserType", id],
     queryFn: () => findUserTypesController(id),
-    enabled: !!id
-  })
+    enabled: !!id,
+  });
 }

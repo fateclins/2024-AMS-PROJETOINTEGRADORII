@@ -9,18 +9,18 @@ interface VariationValueBody {
 }
 
 interface VariationValuesResponse {
-  data: VariationValueBody[];
+  status: string;
+  message: string;
 }
 
 export async function updateVariationValuesController(
   variationValue: Partial<VariationValueBody>,
 ) {
-  const data = VariationValueMapper.toHTTP(variationValue)
+  const data = VariationValueMapper.toHTTP(variationValue);
 
-  const response = await api.put<VariationValuesResponse>(
-    "/variationvalue",
-    { ...data },
-  );
+  const response = await api.put<VariationValuesResponse>("/variationvalue", {
+    ...data,
+  });
 
   return response.data;
 }
@@ -28,6 +28,6 @@ export async function updateVariationValuesController(
 export function updateVariationValue() {
   return useMutation({
     mutationKey: ["updateVariationValue"],
-    mutationFn: updateVariationValuesController
-  })
+    mutationFn: updateVariationValuesController,
+  });
 }

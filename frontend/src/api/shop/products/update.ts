@@ -14,11 +14,12 @@ interface ProductBody {
 }
 
 interface ProductResponse {
-  data: ProductBody[];
+  status: string;
+  message: string;
 }
 
 export async function updateProductsController(product: Partial<ProductBody>) {
-  const data = ProductMapper.toHTTP(product)
+  const data = ProductMapper.toHTTP(product);
 
   const response = await api.put<ProductResponse>("/product", { ...data });
 
@@ -28,6 +29,6 @@ export async function updateProductsController(product: Partial<ProductBody>) {
 export function updateProduct() {
   return useMutation({
     mutationKey: ["updateProduct"],
-    mutationFn: updateProductsController
-  })
+    mutationFn: updateProductsController,
+  });
 }

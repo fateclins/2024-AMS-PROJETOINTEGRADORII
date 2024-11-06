@@ -9,7 +9,8 @@ export interface VariationValueBody {
 }
 
 interface VariationValuesResponse {
-  data: VariationValueBody[];
+  status: string;
+  message: string;
 }
 
 export async function createVariationValuesController(
@@ -27,6 +28,6 @@ export async function createVariationValuesController(
 export function createVariationValue() {
   return useMutation({
     mutationKey: ["createVariationValue"],
-    mutationFn: createVariationValuesController
-  })
+    mutationFn: createVariationValuesController,
+  });
 }

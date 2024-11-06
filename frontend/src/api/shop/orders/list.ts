@@ -12,6 +12,7 @@ interface OrderBody {
 }
 
 interface OrderResponse {
+  status: string;
   data: OrderBody[];
 }
 
@@ -24,6 +25,6 @@ export async function listOrdersController() {
 export function listOrders() {
   return useQuery({
     queryKey: ["listOrder"],
-    queryFn: listOrdersController
-  })
+    queryFn: listOrdersController,
+  });
 }

@@ -12,11 +12,14 @@ interface OrderBody {
 }
 
 interface OrderResponse {
-  data: OrderBody[];
+  status: string;
+  message: string;
 }
 
 export async function deleteOrdersController(order: Partial<OrderBody>) {
-  const response = await api.delete<OrderResponse>("/order", { data: { id: order.id } });
+  const response = await api.delete<OrderResponse>("/order", {
+    data: { id: order.id },
+  });
 
   return response.data;
 }
@@ -24,6 +27,6 @@ export async function deleteOrdersController(order: Partial<OrderBody>) {
 export function deleteOrder() {
   return useMutation({
     mutationKey: ["deleteOrder"],
-    mutationFn: deleteOrdersController
-  })
+    mutationFn: deleteOrdersController,
+  });
 }

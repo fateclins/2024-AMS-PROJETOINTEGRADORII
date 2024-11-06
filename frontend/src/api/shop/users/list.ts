@@ -11,6 +11,7 @@ interface UserBody {
 }
 
 interface UserResponse {
+  status: string;
   data: UserBody[];
 }
 
@@ -23,6 +24,6 @@ export async function listUsersController() {
 export function listUsers() {
   return useQuery({
     queryKey: ["listUser"],
-    queryFn: listUsersController
-  })
+    queryFn: listUsersController,
+  });
 }

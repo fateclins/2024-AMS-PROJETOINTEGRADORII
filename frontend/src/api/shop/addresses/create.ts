@@ -15,7 +15,8 @@ export interface AddressBody {
 }
 
 interface AddressResponse {
-  data: AddressBody[];
+  status: string;
+  message: string;
 }
 
 export async function createAddressesController(address: Partial<AddressBody>) {
@@ -29,6 +30,6 @@ export async function createAddressesController(address: Partial<AddressBody>) {
 export function createAddress() {
   return useMutation({
     mutationKey: ["createAddress"],
-    mutationFn: createAddressesController
-  })
+    mutationFn: createAddressesController,
+  });
 }

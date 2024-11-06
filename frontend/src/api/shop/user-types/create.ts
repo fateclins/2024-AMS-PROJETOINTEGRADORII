@@ -8,13 +8,14 @@ export interface UserTypeBody {
 }
 
 interface UserTypeResponse {
-  data: UserTypeBody[];
+  status: string;
+  message: string;
 }
 
 export async function createUserTypesController(
   userType: Partial<UserTypeBody>,
 ) {
-  const data = UserTypeMapper.toHTTP(userType)
+  const data = UserTypeMapper.toHTTP(userType);
 
   const response = await api.post<UserTypeResponse>("/usertype", {
     ...data,
@@ -26,6 +27,6 @@ export async function createUserTypesController(
 export function createUserType() {
   return useMutation({
     mutationKey: ["createUserType"],
-    mutationFn: createUserTypesController
-  })
+    mutationFn: createUserTypesController,
+  });
 }

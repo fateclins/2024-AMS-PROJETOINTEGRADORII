@@ -10,6 +10,7 @@ interface OrderItemBody {
 }
 
 interface OrderItemResponse {
+  status: string;
   data: OrderItemBody[];
 }
 
@@ -24,5 +25,5 @@ export function findOrderItem(id: number) {
     queryKey: ["findOrderItem", id],
     queryFn: () => findOrderItemsController(id),
     enabled: !!id,
-  })
+  });
 }

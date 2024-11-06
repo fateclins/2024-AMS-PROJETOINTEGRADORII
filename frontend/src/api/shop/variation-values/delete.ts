@@ -8,7 +8,8 @@ interface VariationValueBody {
 }
 
 interface VariationValuesResponse {
-  data: VariationValueBody[];
+  status: string;
+  message: string;
 }
 
 export async function deleteVariationValuesController(
@@ -25,6 +26,6 @@ export async function deleteVariationValuesController(
 export function deleteVariationValue() {
   return useMutation({
     mutationKey: ["deleteVariationValue"],
-    mutationFn: deleteVariationValuesController
-  })
+    mutationFn: deleteVariationValuesController,
+  });
 }

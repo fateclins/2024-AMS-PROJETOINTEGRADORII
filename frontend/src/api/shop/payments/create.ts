@@ -12,11 +12,12 @@ export interface PaymentBody {
 }
 
 interface PaymentResponse {
-  data: PaymentBody[];
+  status: string;
+  message: string;
 }
 
 export async function createPaymentsController(payment: Partial<PaymentBody>) {
-  const data = PaymentMapper.toHTTP(payment)
+  const data = PaymentMapper.toHTTP(payment);
 
   const response = await api.post<PaymentResponse>("/payment", { ...data });
 
@@ -26,6 +27,6 @@ export async function createPaymentsController(payment: Partial<PaymentBody>) {
 export function createPayment() {
   return useMutation({
     mutationKey: ["createPayment"],
-    mutationFn: createPaymentsController
-  })
+    mutationFn: createPaymentsController,
+  });
 }

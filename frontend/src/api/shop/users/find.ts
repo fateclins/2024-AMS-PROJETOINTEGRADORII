@@ -11,6 +11,7 @@ interface UserBody {
 }
 
 interface UserResponse {
+  status: string;
   data: UserBody[];
 }
 
@@ -24,6 +25,6 @@ export function findUser(id: number) {
   return useQuery({
     queryKey: ["findUser", id],
     queryFn: () => findUsersController(id),
-    enabled: !!id
-  })
+    enabled: !!id,
+  });
 }

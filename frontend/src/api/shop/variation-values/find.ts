@@ -8,13 +8,14 @@ interface VariationValueBody {
 }
 
 interface VariationValuesResponse {
+  status: string;
   data: VariationValueBody[];
 }
 
-export async function findVariationValuesController(
-  id: number,
-) {
-  const response = await api.get<VariationValuesResponse>(`/variationvalue/${id}`);
+export async function findVariationValuesController(id: number) {
+  const response = await api.get<VariationValuesResponse>(
+    `/variationvalue/${id}`,
+  );
 
   return response.data;
 }
@@ -23,6 +24,6 @@ export function findVariationValue(id: number) {
   return useQuery({
     queryKey: ["findVariationValue", id],
     queryFn: () => findVariationValuesController(id),
-    enabled: !!id
-  })
+    enabled: !!id,
+  });
 }

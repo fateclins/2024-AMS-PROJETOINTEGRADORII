@@ -14,6 +14,7 @@ interface AddressBody {
 }
 
 interface AddressResponse {
+  status: string;
   data: AddressBody[];
 }
 
@@ -26,6 +27,6 @@ export async function listAddressesController() {
 export function listAddresses() {
   return useQuery({
     queryKey: ["listAddress"],
-    queryFn: listAddressesController
-  })
+    queryFn: listAddressesController,
+  });
 }

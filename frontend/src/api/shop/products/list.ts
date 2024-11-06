@@ -13,6 +13,7 @@ interface ProductBody {
 }
 
 interface ProductResponse {
+  status: string;
   data: ProductBody[];
 }
 
@@ -25,6 +26,6 @@ export async function listProductsController() {
 export function listProducts() {
   return useQuery({
     queryKey: ["listProduct"],
-    queryFn: listProductsController
-  })
+    queryFn: listProductsController,
+  });
 }

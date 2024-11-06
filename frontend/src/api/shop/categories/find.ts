@@ -8,6 +8,7 @@ interface CategoryBody {
 }
 
 interface CategoryResponse {
+  status: string;
   data: CategoryBody[];
 }
 
@@ -19,8 +20,8 @@ export async function findCategoriesController(id: number) {
 
 export function findCategory(id: number) {
   return useQuery({
-    queryKey: ['findCategory', id],
+    queryKey: ["findCategory", id],
     queryFn: () => findCategoriesController(id),
     enabled: !!id,
-  })
+  });
 }

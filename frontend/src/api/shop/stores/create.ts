@@ -16,12 +16,13 @@ export interface StoreBody {
 }
 
 interface StoreResponse {
-  data: StoreBody[];
+  status: string;
+  message: string;
 }
 
 export async function createStoresController(store: Partial<StoreBody>) {
   const data = StoreMapper.toHTTP(store);
-  
+
   const response = await api.post<StoreResponse>("/store", { ...data });
 
   return response.data;
@@ -30,6 +31,6 @@ export async function createStoresController(store: Partial<StoreBody>) {
 export function createStore() {
   return useMutation({
     mutationKey: ["createStores"],
-    mutationFn: createStoresController
-  })
+    mutationFn: createStoresController,
+  });
 }

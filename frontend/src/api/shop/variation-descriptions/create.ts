@@ -8,13 +8,14 @@ export interface VariationDescriptionBody {
 }
 
 interface VariationDescriptionResponse {
-  data: VariationDescriptionBody[];
+  status: string;
+  message: string;
 }
 
 export async function createVariationDescriptionsController(
   variationDescription: Partial<VariationDescriptionBody>,
 ) {
-  const data = VariationDescriptionMapper.toHTTP(variationDescription)
+  const data = VariationDescriptionMapper.toHTTP(variationDescription);
 
   const response = await api.post<VariationDescriptionResponse>(
     "/variationdescription",
@@ -27,6 +28,6 @@ export async function createVariationDescriptionsController(
 export function createVariationDescription() {
   return useMutation({
     mutationKey: ["createVariationDescription"],
-    mutationFn: createVariationDescriptionsController
-  })
+    mutationFn: createVariationDescriptionsController,
+  });
 }

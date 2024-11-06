@@ -13,7 +13,8 @@ interface OrderBody {
 }
 
 interface OrderResponse {
-  data: OrderBody[];
+  status: string;
+  message: string;
 }
 
 export async function updateOrdersController(order: Partial<OrderBody>) {
@@ -27,6 +28,6 @@ export async function updateOrdersController(order: Partial<OrderBody>) {
 export function updateOrder() {
   return useMutation({
     mutationKey: ["updateOrder"],
-    mutationFn: updateOrdersController
-  })
+    mutationFn: updateOrdersController,
+  });
 }

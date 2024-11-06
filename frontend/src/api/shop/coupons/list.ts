@@ -9,6 +9,7 @@ interface CouponBody {
 }
 
 interface CouponResponse {
+  status: string;
   data: CouponBody[];
 }
 
@@ -21,6 +22,6 @@ export async function listCouponsController() {
 export function listCoupons() {
   return useQuery({
     queryKey: ["listCoupon"],
-    queryFn: listCouponsController
-  })
+    queryFn: listCouponsController,
+  });
 }

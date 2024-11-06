@@ -11,12 +11,13 @@ interface PaymentBody {
 }
 
 interface PaymentResponse {
-  data: PaymentBody[];
+  status: string;
+  message: string;
 }
 
 export async function deletePaymentsController(payment: Partial<PaymentBody>) {
   const response = await api.delete<PaymentResponse>("/payment", {
-    data: { id: payment.id, }
+    data: { id: payment.id },
   });
 
   return response.data;
@@ -25,6 +26,6 @@ export async function deletePaymentsController(payment: Partial<PaymentBody>) {
 export function deletePayment() {
   return useMutation({
     mutationKey: ["deletePayment"],
-    mutationFn: deletePaymentsController
-  })
+    mutationFn: deletePaymentsController,
+  });
 }

@@ -15,6 +15,7 @@ interface StoreBody {
 }
 
 interface StoreResponse {
+  status: string;
   data: StoreBody[];
 }
 
@@ -28,6 +29,6 @@ export function findStore(id: number) {
   return useQuery({
     queryKey: ["findStore", id],
     queryFn: () => findStoresController(id),
-    enabled: !!id
-  })
+    enabled: !!id,
+  });
 }

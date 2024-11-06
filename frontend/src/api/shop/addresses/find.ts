@@ -14,6 +14,7 @@ interface AddressBody {
 }
 
 interface AddressResponse {
+  status: string;
   data: AddressBody[];
 }
 
@@ -23,11 +24,10 @@ export async function findAddressesController(id: number) {
   return response.data;
 }
 
-
 export function findAddress(id: number) {
   return useQuery({
     queryKey: ["findAddress", id],
     queryFn: () => findAddressesController(id),
     enabled: !!id,
-  })
+  });
 }
