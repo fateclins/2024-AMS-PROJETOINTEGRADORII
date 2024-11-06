@@ -1,16 +1,31 @@
 import { api } from "@/lib/axios";
+import { useMutation } from "@tanstack/react-query";
 
 interface CouponBody {
-    id: number;
-    phraseCode: string;
-    discount: number;
-    idProduct: number;
+  id: number;
+  phraseCode: string;
+  discount: number;
+  idProduct: number;
 }
 
-interface CouponResponse {}
+interface CouponResponse {
+  status: string;
+  message: string;
+}
 
-export async function deleteCouponsController(coupons: Partial<CouponBody>) {
-    const response = await api.delete<CouponResponse>('/coupons', { data: coupons });
+export async function deleteCouponsController(coupon: Partial<CouponBody>) {
+  const response = await api.delete<CouponResponse>("/coupon", {
+    data: {
+      id: coupon.id,
+    },
+  });
 
-    return response.data;
+  return response.data;
+}
+
+export function deleteCoupon() {
+  return useMutation({
+    mutationKey: ["deleteCoupon"],
+    mutationFn: deleteCouponsController,
+  });
 }

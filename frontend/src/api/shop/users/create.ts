@@ -1,18 +1,32 @@
+import { UserMapper } from "@/api/mappers/user-mapper";
 import { api } from "@/lib/axios";
+import { useMutation } from "@tanstack/react-query";
 
-interface UserBody {
-    id: number;
-    name: string;
-    identity: string;
-    email: string;
-    password: string;
-    idUserType: number;
+export interface UserBody {
+  id: number;
+  name: string;
+  identity: string;
+  email: string;
+  password: string;
+  idUserType: number;
 }
 
-interface UserResponse {}
+interface UserResponse {
+  status: string;
+  message: string;
+}
 
 export async function createUsersController(user: Partial<UserBody>) {
-    const response = await api.post<UserResponse>('/user', { user });
+  const data = UserMapper.toHTTP(user);
 
-    return response.data;
+  const response = await api.post<UserResponse>("/user", { ...data });
+
+  return response.data;
+}
+
+export function createUser() {
+  return useMutation({
+    mutationKey: ["createUser"],
+    mutationFn: createUsersController,
+  });
 }

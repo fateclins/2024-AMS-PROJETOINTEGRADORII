@@ -7,7 +7,7 @@
     class Category extends Crud
     {
         protected $core = null;
-        public $table = 'CATEGORIA';
+        public $table = 'categoria';
         private $filters = null;
         protected $pk  = 'id';
         public $db;

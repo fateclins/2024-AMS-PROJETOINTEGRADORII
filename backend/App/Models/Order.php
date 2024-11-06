@@ -4,16 +4,17 @@
     use App\Models\Crud;
     use App\Models\Core;
 
-    class VariacaoDescricao extends Crud
+    class Order extends Crud
     {
         protected $core = null;
-        public $table = 'variacaoDescricao';
+        public $table = 'pedido';
         private $filters = null;
         protected $pk  = 'id';
         public $db;
-       
+
 
         public function __construct(){
             $this->db = new Core();
         }
+
     }

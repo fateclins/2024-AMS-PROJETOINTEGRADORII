@@ -1,16 +1,30 @@
+import { CouponMapper } from "@/api/mappers/coupon-mapper";
 import { api } from "@/lib/axios";
+import { useMutation } from "@tanstack/react-query";
 
-interface CouponBody {
-    id: number;
-    phraseCode: string;
-    discount: number;
-    idProduct: number;
+export interface CouponBody {
+  id: number;
+  phraseCode: string;
+  discount: number;
+  idProduct: number;
 }
 
-interface CouponResponse {}
+interface CouponResponse {
+  status: string;
+  message: string;
+}
 
 export async function createCouponsController(coupons: Partial<CouponBody>) {
-    const response = await api.post<CouponResponse>('/coupons', { coupons });
+  const data = CouponMapper.toHTTP(coupons);
 
-    return response.data;
+  const response = await api.post<CouponResponse>("/coupon", { ...data });
+
+  return response.data;
+}
+
+export function createCoupon() {
+  return useMutation({
+    mutationKey: ["createCoupon"],
+    mutationFn: createCouponsController,
+  });
 }

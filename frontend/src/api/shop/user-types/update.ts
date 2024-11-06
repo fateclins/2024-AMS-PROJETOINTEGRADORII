@@ -1,14 +1,32 @@
+import { UserTypeMapper } from "@/api/mappers/user-type-mapper";
 import { api } from "@/lib/axios";
+import { useMutation } from "@tanstack/react-query";
 
 interface UserTypeBody {
-    id: number;
-    description: string;
+  id: number;
+  description: string;
 }
 
-interface UserTypeResponse {}
+interface UserTypeResponse {
+  status: string;
+  message: string;
+}
 
-export async function updateUserTypesController(usertypes: Partial<UserTypeBody>) {
-    const response = await api.patch<UserTypeResponse>('/usertypes', { usertypes });
+export async function updateUserTypesController(
+  userType: Partial<UserTypeBody>,
+) {
+  const data = UserTypeMapper.toHTTP(userType);
 
-    return response.data;
+  const response = await api.put<UserTypeResponse>("/usertype", {
+    ...data,
+  });
+
+  return response.data;
+}
+
+export function updateUserType() {
+  return useMutation({
+    mutationKey: ["updateUserType"],
+    mutationFn: updateUserTypesController,
+  });
 }

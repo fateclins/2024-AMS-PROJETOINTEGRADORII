@@ -1,24 +1,36 @@
 import { api } from "@/lib/axios";
+import { useMutation } from "@tanstack/react-query";
 
 interface AddressBody {
-    id: number;
-    country: string;
-    state: string;
-    city: string;
-    district: string;
-    street: string;
-    number: string;
-    complement: string;
-    idUser: number;
+  id: number;
+  country: string;
+  state: string;
+  city: string;
+  district: string;
+  street: string;
+  number: string;
+  complement: string;
+  idUser: number;
 }
 
 interface AddressResponse {
-    status: string;
-    id: string
+  status: string;
+  message: string;
 }
 
 export async function deleteAddressesController(address: Partial<AddressBody>) {
-    const response = await api.delete<AddressResponse>('/address', { data: address });
+  const response = await api.delete<AddressResponse>("/address", {
+    data: {
+      id: address.id,
+    },
+  });
 
-    return response.data;
+  return response.data;
+}
+
+export function deleteAddress() {
+  return useMutation({
+    mutationKey: ["deleteAddress"],
+    mutationFn: deleteAddressesController,
+  });
 }

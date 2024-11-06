@@ -4,7 +4,7 @@
     use App\Models\Crud;
     use App\Models\Core;
 
-    class Endereco extends Crud
+    class Address extends Crud
     {
         protected $core = null;
         public $table = 'endereco';

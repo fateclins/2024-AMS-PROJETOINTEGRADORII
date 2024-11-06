@@ -1,22 +1,36 @@
+import { StoreMapper } from "@/api/mappers/store-mapper";
 import { api } from "@/lib/axios";
+import { useMutation } from "@tanstack/react-query";
 
-interface StoreBody {
-    id: number;
-    name: string;
-    logo: string;
-    banner: string;
-    quantityProduct: string;
-    background: string;
-    fontColor: string;
-    area: string;
-    cnpj: string;
-    idUser: number;
+export interface StoreBody {
+  id: number;
+  name: string;
+  logo: string;
+  banner: string;
+  quantityProduct: string;
+  background: string;
+  fontColor: string;
+  area: string;
+  cnpj: string;
+  idUser: number;
 }
 
-interface StoreResponse {}
+interface StoreResponse {
+  status: string;
+  message: string;
+}
 
 export async function createStoresController(store: Partial<StoreBody>) {
-    const response = await api.post<StoreResponse>('/store', { store });
+  const data = StoreMapper.toHTTP(store);
 
-    return response.data;
+  const response = await api.post<StoreResponse>("/store", { ...data });
+
+  return response.data;
+}
+
+export function createStore() {
+  return useMutation({
+    mutationKey: ["createStores"],
+    mutationFn: createStoresController,
+  });
 }

@@ -4,17 +4,17 @@
     use App\Models\Crud;
     use App\Models\Core;
 
-    class Loja extends Crud
+    class Byproduct extends Crud
     {
         protected $core = null;
-        public $table = 'LOJA';
+        public $table = 'subProduto';
         private $filters = null;
         protected $pk  = 'id';
         public $db;
-       
+
 
         public function __construct(){
             $this->db = new Core();
         }
- 
+
     }

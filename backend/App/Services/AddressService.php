@@ -1,26 +1,32 @@
 <?php
     namespace App\Services;
 
-    use App\Models\VariacaoDescricao;
+    use App\Models\Address;
 
-    class VariacaoDescricaoService
+    class AddressService
     {
    
-        public $variacaoDescricao;
+        public $address;
         
         public function __construct(){
-            $this->variacaoDescricao = new VariacaoDescricao();
+            $this->address = new Address();
         }
         
         public function get($id = null) 
         {
             if ($id) {
-                $this->variacaoDescricao->pk = $id;
-                $this->variacaoDescricao->find($id);
-                return $this->variacaoDescricao->variables;
+                $this->address->pk = $id;
+                $this->address->find($id);
+                return $this->address->variables;
             } else {
-                
-                return $this->variacaoDescricao->all();
+                $input = file_get_contents('php://input');
+
+                $data = json_decode($input, true);
+
+                $this->address->pagination = $data["pagination"];
+                $this->address->variables = $data["filter"];
+
+                return $this->address->search();
             }
         }
 
@@ -34,13 +40,13 @@
                 throw new \Exception('Dados devem ter formato json');
             } 
             
-            $this->variacaoDescricao->variables = $data;
+            $this->address->variables = $data;
 
-            $this->variacaoDescricao->create($data);
+            $this->address->create($data);
 
            
             
-            return $this->variacaoDescricao->db->lastInsertId();
+            return $this->address->db->lastInsertId();
         }
 
         public function put() 
@@ -56,14 +62,14 @@
             } 
             
 
-            $this->variacaoDescricao->variables = $jsonData;
+            $this->address->variables = $jsonData;
 
             if (!isset($jsonData['id'])){
                 throw new \Exception('Id não enviado na requisição');
             }
         
 
-            return $this->variacaoDescricao->save();
+            return $this->address->save();
             
         }
 
@@ -79,13 +85,13 @@
             } 
             
 
-            $this->variacaoDescricao->variables = $jsonData;
+            $this->address->variables = $jsonData;
 
             if (!isset($jsonData['id'])){
                 throw new \Exception('Id não enviado na requisição');
             }
         
 
-            return $this->variacaoDescricao->delete();
+            return $this->address->delete();
         }
     }

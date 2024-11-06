@@ -7,7 +7,7 @@
     class VariationDescription extends Crud
     {
         protected $core = null;
-        public $table = 'VARIACAODESCRICAO';
+        public $table = 'variacaoDescricao';
         private $filters = null;
         protected $pk  = 'id';
         public $db;
