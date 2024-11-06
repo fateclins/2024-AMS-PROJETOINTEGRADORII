@@ -1,6 +1,8 @@
+import { SubcategoryMapper } from "@/api/mappers/subcategory-mapper";
 import { api } from "@/lib/axios";
+import { useMutation } from "@tanstack/react-query";
 
-interface SubcategoryBody {
+export interface SubcategoryBody {
   id: number;
   description: string;
   idCategory: number;
@@ -11,11 +13,20 @@ interface SubcategoryResponse {
 }
 
 export async function createSubcategoriesController(
-  subcategories: Partial<SubcategoryBody>,
+  subcategory: Partial<SubcategoryBody>,
 ) {
-  const response = await api.post<SubcategoryResponse>("/subcategories", {
-    subcategories,
+  const data = SubcategoryMapper.toHTTP(subcategory)
+
+  const response = await api.post<SubcategoryResponse>("/subcategory", {
+    ...data,
   });
 
   return response.data;
+}
+
+export function createSubcategory() {
+  return useMutation({
+    mutationKey: ["createSubcategory"],
+    mutationFn: createSubcategoriesController
+  })
 }

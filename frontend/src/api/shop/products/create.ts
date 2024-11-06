@@ -1,6 +1,8 @@
+import { ProductMapper } from "@/api/mappers/product-mapper";
 import { api } from "@/lib/axios";
+import { useMutation } from "@tanstack/react-query";
 
-interface ProductBody {
+export interface ProductBody {
   id: number;
   quantity: number;
   value: number;
@@ -15,8 +17,17 @@ interface ProductResponse {
   data: ProductBody[];
 }
 
-export async function createProductsController(products: Partial<ProductBody>) {
-  const response = await api.post<ProductResponse>("/products", { products });
+export async function createProductsController(product: Partial<ProductBody>) {
+  const data = ProductMapper.toHTTP(product)
+
+  const response = await api.post<ProductResponse>("/product", { ...data });
 
   return response.data;
+}
+
+export function createProduct() {
+  return useMutation({
+    mutationKey: ["createProduct"],
+    mutationFn: createProductsController
+  })
 }

@@ -1,4 +1,5 @@
 import { api } from "@/lib/axios";
+import { useMutation } from "@tanstack/react-query";
 
 interface PaymentBody {
   id: number;
@@ -13,10 +14,17 @@ interface PaymentResponse {
   data: PaymentBody[];
 }
 
-export async function deletePaymentsController(payments: Partial<PaymentBody>) {
-  const response = await api.delete<PaymentResponse>("/payments", {
-    data: payments,
+export async function deletePaymentsController(payment: Partial<PaymentBody>) {
+  const response = await api.delete<PaymentResponse>("/payment", {
+    data: { id: payment.id, }
   });
 
   return response.data;
+}
+
+export function deletePayment() {
+  return useMutation({
+    mutationKey: ["deletePayment"],
+    mutationFn: deletePaymentsController
+  })
 }

@@ -1,4 +1,6 @@
+import { OrderItemMapper } from "@/api/mappers/order-item-mapper";
 import { api } from "@/lib/axios";
+import { useMutation } from "@tanstack/react-query";
 
 interface OrderItemBody {
   id: number;
@@ -15,9 +17,18 @@ interface OrderItemResponse {
 export async function updateOrderItemsController(
   orderItems: Partial<OrderItemBody>,
 ) {
-  const response = await api.patch<OrderItemResponse>("/orderitems", {
-    orderItems,
+  const data = OrderItemMapper.toHTTP(orderItems);
+  
+  const response = await api.put<OrderItemResponse>("/orderitem", {
+    ...data,
   });
 
   return response.data;
+}
+
+export function updateOrderItem() {
+  return useMutation({
+    mutationKey: ["updateOrderItem"],
+    mutationFn: updateOrderItemsController
+  })
 }

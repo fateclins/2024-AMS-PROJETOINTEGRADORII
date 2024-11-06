@@ -1,4 +1,5 @@
 import { api } from "@/lib/axios";
+import { useMutation } from "@tanstack/react-query";
 
 interface VariationDescriptionBody {
   id: number;
@@ -10,12 +11,19 @@ interface VariationDescriptionResponse {
 }
 
 export async function deleteVariationDescriptionsController(
-  variationDescriptions: Partial<VariationDescriptionBody>,
+  variationDescription: Partial<VariationDescriptionBody>,
 ) {
   const response = await api.delete<VariationDescriptionResponse>(
-    "/variationdescriptions",
-    { data: variationDescriptions },
+    "/variationdescription",
+      { data: { id: variationDescription.id } },
   );
 
   return response.data;
+}
+
+export function deleteVariationDescription() {
+  return useMutation({
+    mutationKey: ["deleteVariationDescription"],
+    mutationFn: deleteVariationDescriptionsController
+  })
 }

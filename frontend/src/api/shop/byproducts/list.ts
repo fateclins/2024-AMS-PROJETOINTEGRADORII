@@ -1,4 +1,5 @@
 import { api } from "@/lib/axios";
+import { useQuery } from "@tanstack/react-query";
 
 interface ByproductBody {
   id: number;
@@ -11,7 +12,14 @@ interface ByproductResponse {
 }
 
 export async function listByproductsController() {
-  const response = await api.get<ByproductResponse>("/byproducts");
+  const response = await api.get<ByproductResponse>("/byproduct");
 
   return response.data;
+}
+
+export function listByproducts() {
+  return useQuery({
+    queryKey: ["listByproduct"],
+    queryFn: listByproductsController
+  })
 }

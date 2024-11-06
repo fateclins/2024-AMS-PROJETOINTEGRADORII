@@ -1,4 +1,5 @@
 import { api } from "@/lib/axios";
+import { useMutation } from "@tanstack/react-query";
 
 interface SubcategoryBody {
   id: number;
@@ -11,11 +12,18 @@ interface SubcategoryResponse {
 }
 
 export async function deleteSubcategoriesController(
-  subcategories: Partial<SubcategoryBody>,
+  subcategory: Partial<SubcategoryBody>,
 ) {
-  const response = await api.delete<SubcategoryResponse>("/subcategories", {
-    data: subcategories,
+  const response = await api.delete<SubcategoryResponse>("/subcategory", {
+    data: { id: subcategory.id, }
   });
 
   return response.data;
+}
+
+export function deleteSubcategory() {
+  return useMutation({
+    mutationKey: ["deleteSubcategory"],
+    mutationFn: deleteSubcategoriesController
+  })
 }

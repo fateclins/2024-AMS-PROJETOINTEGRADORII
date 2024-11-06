@@ -1,4 +1,6 @@
+import { SubcategoryMapper } from "@/api/mappers/subcategory-mapper";
 import { api } from "@/lib/axios";
+import { useMutation } from "@tanstack/react-query";
 
 interface SubcategoryBody {
   id: number;
@@ -11,11 +13,20 @@ interface SubcategoryResponse {
 }
 
 export async function updateSubcategoriesController(
-  subcategories: Partial<SubcategoryBody>,
+  subcategory: Partial<SubcategoryBody>,
 ) {
-  const response = await api.patch<SubcategoryResponse>("/subcategories", {
-    subcategories,
+  const data = SubcategoryMapper.toHTTP(subcategory)
+
+  const response = await api.put<SubcategoryResponse>("/subcategory", {
+    ...data,
   });
 
   return response.data;
+}
+
+export function updateSubcategory() {
+  return useMutation({
+    mutationKey: ["updateSubcategory"],
+    mutationFn: updateSubcategoriesController
+  })
 }

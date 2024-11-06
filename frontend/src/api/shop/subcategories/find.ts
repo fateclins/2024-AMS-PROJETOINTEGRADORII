@@ -1,4 +1,5 @@
 import { api } from "@/lib/axios";
+import { useQuery } from "@tanstack/react-query";
 
 interface SubcategoryBody {
   id: number;
@@ -11,13 +12,17 @@ interface SubcategoryResponse {
 }
 
 export async function findSubcategoriesController(
-  param: string | number | null,
+  id: number,
 ) {
-  const response = await api.get<SubcategoryResponse>("/subcategories", {
-    params: {
-      param,
-    },
-  });
+  const response = await api.get<SubcategoryResponse>(`/subcategory/${id}`);
 
   return response.data;
+}
+
+export function findSubcategory(id: number) {
+  return useQuery({
+    queryKey: ["findSubcategory", id],
+    queryFn: () => findSubcategoriesController(id),
+    enabled: !!id
+  })
 }

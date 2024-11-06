@@ -1,4 +1,5 @@
 import { api } from "@/lib/axios";
+import { useQuery } from "@tanstack/react-query";
 
 interface PaymentBody {
   id: number;
@@ -13,12 +14,16 @@ interface PaymentResponse {
   data: PaymentBody[];
 }
 
-export async function findPaymentsController(param: string | number | null) {
-  const response = await api.get<PaymentResponse>("/payments", {
-    params: {
-      param,
-    },
-  });
+export async function findPaymentsController(id: number) {
+const response = await api.get<PaymentResponse>(`/payment/${id}`);
 
   return response.data;
+}
+
+export function findPayment(id: number) {
+  return useQuery({
+    queryKey: ["findPayment", id],
+    queryFn: () => findPaymentsController(id),
+    enabled: !!id
+  })
 }

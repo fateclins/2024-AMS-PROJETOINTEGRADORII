@@ -1,4 +1,5 @@
 import { api } from "@/lib/axios";
+import { useQuery } from "@tanstack/react-query";
 
 interface UserBody {
   id: number;
@@ -13,12 +14,16 @@ interface UserResponse {
   data: UserBody[];
 }
 
-export async function findUsersController(param: string | number | null) {
-  const response = await api.get<UserResponse>("/user", {
-    params: {
-      param,
-    },
-  });
+export async function findUsersController(id: number) {
+  const response = await api.get<UserResponse>(`/user/${id}`);
 
   return response.data;
+}
+
+export function findUser(id: number) {
+  return useQuery({
+    queryKey: ["findUser", id],
+    queryFn: () => findUsersController(id),
+    enabled: !!id
+  })
 }

@@ -1,4 +1,5 @@
 import { api } from "@/lib/axios";
+import { useMutation } from "@tanstack/react-query";
 
 interface ByproductBody {
   id: number;
@@ -11,11 +12,20 @@ interface ByproductResponse {
 }
 
 export async function deleteByproductsController(
-  byproducts: Partial<ByproductBody>,
+  byproduct: Partial<ByproductBody>,
 ) {
-  const response = await api.delete<ByproductResponse>("/byproducts", {
-    data: byproducts,
+  const response = await api.delete<ByproductResponse>("/byproduct", {
+    data: {
+      id: byproduct.id,
+    }
   });
 
   return response.data;
+}
+
+export function deleteByproduct() {
+  return useMutation({
+    mutationKey: ["deleteByproduct"],
+    mutationFn: deleteByproductsController
+  })
 }

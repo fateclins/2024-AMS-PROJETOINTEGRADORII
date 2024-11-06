@@ -1,4 +1,5 @@
 import { api } from "@/lib/axios";
+import { useQuery } from "@tanstack/react-query";
 
 interface StoreBody {
   id: number;
@@ -13,12 +14,19 @@ interface StoreBody {
   idUser: number;
 }
 
-// interface StoreResponse {
-//   data: StoreBody[];
-// }
+interface StoreResponse {
+  data: StoreBody[];
+}
 
 export async function listStoresController() {
-  const response = await api.get("/store");
+  const response = await api.get<StoreResponse>("/store");
 
   return response;
+}
+
+export function listStores() {
+  return useQuery({
+    queryKey: ["listStore"],
+    queryFn: listStoresController
+  })
 }

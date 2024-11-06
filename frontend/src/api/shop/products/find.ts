@@ -1,4 +1,5 @@
 import { api } from "@/lib/axios";
+import { useQuery } from "@tanstack/react-query";
 
 interface ProductBody {
   id: number;
@@ -15,12 +16,16 @@ interface ProductResponse {
   data: ProductBody[];
 }
 
-export async function findProductsController(param: string | number | null) {
-  const response = await api.get<ProductResponse>("/products", {
-    params: {
-      param,
-    },
-  });
+export async function findProductsController(id: number) {
+  const response = await api.get<ProductResponse>(`/product/${id}`);
 
   return response.data;
+}
+
+export function findProduct(id: number) {
+  return useQuery({
+    queryKey: ["findProduct", id],
+    queryFn: () => findProductsController(id),
+    enabled: !!id
+  })
 }

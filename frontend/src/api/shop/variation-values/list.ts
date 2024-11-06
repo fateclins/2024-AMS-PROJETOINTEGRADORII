@@ -1,4 +1,5 @@
 import { api } from "@/lib/axios";
+import { useQuery } from "@tanstack/react-query";
 
 interface VariationValueBody {
   id: number;
@@ -11,7 +12,14 @@ interface VariationValuesResponse {
 }
 
 export async function listVariationValuesController() {
-  const response = await api.get<VariationValuesResponse>("/variationvalues");
+  const response = await api.get<VariationValuesResponse>("/variationvalue");
 
   return response.data;
+}
+
+export function listVariationValues() {
+  return useQuery({
+    queryKey: ["listVariationValue"],
+    queryFn: listVariationValuesController
+  })
 }

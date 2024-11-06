@@ -1,4 +1,5 @@
 import { api } from "@/lib/axios";
+import { useMutation } from "@tanstack/react-query";
 
 interface UserTypeBody {
   id: number;
@@ -10,11 +11,18 @@ interface UserTypeResponse {
 }
 
 export async function deleteUserTypesController(
-  usertypes: Partial<UserTypeBody>,
+  userType: Partial<UserTypeBody>,
 ) {
-  const response = await api.delete<UserTypeResponse>("/usertypes", {
-    data: usertypes,
+  const response = await api.delete<UserTypeResponse>("/usertype", {
+    data: { id: userType.id, }
   });
 
   return response.data;
+}
+
+export function deleteUserType() {
+  return useMutation({
+    mutationKey: ["deleteUserType"],
+    mutationFn: deleteUserTypesController
+  })
 }

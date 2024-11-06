@@ -1,4 +1,5 @@
 import { api } from "@/lib/axios";
+import { useMutation } from "@tanstack/react-query";
 
 interface StoreBody {
   id: number;
@@ -18,7 +19,14 @@ interface StoreResponse {
 }
 
 export async function deleteStoresController(store: Partial<StoreBody>) {
-  const response = await api.delete<StoreResponse>("/store", { data: store });
+  const response = await api.delete<StoreResponse>("/store", { data: { id: store.id } });
 
   return response.data;
+}
+
+export function deleteStore() {
+  return useMutation({
+    mutationKey: ["deleteStore"],
+    mutationFn: deleteStoresController
+  })
 }

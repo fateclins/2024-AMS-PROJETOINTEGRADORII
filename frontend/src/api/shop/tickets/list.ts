@@ -1,4 +1,5 @@
 import { api } from "@/lib/axios";
+import { useQuery } from "@tanstack/react-query";
 
 interface TicketBody {
   id: number;
@@ -15,7 +16,14 @@ interface TicketResponse {
 }
 
 export async function listTicketsController() {
-  const response = await api.get<TicketResponse>("/tickets");
+  const response = await api.get<TicketResponse>("/ticket");
 
   return response.data;
+}
+
+export function listTickets() {
+  return useQuery({
+    queryKey: ["listTicket"],
+    queryFn: listTicketsController
+  })
 }

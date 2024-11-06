@@ -1,6 +1,8 @@
+import { UserTypeMapper } from "@/api/mappers/user-type-mapper";
 import { api } from "@/lib/axios";
+import { useMutation } from "@tanstack/react-query";
 
-interface UserTypeBody {
+export interface UserTypeBody {
   id: number;
   description: string;
 }
@@ -10,11 +12,20 @@ interface UserTypeResponse {
 }
 
 export async function createUserTypesController(
-  usertypes: Partial<UserTypeBody>,
+  userType: Partial<UserTypeBody>,
 ) {
-  const response = await api.post<UserTypeResponse>("/usertypes", {
-    usertypes,
+  const data = UserTypeMapper.toHTTP(userType)
+
+  const response = await api.post<UserTypeResponse>("/usertype", {
+    ...data,
   });
 
   return response.data;
+}
+
+export function createUserType() {
+  return useMutation({
+    mutationKey: ["createUserType"],
+    mutationFn: createUserTypesController
+  })
 }

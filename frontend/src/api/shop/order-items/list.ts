@@ -1,4 +1,5 @@
 import { api } from "@/lib/axios";
+import { useQuery } from "@tanstack/react-query";
 
 interface OrderItemBody {
   id: number;
@@ -13,7 +14,14 @@ interface OrderItemResponse {
 }
 
 export async function listOrderItemsController() {
-  const response = await api.get<OrderItemResponse>("/orderitems");
+  const response = await api.get<OrderItemResponse>("/orderitem");
 
   return response.data;
+}
+
+export function listOrderItems() {
+  return useQuery({
+    queryKey: ["listOrderItem"],
+    queryFn: listOrderItemsController
+  })
 }

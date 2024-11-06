@@ -1,4 +1,5 @@
 import { api } from "@/lib/axios";
+import { useMutation } from "@tanstack/react-query";
 
 interface TicketBody {
   id: number;
@@ -14,10 +15,17 @@ interface TicketResponse {
   data: TicketBody[];
 }
 
-export async function deleteTicketsController(tickets: Partial<TicketBody>) {
-  const response = await api.delete<TicketResponse>("/tickets", {
-    data: tickets,
+export async function deleteTicketsController(ticket: Partial<TicketBody>) {
+  const response = await api.delete<TicketResponse>("/ticket", {
+    data: { id: ticket.id, }
   });
 
   return response.data;
+}
+
+export function deleteTicket() {
+  return useMutation({
+    mutationKey: ["deleteTicket"],
+    mutationFn: deleteTicketsController
+  })
 }

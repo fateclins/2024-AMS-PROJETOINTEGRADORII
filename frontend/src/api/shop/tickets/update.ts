@@ -1,4 +1,6 @@
+import { TicketMapper } from "@/api/mappers/ticket-mapper";
 import { api } from "@/lib/axios";
+import { useMutation } from "@tanstack/react-query";
 
 interface TicketBody {
   id: number;
@@ -14,8 +16,17 @@ interface TicketResponse {
   data: TicketBody[];
 }
 
-export async function updateTicketsController(tickets: Partial<TicketBody>) {
-  const response = await api.patch<TicketResponse>("/tickets", { tickets });
+export async function updateTicketsController(ticket: Partial<TicketBody>) {
+  const data = TicketMapper.toHTTP(ticket)
+
+  const response = await api.put<TicketResponse>("/ticket", { ...data });
 
   return response.data;
+}
+
+export function updateTicket() {
+  return useMutation({
+    mutationKey: ["updateTicket"],
+    mutationFn: updateTicketsController
+  })
 }

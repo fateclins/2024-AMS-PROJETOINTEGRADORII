@@ -1,4 +1,5 @@
 import { api } from "@/lib/axios";
+import { useMutation } from "@tanstack/react-query";
 
 interface AddressBody {
   id: number;
@@ -18,8 +19,17 @@ interface AddressResponse {
 
 export async function deleteAddressesController(address: Partial<AddressBody>) {
   const response = await api.delete<AddressResponse>("/address", {
-    data: address,
+    data: {
+      id: address.id
+    },
   });
 
   return response.data;
+}
+
+export function deleteAddress() {
+  return useMutation({
+    mutationKey: ["deleteAddress"],
+    mutationFn: deleteAddressesController
+  })
 }

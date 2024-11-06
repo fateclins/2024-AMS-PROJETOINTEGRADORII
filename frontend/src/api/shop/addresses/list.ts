@@ -1,4 +1,5 @@
 import { api } from "@/lib/axios";
+import { useQuery } from "@tanstack/react-query";
 
 interface AddressBody {
   id: number;
@@ -20,4 +21,11 @@ export async function listAddressesController() {
   const response = await api.get<AddressResponse>("/address");
 
   return response.data;
+}
+
+export function listAddresses() {
+  return useQuery({
+    queryKey: ["listAddress"],
+    queryFn: listAddressesController
+  })
 }

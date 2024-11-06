@@ -1,6 +1,8 @@
+import { ByproductMapper } from "@/api/mappers/byproduct-mapper";
 import { api } from "@/lib/axios";
+import { useMutation } from "@tanstack/react-query";
 
-interface ByproductBody {
+export interface ByproductBody {
   id: number;
   idProduct: number;
   idSubcategory: number;
@@ -13,9 +15,18 @@ interface ByproductResponse {
 export async function createByproductsController(
   byproducts: Partial<ByproductBody>,
 ) {
-  const response = await api.post<ByproductResponse>("/byproducts", {
-    byproducts,
+  const data = ByproductMapper.toHTTP(byproducts)
+
+  const response = await api.post<ByproductResponse>("/byproduct", {
+    ...data,
   });
 
   return response.data;
+}
+
+export function createByproduct() {
+  return useMutation({
+    mutationKey: ["createByproduct"],
+    mutationFn: createByproductsController
+  })
 }

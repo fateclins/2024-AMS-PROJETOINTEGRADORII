@@ -5,21 +5,22 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { findUsersController } from "@/api/shop/users/find";
-import { updateUsersController } from "@/api/shop/users/update";
+import { findCategory } from "@/api/shop/categories/find";
 
 export function Profile() {
+  const { data } = findCategory(1);
 
-  const { data } = useQuery({
-    queryKey: ["getUserData"],
-    queryFn: () => findUsersController("")
-  })
+  console.log(data)
+  
+  // async function handleSign() {
+  //   try {
+  //     await mutateAsync({ id: 572 });
+  //   } catch (error) {
+  //     console.error(error)
+  //   }
+  // }
 
-  const { mutate } = useMutation({
-    mutationKey: ["editProfile"],
-    mutationFn: updateUsersController
-  })
+  // handleSign()
 
   
 
@@ -42,21 +43,21 @@ export function Profile() {
           <div className="flex w-full flex-row gap-4">
             <div className="w-full">
               <Label className="font-regular text-xs">Nome</Label>
-              <Input value={data.name}/>
+              <Input defaultValue={""}/>
             </div>
             <div className="w-full">
               <Label className="font-regular text-xs">Identidade</Label>
-              <Input value={data.identity}/>
+              <Input defaultValue={""}/>
             </div>
           </div>
           <div className="mt-4 flex w-full flex-row gap-4">
             <div className="w-full">
               <Label className="font-regular text-xs">Endereço de email</Label>
-              <Input value={data.email}/>
+              <Input defaultValue={""}/>
             </div>
             <div className="w-full">
               <Label className="font-regular text-xs">Senha</Label>
-              <Input value={data.password}/>
+              <Input defaultValue={""}/>
             </div>
           </div>
         </form>
