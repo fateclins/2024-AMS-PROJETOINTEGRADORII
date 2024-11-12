@@ -17,7 +17,7 @@ interface UserResponse {
 }
 
 export async function updateUsersController(user: Partial<UserBody>) {
-  const data = UserMapper.toHTTP(user);
+  const data = UserMapper.toResponse(user);
 
   const response = await api.put<UserResponse>("/user", { ...data });
 

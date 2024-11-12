@@ -6,6 +6,7 @@ export interface TicketBody {
   id: number;
   title: string;
   description: string;
+  ticketStatus: string;
 
   createdAt: Date;
   updatedAt: Date;
@@ -18,7 +19,7 @@ interface TicketResponse {
 }
 
 export async function createTicketsController(ticket: Partial<TicketBody>) {
-  const data = TicketMapper.toHTTP(ticket);
+  const data = TicketMapper.toResponse(ticket);
 
   const response = await api.post<TicketResponse>("/ticket", { ...data });
 

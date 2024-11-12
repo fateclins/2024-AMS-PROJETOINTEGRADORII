@@ -18,7 +18,7 @@ interface OrderResponse {
 }
 
 export async function updateOrdersController(order: Partial<OrderBody>) {
-  const data = OrderMapper.toHTTP(order);
+  const data = OrderMapper.toResponse(order);
 
   const response = await api.put<OrderResponse>("/order", { ...data });
 

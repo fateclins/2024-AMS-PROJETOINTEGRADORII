@@ -18,7 +18,7 @@ interface OrderItemResponse {
 export async function createOrderItemsController(
   orderItem: Partial<OrderItemBody>,
 ) {
-  const data = OrderItemMapper.toHTTP(orderItem);
+  const data = OrderItemMapper.toResponse(orderItem);
 
   const response = await api.post<OrderItemResponse>("/orderitem", {
     ...data,

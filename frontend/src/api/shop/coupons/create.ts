@@ -15,7 +15,7 @@ interface CouponResponse {
 }
 
 export async function createCouponsController(coupons: Partial<CouponBody>) {
-  const data = CouponMapper.toHTTP(coupons);
+  const data = CouponMapper.toResponse(coupons);
 
   const response = await api.post<CouponResponse>("/coupon", { ...data });
 

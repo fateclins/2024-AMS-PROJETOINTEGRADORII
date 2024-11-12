@@ -20,7 +20,7 @@ interface AddressResponse {
 }
 
 export async function createAddressesController(address: Partial<AddressBody>) {
-  const data = AddressMapper.toHTTP(address);
+  const data = AddressMapper.toResponse(address);
 
   const response = await api.post<AddressResponse>("/address", { ...data });
 

@@ -16,7 +16,7 @@ interface VariationValuesResponse {
 export async function createVariationValuesController(
   variationValue: Partial<VariationValueBody>,
 ) {
-  const data = VariationValueMapper.toHTTP(variationValue);
+  const data = VariationValueMapper.toResponse(variationValue);
 
   const response = await api.post<VariationValuesResponse>("/variationvalue", {
     ...data,

@@ -17,7 +17,7 @@ interface PaymentResponse {
 }
 
 export async function createPaymentsController(payment: Partial<PaymentBody>) {
-  const data = PaymentMapper.toHTTP(payment);
+  const data = PaymentMapper.toResponse(payment);
 
   const response = await api.post<PaymentResponse>("/payment", { ...data });
 

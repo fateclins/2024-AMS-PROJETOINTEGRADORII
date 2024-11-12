@@ -18,7 +18,7 @@ interface OrderItemResponse {
 export async function updateOrderItemsController(
   orderItems: Partial<OrderItemBody>,
 ) {
-  const data = OrderItemMapper.toHTTP(orderItems);
+  const data = OrderItemMapper.toResponse(orderItems);
 
   const response = await api.put<OrderItemResponse>("/orderitem", {
     ...data,

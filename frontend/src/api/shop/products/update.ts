@@ -19,7 +19,7 @@ interface ProductResponse {
 }
 
 export async function updateProductsController(product: Partial<ProductBody>) {
-  const data = ProductMapper.toHTTP(product);
+  const data = ProductMapper.toResponse(product);
 
   const response = await api.put<ProductResponse>("/product", { ...data });
 

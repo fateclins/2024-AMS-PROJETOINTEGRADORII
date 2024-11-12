@@ -21,7 +21,7 @@ interface StoreResponse {
 }
 
 export async function createStoresController(store: Partial<StoreBody>) {
-  const data = StoreMapper.toHTTP(store);
+  const data = StoreMapper.toResponse(store);
 
   const response = await api.post<StoreResponse>("/store", { ...data });
 

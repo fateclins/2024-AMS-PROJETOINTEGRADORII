@@ -16,7 +16,7 @@ interface SubcategoryResponse {
 export async function createSubcategoriesController(
   subcategory: Partial<SubcategoryBody>,
 ) {
-  const data = SubcategoryMapper.toHTTP(subcategory);
+  const data = SubcategoryMapper.toResponse(subcategory);
 
   const response = await api.post<SubcategoryResponse>("/subcategory", {
     ...data,

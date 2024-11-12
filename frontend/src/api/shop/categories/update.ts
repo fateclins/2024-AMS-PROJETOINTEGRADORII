@@ -16,7 +16,7 @@ interface CategoryResponse {
 export async function updateCategoriesController(
   categories: Partial<CategoryBody>,
 ) {
-  const data = CategoryMapper.toHTTP(categories);
+  const data = CategoryMapper.toResponse(categories);
 
   const response = await api.put<CategoryResponse>("/category", {
     ...data,

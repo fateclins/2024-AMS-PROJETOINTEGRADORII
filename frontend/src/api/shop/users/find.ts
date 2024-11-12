@@ -1,3 +1,4 @@
+import { UserMapper } from "@/api/mappers/user-mapper";
 import { api } from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
 
@@ -10,15 +11,17 @@ interface UserBody {
   idUserType: number;
 }
 
-interface UserResponse {
-  status: string;
-  data: UserBody[];
-}
+// interface UserResponse {
+//   status: string;
+//   data: UserBody[];
+// }
 
 export async function findUsersController(id: number) {
-  const response = await api.get<UserResponse>(`/user/${id}`);
+  const response = await api.get<UserBody>(`/user/${id}`);
 
-  return response.data;
+  const data = UserMapper.toResponse(response.data);
+
+  return data;
 }
 
 export function findUser(id: number) {

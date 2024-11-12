@@ -16,7 +16,7 @@ interface ByproductResponse {
 export async function updateByproductsController(
   byproducts: Partial<ByproductBody>,
 ) {
-  const data = ByproductMapper.toHTTP(byproducts);
+  const data = ByproductMapper.toResponse(byproducts);
 
   const response = await api.put<ByproductResponse>("/byproduct", {
     ...data,

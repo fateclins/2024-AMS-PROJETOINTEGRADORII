@@ -18,7 +18,7 @@ interface TicketResponse {
 }
 
 export async function updateTicketsController(ticket: Partial<TicketBody>) {
-  const data = TicketMapper.toHTTP(ticket);
+  const data = TicketMapper.toResponse(ticket);
 
   const response = await api.put<TicketResponse>("/ticket", { ...data });
 

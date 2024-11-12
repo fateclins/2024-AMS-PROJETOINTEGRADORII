@@ -15,7 +15,7 @@ interface UserTypeResponse {
 export async function updateUserTypesController(
   userType: Partial<UserTypeBody>,
 ) {
-  const data = UserTypeMapper.toHTTP(userType);
+  const data = UserTypeMapper.toResponse(userType);
 
   const response = await api.put<UserTypeResponse>("/usertype", {
     ...data,

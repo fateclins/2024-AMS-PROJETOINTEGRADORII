@@ -15,7 +15,7 @@ interface VariationDescriptionResponse {
 export async function createVariationDescriptionsController(
   variationDescription: Partial<VariationDescriptionBody>,
 ) {
-  const data = VariationDescriptionMapper.toHTTP(variationDescription);
+  const data = VariationDescriptionMapper.toResponse(variationDescription);
 
   const response = await api.post<VariationDescriptionResponse>(
     "/variationdescription",
