@@ -1,11 +1,14 @@
 <?php
     header('Content-Type: application/json');
+    header("Access-Control-Allow-Origin: *");
+    header("Access-Control-Allow-Methods: *");
+    header("Access-Control-Allow-Headers: Content-Type, Authorization");
     require_once '../vendor/autoload.php';
 
     if ($_GET['url']) {
         $url = explode('/', $_GET['url']);
 
-        if ($url[0] === 'api') {  
+        if ($url[0] === 'api') {
             array_shift($url);
 
             $service = 'App\Services\\'.ucfirst($url[0]).'Service';

@@ -4,12 +4,12 @@ import { Helmet } from "react-helmet-async";
 import { Input } from "@/components/ui/input";
 
 import { OrderItem } from "./components/order-item";
-import { listOrders } from "@/api/shop/orders/list";
+import { Skeleton } from "@/components/ui/skeleton";
+import { listOrderItems } from "@/api/shop/order-items/list";
 
 export function Orders() {
-  const { data: ordersData, isLoading: isOrdersDataLoading } = listOrders();
-
-  console.log(ordersData);
+  const { data: orderItemsData, isLoading: isOrderItemsDataLoading } =
+    listOrderItems();
 
   return (
     <>
@@ -24,9 +24,22 @@ export function Orders() {
           </form>
         </div>
         <div className="w-full">
-          {Array.from({ length: 4 }).map((_, index) => {
-            return <OrderItem key={index} />;
-          })}
+          {isOrderItemsDataLoading === true ? (
+            <Skeleton className="h-[400px] w-full" />
+          ) : (
+            orderItemsData?.map((item) => {
+              return (
+                <OrderItem
+                  key={item.id}
+                  id={item.id}
+                  idProduct={item.idProduct}
+                  itemValue={item.itemValue}
+                  quantityOrdered={item.quantityOrdered}
+                  quantityServed={item.quantityServed}
+                />
+              );
+            })
+          )}
         </div>
       </div>
     </>
