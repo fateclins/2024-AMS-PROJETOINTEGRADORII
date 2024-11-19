@@ -7,7 +7,7 @@ interface VariationValueBody {}
 interface VariationValuesResponse {}
 
 export async function listVariationValuesController() {
-  const response = await api.get("/user");
+  const response = await api.get("/variationvalue");
 
   const info: Array<any> = response.data;
 

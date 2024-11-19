@@ -7,7 +7,7 @@ interface TicketBody {}
 interface TicketResponse {}
 
 export async function listTicketsController() {
-  const response = await api.get("/user");
+  const response = await api.get("/ticket");
 
   const info: Array<any> = response.data;
 

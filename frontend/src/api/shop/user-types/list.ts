@@ -7,7 +7,7 @@ interface UserTypeBody {}
 interface UserTypeResponse {}
 
 export async function listUserTypesController() {
-  const response = await api.get("/user");
+  const response = await api.get("/usertype");
 
   const info: Array<any> = response.data;
 

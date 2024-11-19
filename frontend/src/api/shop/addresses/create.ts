@@ -6,6 +6,7 @@ export interface AddressBody {
   id: number;
   country: string;
   state: string;
+  cep: string;
   city: string;
   district: string;
   street: string;

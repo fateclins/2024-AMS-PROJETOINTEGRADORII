@@ -7,7 +7,7 @@ interface CategoryBody {}
 interface CategoryResponse {}
 
 export async function listCategoriesController() {
-  const response = await api.get("/user");
+  const response = await api.get("/category");
 
   const info: Array<any> = response.data;
 

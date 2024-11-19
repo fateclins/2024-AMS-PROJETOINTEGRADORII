@@ -7,7 +7,7 @@ interface SubcategoryBody {}
 interface SubcategoryResponse {}
 
 export async function listSubcategoriesController() {
-  const response = await api.get("/user");
+  const response = await api.get("/subcategory");
 
   const info: Array<any> = response.data;
 

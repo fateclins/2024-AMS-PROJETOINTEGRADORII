@@ -7,7 +7,7 @@ interface OrderItemBody {}
 interface OrderItemResponse {}
 
 export async function listOrderItemsController() {
-  const response = await api.get("/user");
+  const response = await api.get("/orderitem");
 
   const info: Array<any> = response.data;
 

@@ -7,7 +7,7 @@ interface AddressBody {}
 interface AddressResponse {}
 
 export async function listAddressesController() {
-  const response = await api.get("/user");
+  const response = await api.get("/address");
 
   const info: Array<any> = response.data;
 

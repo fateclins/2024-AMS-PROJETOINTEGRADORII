@@ -12,7 +12,7 @@ import { findAddress } from "@/api/shop/addresses/find";
 
 export function Profile() {
   const { data: userData, isLoading: isUserDataLoading } = findUser(1);
-  // const { data: addressData, isLoading: isAddressDataLoading } = findAddress(1);
+  const { data: addressData, isLoading: isAddressDataLoading } = findAddress(1);
 
   return (
     <>
@@ -79,38 +79,54 @@ export function Profile() {
         <form className="space-y-4">
           <div className="w-full">
             <Label>CEP</Label>
-            <Input defaultValue="123456-789" disabled />
+            {isAddressDataLoading === true ? (
+              <Skeleton className="h-10 w-full" />
+            ) : (
+              <Input value={addressData!.city} disabled />
+            )}
           </div>
           <div className="flex flex-col items-center gap-2 lg:flex-row">
             <div className="w-full">
               <Label>Cidade</Label>
-              <Input defaultValue="Rua das flores" disabled />
+              {isAddressDataLoading === true ? (
+                <Skeleton className="h-10 w-full" />
+              ) : (
+                <Input value={addressData!.city} disabled />
+              )}
             </div>
             <div className="w-full">
               <Label>Estado</Label>
-              <Input defaultValue="Jardim" disabled />
+              {isAddressDataLoading === true ? (
+                <Skeleton className="h-10 w-full" />
+              ) : (
+                <Input value={addressData!.state} disabled />
+              )}
             </div>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-full">
               <Label>Rua</Label>
-              <Input defaultValue="Rua das flores" disabled />
+              {isAddressDataLoading === true ? (
+                <Skeleton className="h-10 w-full" />
+              ) : (
+                <Input value={addressData!.street} disabled />
+              )}
             </div>
             <div className="w-full max-w-[120px]">
               <Label>Número</Label>
-              {isUserDataLoading === true ? (
+              {isAddressDataLoading === true ? (
                 <Skeleton className="h-10 w-full" />
               ) : (
-                <Input value={userData!.name} disabled />
+                <Input value={addressData!.number} disabled />
               )}
             </div>
           </div>
           <div className="w-full">
             <Label>Bairro</Label>
-            {isUserDataLoading === true ? (
+            {isAddressDataLoading === true ? (
               <Skeleton className="h-10 w-full" />
             ) : (
-              <Input value={userData!.name} disabled />
+              <Input value={addressData!.district} disabled />
             )}
           </div>
 

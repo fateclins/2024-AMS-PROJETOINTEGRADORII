@@ -35,6 +35,7 @@ create table usuario(
 create table endereco(
 	id int auto_increment not null,
     pais varchar(50),
+    cep varchar(50),
     estado varchar(50),
     cidade varchar(50),
     bairro varchar(50),

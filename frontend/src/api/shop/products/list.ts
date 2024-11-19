@@ -7,7 +7,7 @@ interface ProductBody {}
 interface ProductResponse {}
 
 export async function listProductsController() {
-  const response = await api.get("/user");
+  const response = await api.get("/product");
 
   const info: Array<any> = response.data;
 

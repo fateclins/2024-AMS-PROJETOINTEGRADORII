@@ -7,7 +7,7 @@ interface PaymentBody {}
 interface PaymentResponse {}
 
 export async function listPaymentsController() {
-  const response = await api.get("/user");
+  const response = await api.get("/payment");
 
   const info: Array<any> = response.data;
 

@@ -7,7 +7,7 @@ interface CouponBody {}
 interface CouponResponse {}
 
 export async function listCouponsController() {
-  const response = await api.get("/user");
+  const response = await api.get("/coupon");
 
   const info: Array<any> = response.data;
 

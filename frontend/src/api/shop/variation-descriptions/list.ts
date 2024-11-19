@@ -7,7 +7,7 @@ interface VariationDescriptionBody {}
 interface VariationDescriptionResponse {}
 
 export async function listVariationDescriptionsController() {
-  const response = await api.get("/user");
+  const response = await api.get("/variationdescription");
 
   const info: Array<any> = response.data;
 

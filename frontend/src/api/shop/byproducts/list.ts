@@ -7,7 +7,7 @@ interface ByproductBody {}
 interface ByproductResponse {}
 
 export async function listByproductsController() {
-  const response = await api.get("/user");
+  const response = await api.get("/byproduct");
 
   const info: Array<any> = response.data;
 

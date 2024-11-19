@@ -7,7 +7,7 @@ interface StoreBody {}
 interface StoreResponse {}
 
 export async function listStoresController() {
-  const response = await api.get("/user");
+  const response = await api.get("/store");
 
   const info: Array<any> = response.data;
 
