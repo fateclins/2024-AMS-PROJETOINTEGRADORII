@@ -28,31 +28,11 @@ export function Header() {
 
       {isAuth ? (
         <div className="flex items-center gap-3">
-          <Heart size={20} weight="regular" />
-
-          <Dialog>
-            <DialogTrigger asChild>
-              <ShoppingBag size={24} weight="regular" />
-            </DialogTrigger>
-            <DialogContent className="w-[352px] px-4">
-              <DialogHeader>
-                <DialogTitle>Você tem 5 items no seu carrinho</DialogTitle>
-              </DialogHeader>
-              <div className="">
-                <ProductRow />
-              </div>
-
-              <div className="flex flex-row justify-between">
-                <strong>Subtotal</strong>
-                <strong>R$ 200.00</strong>
-              </div>
-
-              <Button className="border-2 border-zinc-950 bg-transparent text-zinc-950 hover:bg-zinc-950 hover:text-zinc-50">
-                Ver carrinho
-              </Button>
-              <Button>Checkout de compras</Button>
-            </DialogContent>
-          </Dialog>
+          <Button variant='ghost' size='icon' asChild>
+            <Link to='/checkout'>
+              <ShoppingBag className='size-5' />
+            </Link>
+          </Button>
 
           <Avatar className='size-8'>
             <AvatarFallback />

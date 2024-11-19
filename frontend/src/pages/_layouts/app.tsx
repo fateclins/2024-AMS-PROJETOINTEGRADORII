@@ -1,5 +1,10 @@
 import { Outlet } from 'react-router-dom'
+import { GlobalProvider } from '../contexts/global-context'
 
 export function AppLayout() {
-  return <Outlet />
+  return (
+    <GlobalProvider>
+      <Outlet />
+    </GlobalProvider>
+  )
 }

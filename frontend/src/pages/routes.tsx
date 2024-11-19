@@ -1,7 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom'
 
 import { ShopLayout } from './_layouts/shop'
-import { ProfileLayout } from './_layouts/shop-profile'
+import { ProfileLayout } from './_layouts/profile'
 import { Checkout } from './shop/checkout'
 import { ForgotPassword } from './shop/forgot-password'
 import { Home as ShopHome } from './shop/home'
@@ -37,7 +37,7 @@ export const router = createBrowserRouter([
         element: <ProductList />,
       },
       {
-        path: '/product/:slug',
+        path: '/products/:slug',
         element: <Product />,
       },
       {
@@ -64,55 +64,55 @@ export const router = createBrowserRouter([
         path: '/shipping-address',
         element: <ProceedCheckout />,
       },
-    ],
-  },
-  {
-    path: '/profile',
-    element: <ProfileLayout />,
-    children: [
       {
         path: '/profile',
-        element: <Profile />,
-      },
-      {
-        path: '/profile/dashboard',
-        element: <Dashboard />,
-      },
-      {
-        path: '/profile/products',
-        element: <Products />,
-      },
-      {
-        path: '/profile/categories',
-        element: <Categories />,
-      },
-      {
-        path: '/profile/my-shop',
-        element: <MyShop />,
-      },
-      {
-        path: '/profile/orders',
-        element: <Orders />,
-      },
-      {
-        path: '/profile/wishes',
-        element: <Wishes />,
-      },
-      {
-        path: '/profile/address',
-        element: <ManageAddresses />,
-      },
-      {
-        path: '/profile/saved-cards',
-        element: <SavedCards />,
-      },
-      {
-        path: '/profile/notifications',
-        element: <Notifications />,
-      },
-      {
-        path: '/profile/settings',
-        element: <Settings />,
+        element: <ProfileLayout />,
+        children: [
+          {
+            path: '/profile',
+            element: <Profile />,
+          },
+          {
+            path: '/profile/dashboard',
+            element: <Dashboard />,
+          },
+          {
+            path: '/profile/products',
+            element: <Products />,
+          },
+          {
+            path: '/profile/categories',
+            element: <Categories />,
+          },
+          {
+            path: '/profile/my-shop',
+            element: <MyShop />,
+          },
+          {
+            path: '/profile/orders',
+            element: <Orders />,
+          },
+          {
+            path: '/profile/wishes',
+            element: <Wishes />,
+          },
+          {
+            path: '/profile/address',
+            element: <ManageAddresses />,
+          },
+          {
+            path: '/profile/saved-cards',
+            element: <SavedCards />,
+          },
+          {
+            path: '/profile/notifications',
+            element: <Notifications />,
+          },
+          {
+            path: '/profile/settings',
+            element: <Settings />,
+          },
+        ],
       },
     ],
   },
