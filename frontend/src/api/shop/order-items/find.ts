@@ -1,3 +1,4 @@
+import { OrderItemMapper } from "@/api/mappers/order-item-mapper";
 import { api } from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
 
@@ -15,9 +16,11 @@ interface OrderItemResponse {
 }
 
 export async function findOrderItemsController(id: number) {
-  const response = await api.get<OrderItemResponse>(`/orderitem/${id}`);
+  const response = await api.get<OrderItemBody>(`/orderitem/${id}`);
 
-  return response.data;
+  const data = OrderItemMapper.toRequest(response.data);
+
+  return data;
 }
 
 export function findOrderItem(id: number) {

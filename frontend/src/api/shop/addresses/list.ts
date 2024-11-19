@@ -1,3 +1,4 @@
+import { AddressMapper } from "@/api/mappers/address-mapper";
 import { api } from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
 
@@ -21,7 +22,9 @@ interface AddressResponse {
 export async function listAddressesController() {
   const response = await api.get<AddressResponse>("/address");
 
-  return response.data;
+  const data = AddressMapper.toRequest(response.data);
+
+  return data;
 }
 
 export function listAddresses() {

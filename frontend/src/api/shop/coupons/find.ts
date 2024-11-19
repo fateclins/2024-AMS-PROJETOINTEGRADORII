@@ -1,3 +1,4 @@
+import { CouponMapper } from "@/api/mappers/coupon-mapper";
 import { api } from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
 
@@ -14,9 +15,11 @@ interface CouponResponse {
 }
 
 export async function findCouponsController(id: number) {
-  const response = await api.get<CouponResponse>(`/coupon/${id}`);
+  const response = await api.get<CouponBody>(`/coupon/${id}`);
 
-  return response.data;
+  const data = CouponMapper.toRequest(response.data);
+
+  return data;
 }
 
 export function findCoupon(id: number) {

@@ -1,3 +1,4 @@
+import { CategoryMapper } from "@/api/mappers/category-mapper";
 import { api } from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
 
@@ -15,7 +16,9 @@ interface CategoryResponse {
 export async function listCategoriesController() {
   const response = await api.get<CategoryResponse>("/category");
 
-  return response.data;
+  const data = CategoryMapper.toRequest(response.data);
+
+  return data;
 }
 
 export function listCategories() {

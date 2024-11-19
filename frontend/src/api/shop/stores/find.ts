@@ -1,3 +1,4 @@
+import { StoreMapper } from "@/api/mappers/store-mapper";
 import { api } from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
 
@@ -20,9 +21,11 @@ interface StoreResponse {
 }
 
 export async function findStoresController(id: number) {
-  const response = await api.get<StoreResponse>(`/store/${id}`);
+  const response = await api.get<StoreBody>(`/store/${id}`);
 
-  return response.data;
+  const data = StoreMapper.toRequest(response.data);
+
+  return data;
 }
 
 export function findStore(id: number) {

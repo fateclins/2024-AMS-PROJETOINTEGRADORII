@@ -1,3 +1,4 @@
+import { SubcategoryMapper } from "@/api/mappers/subcategory-mapper";
 import { api } from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
 
@@ -13,9 +14,11 @@ interface SubcategoryResponse {
 }
 
 export async function findSubcategoriesController(id: number) {
-  const response = await api.get<SubcategoryResponse>(`/subcategory/${id}`);
+  const response = await api.get<SubcategoryBody>(`/subcategory/${id}`);
 
-  return response.data;
+  const data = SubcategoryMapper.toRequest(response.data);
+
+  return data;
 }
 
 export function findSubcategory(id: number) {

@@ -1,3 +1,4 @@
+import { TicketMapper } from "@/api/mappers/ticket-mapper";
 import { api } from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
 
@@ -19,7 +20,9 @@ interface TicketResponse {
 export async function listTicketsController() {
   const response = await api.get<TicketResponse>("/ticket");
 
-  return response.data;
+  const data = TicketMapper.toRequest(response.data);
+
+  return data;
 }
 
 export function listTickets() {

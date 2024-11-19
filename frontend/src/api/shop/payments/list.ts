@@ -1,3 +1,4 @@
+import { PaymentMapper } from "@/api/mappers/payment-mapper";
 import { api } from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
 
@@ -18,7 +19,9 @@ interface PaymentResponse {
 export async function listPaymentsController() {
   const response = await api.get<PaymentResponse>("/payment");
 
-  return response.data;
+  const data = PaymentMapper.toRequest(response.data);
+
+  return data;
 }
 
 export function listPayments() {

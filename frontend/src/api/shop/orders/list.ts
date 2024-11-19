@@ -1,3 +1,4 @@
+import { OrderMapper } from "@/api/mappers/order-mapper";
 import { api } from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
 
@@ -19,7 +20,9 @@ interface OrderResponse {
 export async function listOrdersController() {
   const response = await api.get<OrderResponse>("/order");
 
-  return response.data;
+  const data = OrderMapper.toRequest(response.data);
+
+  return data;
 }
 
 export function listOrders() {

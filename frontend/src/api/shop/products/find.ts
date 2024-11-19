@@ -19,7 +19,7 @@ interface ProductResponse {
 }
 
 export async function findProductsController(id: number) {
-  const response = await api.get<ProductResponse>(`/product/${id}`);
+  const response = await api.get<ProductBody>(`/product/${id}`);
 
   const data = ProductMapper.toRequest(response.data);
 
