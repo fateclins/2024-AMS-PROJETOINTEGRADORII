@@ -7,10 +7,7 @@ interface VariationDescriptionBody {
   description: string;
 }
 
-// interface VariationDescriptionResponse {
-//   status: string;
-//   data: VariationDescriptionBody[];
-// }
+interface VariationDescriptionResponse {}
 
 export async function findVariationDescriptionsController(id: number) {
   const response = await api.get<VariationDescriptionBody>(

@@ -2,30 +2,18 @@ import { StoreMapper } from "@/api/mappers/store-mapper";
 import { api } from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
 
-interface StoreBody {
-  id: number;
-  name: string;
-  logo: string;
-  banner: string;
-  quantityProduct: string;
-  background: string;
-  fontColor: string;
-  area: string;
-  cnpj: string;
-  idUser: number;
-}
+interface StoreBody {}
 
-interface StoreResponse {
-  status: string;
-  data: StoreBody[];
-}
+interface StoreResponse {}
 
 export async function listStoresController() {
-  const response = await api.get<StoreResponse>("/store");
+  const response = await api.get("/user");
 
-  const data = StoreMapper.toRequest(response.data);
+  const info: Array<any> = response.data;
 
-  return data;
+  return info.map((item) => {
+    return StoreMapper.toRequest(item);
+  });
 }
 
 export function listStores() {

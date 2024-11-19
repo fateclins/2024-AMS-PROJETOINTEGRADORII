@@ -11,10 +11,7 @@ interface PaymentBody {
   idOrder: number;
 }
 
-interface PaymentResponse {
-  status: string;
-  data: PaymentBody[];
-}
+interface PaymentResponse {}
 
 export async function findPaymentsController(id: number) {
   const response = await api.get<PaymentBody>(`/payment/${id}`);

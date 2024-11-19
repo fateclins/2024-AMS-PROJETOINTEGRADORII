@@ -9,10 +9,7 @@ interface CouponBody {
   idProduct: number;
 }
 
-interface CouponResponse {
-  status: string;
-  data: CouponBody[];
-}
+interface CouponResponse {}
 
 export async function findCouponsController(id: number) {
   const response = await api.get<CouponBody>(`/coupon/${id}`);

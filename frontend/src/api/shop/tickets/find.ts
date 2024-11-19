@@ -12,10 +12,7 @@ interface TicketBody {
   idUser: number;
 }
 
-interface TicketResponse {
-  status: string;
-  data: TicketBody[];
-}
+interface TicketResponse {}
 
 export async function findTicketsController(id: number) {
   const response = await api.get<TicketBody>(`/ticket/${id}`);

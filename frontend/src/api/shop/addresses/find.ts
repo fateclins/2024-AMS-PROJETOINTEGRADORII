@@ -14,10 +14,7 @@ interface AddressBody {
   idUser: number;
 }
 
-interface AddressResponse {
-  status: string;
-  data: AddressBody[];
-}
+interface AddressResponse {}
 
 export async function findAddressesController(id: number) {
   const response = await api.get<AddressBody>(`/address/${id}`);

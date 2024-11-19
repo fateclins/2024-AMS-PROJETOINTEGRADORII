@@ -7,9 +7,10 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { findUser } from "@/api/shop/users/find";
+import { listUsers } from "@/api/shop/users/list";
 
 export function Profile() {
-  const { data, isLoading } = findUser(1);
+  const { data, isLoading } = listUsers();
 
   console.log(data);
 

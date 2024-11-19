@@ -2,24 +2,18 @@ import { VariationDescriptionMapper } from "@/api/mappers/variation-description-
 import { api } from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
 
-interface VariationDescriptionBody {
-  id: number;
-  description: string;
-}
+interface VariationDescriptionBody {}
 
-interface VariationDescriptionResponse {
-  status: string;
-  data: VariationDescriptionBody[];
-}
+interface VariationDescriptionResponse {}
 
 export async function listVariationDescriptionsController() {
-  const response = await api.get<VariationDescriptionResponse>(
-    "/variationdescription",
-  );
+  const response = await api.get("/user");
 
-  const data = VariationDescriptionMapper.toRequest(response.data);
+  const info: Array<any> = response.data;
 
-  return data;
+  return info.map((item) => {
+    return VariationDescriptionMapper.toRequest(item);
+  });
 }
 
 export function listVariationDescriptions() {

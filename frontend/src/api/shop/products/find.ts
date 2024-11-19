@@ -13,10 +13,7 @@ interface ProductBody {
   idStore: number;
 }
 
-interface ProductResponse {
-  status: string;
-  data: ProductBody;
-}
+interface ProductResponse {}
 
 export async function findProductsController(id: number) {
   const response = await api.get<ProductBody>(`/product/${id}`);

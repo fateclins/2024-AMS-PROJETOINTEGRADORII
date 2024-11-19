@@ -8,10 +8,7 @@ interface VariationValueBody {
   idVariationDescription: number;
 }
 
-interface VariationValuesResponse {
-  status: string;
-  data: VariationValueBody[];
-}
+interface VariationValuesResponse {}
 
 export async function findVariationValuesController(id: number) {
   const response = await api.get<VariationValueBody>(`/variationvalue/${id}`);

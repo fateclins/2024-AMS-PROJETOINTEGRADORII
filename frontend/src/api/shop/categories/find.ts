@@ -8,10 +8,7 @@ interface CategoryBody {
   description: string;
 }
 
-interface CategoryResponse {
-  status: string;
-  data: CategoryBody[];
-}
+interface CategoryResponse {}
 
 export async function findCategoriesController(id: number) {
   const response = await api.get<CategoryBody>(`/category/${id}`);

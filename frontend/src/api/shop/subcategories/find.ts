@@ -8,10 +8,7 @@ interface SubcategoryBody {
   idCategory: number;
 }
 
-interface SubcategoryResponse {
-  status: string;
-  data: SubcategoryBody[];
-}
+interface SubcategoryResponse {}
 
 export async function findSubcategoriesController(id: number) {
   const response = await api.get<SubcategoryBody>(`/subcategory/${id}`);

@@ -10,10 +10,7 @@ interface OrderItemBody {
   idProduct: number;
 }
 
-interface OrderItemResponse {
-  status: string;
-  data: OrderItemBody[];
-}
+interface OrderItemResponse {}
 
 export async function findOrderItemsController(id: number) {
   const response = await api.get<OrderItemBody>(`/orderitem/${id}`);

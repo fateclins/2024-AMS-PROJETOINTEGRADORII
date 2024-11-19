@@ -8,10 +8,7 @@ interface ByproductBody {
   idSubcategory: number;
 }
 
-interface ByproductResponse {
-  status: string;
-  data: ByproductBody[];
-}
+interface ByproductResponse {}
 
 export async function findByproductsController(id: number) {
   const response = await api.get<ByproductBody>(`/byproduct/${id}`);

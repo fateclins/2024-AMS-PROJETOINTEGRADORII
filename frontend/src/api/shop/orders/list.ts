@@ -2,27 +2,18 @@ import { OrderMapper } from "@/api/mappers/order-mapper";
 import { api } from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
 
-interface OrderBody {
-  id: number;
-  totalValue: number;
-  date: Date;
-  status: number;
-  finalValue: number;
-  discount: number;
-  idUser: number;
-}
+interface OrderBody {}
 
-interface OrderResponse {
-  status: string;
-  data: OrderBody[];
-}
+interface OrderResponse {}
 
 export async function listOrdersController() {
-  const response = await api.get<OrderResponse>("/order");
+  const response = await api.get("/user");
 
-  const data = OrderMapper.toRequest(response.data);
+  const info: Array<any> = response.data;
 
-  return data;
+  return info.map((item) => {
+    return OrderMapper.toRequest(item);
+  });
 }
 
 export function listOrders() {

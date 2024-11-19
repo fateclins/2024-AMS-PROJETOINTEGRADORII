@@ -2,24 +2,18 @@ import { CouponMapper } from "@/api/mappers/coupon-mapper";
 import { api } from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
 
-interface CouponBody {
-  id: number;
-  phraseCode: string;
-  discount: number;
-  idProduct: number;
-}
+interface CouponBody {}
 
-interface CouponResponse {
-  status: string;
-  data: CouponBody[];
-}
+interface CouponResponse {}
 
 export async function listCouponsController() {
-  const response = await api.get<CouponResponse>("/coupon");
+  const response = await api.get("/user");
 
-  const data = CouponMapper.toRequest(response.data);
+  const info: Array<any> = response.data;
 
-  return data;
+  return info.map((item) => {
+    return CouponMapper.toRequest(item);
+  });
 }
 
 export function listCoupons() {

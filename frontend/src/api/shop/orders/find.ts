@@ -12,10 +12,7 @@ interface OrderBody {
   idUser: number;
 }
 
-interface OrderResponse {
-  status: string;
-  data: OrderBody[];
-}
+interface OrderResponse {}
 
 export async function findOrdersController(id: number) {
   const response = await api.get<OrderBody>(`/order/${id}`);

@@ -15,10 +15,7 @@ interface StoreBody {
   idUser: number;
 }
 
-interface StoreResponse {
-  status: string;
-  data: StoreBody[];
-}
+interface StoreResponse {}
 
 export async function findStoresController(id: number) {
   const response = await api.get<StoreBody>(`/store/${id}`);

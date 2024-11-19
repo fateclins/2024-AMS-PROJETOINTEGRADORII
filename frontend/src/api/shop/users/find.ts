@@ -11,10 +11,7 @@ interface UserBody {
   idUserType: number;
 }
 
-// interface UserResponse {
-//   status: string;
-//   data: UserBody;
-// }
+interface UserResponse {}
 
 export async function findUsersController(id: number) {
   const response = await api.get<UserBody>(`/user/${id}`);

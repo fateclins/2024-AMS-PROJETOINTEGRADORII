@@ -7,10 +7,7 @@ interface UserTypeBody {
   description: string;
 }
 
-interface UserTypeResponse {
-  status: string;
-  data: UserTypeBody[];
-}
+interface UserTypeResponse {}
 
 export async function findUserTypesController(id: number) {
   const response = await api.get<UserTypeBody>(`/usertype/${id}`);
