@@ -1,3 +1,4 @@
+import { VariationDescriptionMapper } from "@/api/mappers/variation-description-mapper";
 import { api } from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
 
@@ -16,7 +17,9 @@ export async function listVariationDescriptionsController() {
     "/variationdescription",
   );
 
-  return response.data;
+  const data = VariationDescriptionMapper.toRequest(response.data);
+
+  return data;
 }
 
 export function listVariationDescriptions() {

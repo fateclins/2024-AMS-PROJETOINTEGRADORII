@@ -1,3 +1,4 @@
+import { UserMapper } from "@/api/mappers/user-mapper";
 import { api } from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
 
@@ -18,7 +19,9 @@ interface UserResponse {
 export async function listUsersController() {
   const response = await api.get<UserResponse>("/user");
 
-  return response.data;
+  const data = UserMapper.toRequest(response.data);
+
+  return data;
 }
 
 export function listUsers() {

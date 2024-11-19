@@ -17,7 +17,7 @@ interface TicketResponse {
 }
 
 export async function findTicketsController(id: number) {
-  const response = await api.get<TicketResponse>(`/ticket/${id}`);
+  const response = await api.get<TicketBody>(`/ticket/${id}`);
 
   return response.data;
 }

@@ -13,13 +13,13 @@ interface UserBody {
 
 // interface UserResponse {
 //   status: string;
-//   data: UserBody[];
+//   data: UserBody;
 // }
 
 export async function findUsersController(id: number) {
   const response = await api.get<UserBody>(`/user/${id}`);
 
-  const data = UserMapper.toResponse(response.data);
+  const data = UserMapper.toRequest(response.data);
 
   return data;
 }

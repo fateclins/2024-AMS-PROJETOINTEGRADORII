@@ -29,15 +29,15 @@ export function Profile() {
         <form className="space-y-4">
           <div className="w-full">
             <Label>Nome</Label>
-            <Input value={data.name} disabled />
+            {/* <Input value={data.name} disabled /> */}
           </div>
           <div className="w-full">
             <Label>E-mail</Label>
-            <Input value={data.email} disabled />
+            {/* <Input value={data.email} disabled /> */}
           </div>
           <div className="w-full">
             <Label>Documento</Label>
-            <Input value={data.identity} disabled />
+            {/* <Input value={data.identity} disabled /> */}
           </div>
 
           <div className="flex justify-end">
