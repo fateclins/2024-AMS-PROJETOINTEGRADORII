@@ -7,12 +7,12 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { findUser } from "@/api/shop/users/find";
-import { listUsers } from "@/api/shop/users/list";
+import { Skeleton } from "@/components/ui/skeleton";
+import { findAddress } from "@/api/shop/addresses/find";
 
 export function Profile() {
-  const { data, isLoading } = listUsers();
-
-  console.log(data);
+  const { data: userData, isLoading: isUserDataLoading } = findUser(1);
+  // const { data: addressData, isLoading: isAddressDataLoading } = findAddress(1);
 
   return (
     <>
@@ -30,15 +30,27 @@ export function Profile() {
         <form className="space-y-4">
           <div className="w-full">
             <Label>Nome</Label>
-            {/* <Input value={data.name} disabled /> */}
+            {isUserDataLoading === true ? (
+              <Skeleton className="h-10 w-full" />
+            ) : (
+              <Input value={userData!.name} disabled />
+            )}
           </div>
           <div className="w-full">
             <Label>E-mail</Label>
-            {/* <Input value={data.email} disabled /> */}
+            {isUserDataLoading === true ? (
+              <Skeleton className="h-10 w-full" />
+            ) : (
+              <Input value={userData!.email} disabled />
+            )}
           </div>
           <div className="w-full">
             <Label>Documento</Label>
-            {/* <Input value={data.identity} disabled /> */}
+            {isUserDataLoading === true ? (
+              <Skeleton className="h-10 w-full" />
+            ) : (
+              <Input value={userData!.identity} disabled />
+            )}
           </div>
 
           <div className="flex justify-end">
@@ -86,12 +98,20 @@ export function Profile() {
             </div>
             <div className="w-full max-w-[120px]">
               <Label>Número</Label>
-              <Input defaultValue="123" disabled />
+              {isUserDataLoading === true ? (
+                <Skeleton className="h-10 w-full" />
+              ) : (
+                <Input value={userData!.name} disabled />
+              )}
             </div>
           </div>
           <div className="w-full">
             <Label>Bairro</Label>
-            <Input defaultValue="Jardim" disabled />
+            {isUserDataLoading === true ? (
+              <Skeleton className="h-10 w-full" />
+            ) : (
+              <Input value={userData!.name} disabled />
+            )}
           </div>
 
           <div className="flex justify-end">

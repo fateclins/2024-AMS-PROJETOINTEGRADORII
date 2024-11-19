@@ -2,17 +2,12 @@ import { VariationDescriptionMapper } from "@/api/mappers/variation-description-
 import { api } from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
 
-interface VariationDescriptionBody {
-  id: number;
-  description: string;
-}
+interface VariationDescriptionBody {}
 
 interface VariationDescriptionResponse {}
 
 export async function findVariationDescriptionsController(id: number) {
-  const response = await api.get<VariationDescriptionBody>(
-    `/variationdescription/${id}`,
-  );
+  const response = await api.get(`/variationdescription/${id}`);
 
   const data = VariationDescriptionMapper.toRequest(response.data);
 

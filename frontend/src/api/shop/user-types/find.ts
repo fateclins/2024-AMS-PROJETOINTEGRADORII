@@ -2,15 +2,12 @@ import { UserTypeMapper } from "@/api/mappers/user-type-mapper";
 import { api } from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
 
-interface UserTypeBody {
-  id: number;
-  description: string;
-}
+interface UserTypeBody {}
 
 interface UserTypeResponse {}
 
 export async function findUserTypesController(id: number) {
-  const response = await api.get<UserTypeBody>(`/usertype/${id}`);
+  const response = await api.get(`/usertype/${id}`);
 
   const data = UserTypeMapper.toRequest(response.data);
 
