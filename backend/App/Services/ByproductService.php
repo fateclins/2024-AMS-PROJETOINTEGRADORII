@@ -1,32 +1,28 @@
 <?php
     namespace App\Services;
 
-    use App\Models\Endereco;
+    use App\Models\Byproduct;
 
-    class EnderecoService
+    class ByproductService
     {
-   
-        public $endereco;
-        
+
+        public $byproduct;
+
         public function __construct(){
-            $this->endereco = new Endereco();
+            $this->byproduct = new Byproduct();
+
+
         }
-        
+
         public function get($id = null) 
         {
             if ($id) {
-                $this->endereco->pk = $id;
-                $this->endereco->find($id);
-                return $this->endereco->variables;
+                $this->byproduct->pk = $id;
+                $this->byproduct->find($id);
+                return $this->byproduct->variables;
             } else {
-                $input = file_get_contents('php://input');
 
-                $data = json_decode($input, true);
-
-                $this->endereco->pagination = $data["pagination"];
-                $this->endereco->variables = $data["filter"];
-
-                return $this->endereco->search();
+                return $this->byproduct->all();
             }
         }
 
@@ -39,59 +35,59 @@
             if (json_last_error() !== JSON_ERROR_NONE) {
                 throw new \Exception('Dados devem ter formato json');
             } 
-            
-            $this->endereco->variables = $data;
 
-            $this->endereco->create($data);
+            $this->byproduct->variables = $data;
 
-           
-            
-            return $this->endereco->db->lastInsertId();
+            $this->byproduct->create($data);
+
+
+
+            return $this->byproduct->db->lastInsertId();
         }
 
         public function put() 
         {
-       
-          
+
+
             $input = file_get_contents('php://input');
 
             $jsonData = json_decode($input, true);
-            
+
             if (json_last_error() !== JSON_ERROR_NONE) {
                 throw new \Exception('Dados devem ter formato json');
             } 
-            
 
-            $this->endereco->variables = $jsonData;
+
+            $this->byproduct->variables = $jsonData;
 
             if (!isset($jsonData['id'])){
                 throw new \Exception('Id não enviado na requisição');
             }
-        
 
-            return $this->endereco->save();
-            
+
+            return $this->byproduct->save();
+
         }
 
         public function delete() 
         {
-            
+
             $input = file_get_contents('php://input');
 
             $jsonData = json_decode($input, true);
-            
+
             if (json_last_error() !== JSON_ERROR_NONE) {
                 throw new \Exception('Dados devem ter formato json');
             } 
-            
 
-            $this->endereco->variables = $jsonData;
+
+            $this->byproduct->variables = $jsonData;
 
             if (!isset($jsonData['id'])){
                 throw new \Exception('Id não enviado na requisição');
             }
-        
 
-            return $this->endereco->delete();
+
+            return $this->byproduct->delete();
         }
     }

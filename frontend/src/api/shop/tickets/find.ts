@@ -1,23 +1,31 @@
 import { api } from "@/lib/axios";
+import { useQuery } from "@tanstack/react-query";
 
 interface TicketBody {
-    id: number;
-    title: string;
-    description: string;
-    status: string;
-    createdAt: Date;
-    updatedAt: Date;
-    idUser: number;
+  id: number;
+  title: string;
+  description: string;
+
+  createdAt: Date;
+  updatedAt: Date;
+  idUser: number;
 }
 
-interface TicketResponse {}
+interface TicketResponse {
+  status: string;
+  data: TicketBody[];
+}
 
-export async function findTicketsController(param: string | number | null) {
-    const response = await api.get<TicketResponse>('/tickets', {
-        params: {
-            param
-        }
-    });
+export async function findTicketsController(id: number) {
+  const response = await api.get<TicketBody>(`/ticket/${id}`);
 
-    return response.data;
+  return response.data;
+}
+
+export function findTicket(id: number) {
+  return useQuery({
+    queryKey: ["findTicket", id],
+    queryFn: () => findTicketsController(id),
+    enabled: !!id,
+  });
 }

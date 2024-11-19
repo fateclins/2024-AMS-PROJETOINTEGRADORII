@@ -1,26 +1,28 @@
 <?php
     namespace App\Services;
 
-    use App\Models\VariacaoValor;
+    use App\Models\Payment;
 
-    class VariacaoValorService
+    class PaymentService
     {
-   
-        public $variacaoValor;
-        
+
+        public $payment;
+
         public function __construct(){
-            $this->variacaoValor = new VariacaoValor();
+            $this->payment = new Payment();
+
+
         }
-        
+
         public function get($id = null) 
         {
             if ($id) {
-                $this->variacaoValor->pk = $id;
-                $this->variacaoValor->find($id);
-                return $this->variacaoValor->variables;
+                $this->payment->pk = $id;
+                $this->payment->find($id);
+                return $this->payment->variables;
             } else {
-                
-                return $this->variacaoValor->all();
+
+                return $this->payment->all();
             }
         }
 
@@ -33,59 +35,59 @@
             if (json_last_error() !== JSON_ERROR_NONE) {
                 throw new \Exception('Dados devem ter formato json');
             } 
-            
-            $this->variacaoValor->variables = $data;
 
-            $this->variacaoValor->create($data);
+            $this->payment->variables = $data;
 
-           
-            
-            return $this->variacaoValor->db->lastInsertId();
+            $this->payment->create($data);
+
+
+
+            return $this->payment->db->lastInsertId();
         }
 
         public function put() 
         {
-       
-          
+
+
             $input = file_get_contents('php://input');
 
             $jsonData = json_decode($input, true);
-            
+
             if (json_last_error() !== JSON_ERROR_NONE) {
                 throw new \Exception('Dados devem ter formato json');
             } 
-            
 
-            $this->variacaoValor->variables = $jsonData;
+
+            $this->payment->variables = $jsonData;
 
             if (!isset($jsonData['id'])){
                 throw new \Exception('Id não enviado na requisição');
             }
-        
 
-            return $this->variacaoValor->save();
-            
+
+            return $this->payment->save();
+
         }
 
         public function delete() 
         {
-            
+
             $input = file_get_contents('php://input');
 
             $jsonData = json_decode($input, true);
-            
+
             if (json_last_error() !== JSON_ERROR_NONE) {
                 throw new \Exception('Dados devem ter formato json');
             } 
-            
 
-            $this->variacaoValor->variables = $jsonData;
+
+            $this->payment->variables = $jsonData;
 
             if (!isset($jsonData['id'])){
                 throw new \Exception('Id não enviado na requisição');
             }
-        
 
-            return $this->variacaoValor->delete();
+
+            return $this->payment->delete();
         }
     }

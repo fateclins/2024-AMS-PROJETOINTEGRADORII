@@ -7,7 +7,7 @@
     class VariationValue extends Crud
     {
         protected $core = null;
-        public $table = 'VARIACAOVALOR';
+        public $table = 'variacaoValor';
         private $filters = null;
         protected $pk  = 'id';
         public $db;

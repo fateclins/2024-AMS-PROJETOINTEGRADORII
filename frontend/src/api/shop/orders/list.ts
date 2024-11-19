@@ -1,19 +1,30 @@
 import { api } from "@/lib/axios";
+import { useQuery } from "@tanstack/react-query";
 
 interface OrderBody {
-    id: number;
-    totalValue: number;
-    date: Date;
-    status: number;
-    finalValue: number;
-    discount: number;
-    idUser: number;
+  id: number;
+  totalValue: number;
+  date: Date;
+  status: number;
+  finalValue: number;
+  discount: number;
+  idUser: number;
 }
 
-interface OrderResponse {}
+interface OrderResponse {
+  status: string;
+  data: OrderBody[];
+}
 
 export async function listOrdersController() {
-    const response = await api.get<OrderResponse>('/order');
+  const response = await api.get<OrderResponse>("/order");
 
-    return response.data;
+  return response.data;
+}
+
+export function listOrders() {
+  return useQuery({
+    queryKey: ["listOrder"],
+    queryFn: listOrdersController,
+  });
 }

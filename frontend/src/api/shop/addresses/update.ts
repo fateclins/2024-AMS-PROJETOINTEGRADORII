@@ -1,24 +1,35 @@
+import { AddressMapper } from "@/api/mappers/address-mapper";
 import { api } from "@/lib/axios";
+import { useMutation } from "@tanstack/react-query";
 
 interface AddressBody {
-    id: number;
-    country: string;
-    state: string;
-    city: string;
-    district: string;
-    street: string;
-    number: string;
-    complement: string;
-    idUser: number;
+  id: number;
+  country: string;
+  state: string;
+  city: string;
+  district: string;
+  street: string;
+  number: string;
+  complement: string;
+  idUser: number;
 }
 
 interface AddressResponse {
-    status: string;
-    id: string
+  status: string;
+  message: string;
 }
 
-export async function updateAddressesController(address: Partial<AddressBody>) {
-    const response = await api.patch<AddressResponse>('/address', { address });
+export async function updateAddressesController(address: AddressBody) {
+  const data = AddressMapper.toResponse(address);
 
-    return response.data;
+  const response = await api.put<AddressResponse>("/address", { ...data });
+
+  return response.data;
+}
+
+export function updateAddress() {
+  return useMutation({
+    mutationKey: ["updateAddress"],
+    mutationFn: updateAddressesController,
+  });
 }

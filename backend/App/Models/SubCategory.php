@@ -7,7 +7,7 @@
     class SubCategory extends Crud
     {
         protected $core = null;
-        public $table = 'SUBCATEGORIA';
+        public $table = 'subcategoria';
         private $filters = null;
         protected $pk  = 'id';
         public $db;
