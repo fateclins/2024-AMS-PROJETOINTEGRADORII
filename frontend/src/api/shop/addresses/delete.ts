@@ -1,17 +1,6 @@
 import { api } from "@/lib/axios";
 import { useMutation } from "@tanstack/react-query";
-
-interface AddressBody {
-  id: number;
-  country: string;
-  state: string;
-  city: string;
-  district: string;
-  street: string;
-  number: string;
-  complement: string;
-  idUser: number;
-}
+import { AddressBody } from "./create";
 
 interface AddressResponse {
   status: string;

@@ -1,16 +1,6 @@
 import { api } from "@/lib/axios";
 import { useMutation } from "@tanstack/react-query";
-
-interface ProductBody {
-  id: number;
-  quantity: number;
-  value: number;
-  model: string;
-  bestsellerProduct: boolean;
-  idv1: number;
-  idv2: number;
-  idStore: number;
-}
+import { ProductBody } from "./create";
 
 interface ProductResponse {
   status: string;

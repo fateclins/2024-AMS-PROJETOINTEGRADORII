@@ -6,27 +6,21 @@
     class AddressService
     {
    
-        public $address;
+        public $product;
         
         public function __construct(){
-            $this->address = new Address();
+            $this->product = new Address();
         }
         
         public function get($id = null) 
         {
             if ($id) {
-                $this->address->pk = $id;
-                $this->address->find($id);
-                return $this->address->variables;
+                $this->product->pk = $id;
+                $this->product->find($id);
+                return $this->product->variables;
             } else {
-                $input = file_get_contents('php://input');
-
-                $data = json_decode($input, true);
-
-                $this->address->pagination = $data["pagination"];
-                $this->address->variables = $data["filter"];
-
-                return $this->address->search();
+                
+                return $this->product->all();
             }
         }
 
@@ -40,13 +34,13 @@
                 throw new \Exception('Dados devem ter formato json');
             } 
             
-            $this->address->variables = $data;
+            $this->product->variables = $data;
 
-            $this->address->create($data);
+            $this->product->create($data);
 
            
             
-            return $this->address->db->lastInsertId();
+            return $this->product->db->lastInsertId();
         }
 
         public function put() 
@@ -62,14 +56,14 @@
             } 
             
 
-            $this->address->variables = $jsonData;
+            $this->product->variables = $jsonData;
 
             if (!isset($jsonData['id'])){
                 throw new \Exception('Id não enviado na requisição');
             }
         
 
-            return $this->address->save();
+            return $this->product->save();
             
         }
 
@@ -85,13 +79,13 @@
             } 
             
 
-            $this->address->variables = $jsonData;
+            $this->product->variables = $jsonData;
 
             if (!isset($jsonData['id'])){
                 throw new \Exception('Id não enviado na requisição');
             }
         
 
-            return $this->address->delete();
+            return $this->product->delete();
         }
     }

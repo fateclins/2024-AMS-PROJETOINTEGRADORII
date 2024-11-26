@@ -9,8 +9,6 @@ interface CategoryResponse {}
 export async function listCategoriesController() {
   const response = await api.get("/category");
 
-  console.log(response.data);
-
   const info: Array<any> = response.data;
 
   return info.map((item) => {

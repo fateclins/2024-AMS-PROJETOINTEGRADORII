@@ -1,14 +1,6 @@
 import { api } from "@/lib/axios";
 import { useMutation } from "@tanstack/react-query";
-
-interface UserBody {
-  id: number;
-  name: string;
-  identity: string;
-  email: string;
-  password: string;
-  idUserType: number;
-}
+import { UserBody } from "./create";
 
 interface UserResponse {
   status: string;

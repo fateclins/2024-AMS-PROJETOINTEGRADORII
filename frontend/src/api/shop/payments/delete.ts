@@ -1,14 +1,8 @@
 import { api } from "@/lib/axios";
 import { useMutation } from "@tanstack/react-query";
+import { PaymentBody } from "./create";
 
-interface PaymentBody {
-  id: number;
-  date: Date;
-  value: number;
-  operation: number;
-  status: number;
-  idOrder: number;
-}
+
 
 interface PaymentResponse {
   status: string;

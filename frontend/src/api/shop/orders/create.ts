@@ -6,7 +6,7 @@ export interface OrderBody {
   id: number;
   totalValue: number;
   date: Date;
-  status: number;
+  status: string;
   finalValue: number;
   discount: number;
   idUser: number;

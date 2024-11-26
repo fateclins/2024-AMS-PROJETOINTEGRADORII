@@ -1,11 +1,6 @@
 import { api } from "@/lib/axios";
 import { useMutation } from "@tanstack/react-query";
-
-interface CategoryBody {
-  id: number;
-  name: string;
-  description: string;
-}
+import { CategoryBody } from "./create";
 
 interface CategoryResponse {
   status: string;

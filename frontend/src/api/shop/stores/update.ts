@@ -1,19 +1,7 @@
 import { StoreMapper } from "@/api/mappers/store-mapper";
 import { api } from "@/lib/axios";
 import { useMutation } from "@tanstack/react-query";
-
-interface StoreBody {
-  id: number;
-  name: string;
-  logo: string;
-  banner: string;
-  quantityProduct: string;
-  background: string;
-  fontColor: string;
-  area: string;
-  cnpj: string;
-  idUser: number;
-}
+import { StoreBody } from "./create";
 
 interface StoreResponse {
   status: string;

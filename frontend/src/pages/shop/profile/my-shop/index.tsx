@@ -6,9 +6,56 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { findStore } from "@/api/shop/stores/find";
 import { Skeleton } from "@/components/ui/skeleton";
+import { z } from "zod";
+import { Controller, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { updateStore } from "@/api/shop/stores/update";
+import { toast } from "sonner";
 
 export function MyShop() {
   const { data: storeData, isLoading: isStoreDataLoading } = findStore(1);
+
+  const storeValidationSchema = z.object({
+    id: z.coerce.number(),
+    area: z.string(),
+    background: z.string(),
+    banner: z.string(),
+    cnpj: z.string(),
+    fontColor: z.string(),
+    idUser: z.coerce.number(),
+    logo: z.string(),
+    name: z.string(),
+    quantityProduct: z.string(),
+  })
+
+  type StoreValidationSchema = z.infer<typeof storeValidationSchema>
+
+  const { handleSubmit, control } = useForm<StoreValidationSchema>({
+    resolver: zodResolver(storeValidationSchema),
+    values: {
+      id: storeData?.id ?? 0,
+      area: storeData?.area ?? "",
+      background: storeData?.background ?? "",
+      banner: storeData?.banner ?? "",
+      cnpj: storeData?.cnpj ?? "",
+      fontColor: storeData?.fontColor ?? "",
+      idUser: storeData?.idUser ?? "",
+      logo: storeData?.logo ?? "",
+      name: storeData?.name ?? "",
+      quantityProduct: storeData?.quantityProduct ?? ""
+    }
+  })
+
+  const { mutateAsync: updateNewStore } = updateStore();
+
+  const handleUpdateStore = async (data: StoreValidationSchema) => {
+    try {
+      await updateNewStore({ ...data });
+      toast.success("Loja atualizada com sucesso.");
+    } catch (error) {
+      toast.error("Falha ao atualizar a loja.");
+    }
+  }
 
   return (
     <>
@@ -28,26 +75,55 @@ export function MyShop() {
           Editar avatar
         </Button>
 
-        <form className="space-y-4">
+        <form className="space-y-4" onSubmit={handleSubmit(handleUpdateStore)}>
           <div className="w-full">
             <Label>Nome</Label>
             {isStoreDataLoading === true ? (
               <Skeleton className="h-10 w-full" />
             ) : (
-              <Input value={storeData!.name} disabled />
+              <Controller
+                  name="name"
+                  control={control}
+                  rules={{ required: { message: "Digite ao título.", value: true },  }}
+                  render={({ field, fieldState: { error } }) => {
+                    return (
+                      <div className="space-y-1">
+                        <>
+                          <Input type="text" className="h-9" {...field} />
+                          {error && <p className="text-red-500">{error.message}</p>}
+                        </>
+                      </div>
+                    )
+                  }}
+                />
             )}
           </div>
+
           <div className="w-full">
             <Label>CNPJ</Label>
             {isStoreDataLoading === true ? (
               <Skeleton className="h-10 w-full" />
             ) : (
-              <Input value={storeData!.cnpj} disabled />
+              <Controller
+                  name="cnpj"
+                  control={control}
+                  rules={{ required: { message: "Digite ao título.", value: true },  }}
+                  render={({ field, fieldState: { error } }) => {
+                    return (
+                      <div className="space-y-1">
+                        <>
+                          <Input type="text" className="h-9" {...field} />
+                          {error && <p className="text-red-500">{error.message}</p>}
+                        </>
+                      </div>
+                    )
+                  }}
+                />
             )}
           </div>
 
           <div className="flex justify-end">
-            <Button size="sm" disabled>
+            <Button size="sm" type="submit">
               Salvar
             </Button>
           </div>

@@ -1,15 +1,6 @@
 import { api } from "@/lib/axios";
 import { useMutation } from "@tanstack/react-query";
-
-interface TicketBody {
-  id: number;
-  title: string;
-  description: string;
-
-  createdAt: Date;
-  updatedAt: Date;
-  idUser: number;
-}
+import { TicketBody } from "./create";
 
 interface TicketResponse {
   status: string;

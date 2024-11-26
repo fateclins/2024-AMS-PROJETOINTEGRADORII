@@ -1,11 +1,7 @@
 import { api } from "@/lib/axios";
 import { useMutation } from "@tanstack/react-query";
+import { ByproductBody } from "./create";
 
-interface ByproductBody {
-  id: number;
-  idProduct: number;
-  idSubcategory: number;
-}
 
 interface ByproductResponse {
   status: string;
