@@ -25,6 +25,7 @@
 
                 $data = json_decode($input, true);
 
+                // var_dump($data);exit;
                 $this->product->pagination = $data["pagination"];
                 $this->product->variables = $data["filter"];
                
