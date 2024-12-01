@@ -21,8 +21,24 @@
                 $this->byproduct->find($id);
                 return $this->byproduct->variables;
             } else {
+                $input = file_get_contents('php://input');
 
-                return $this->byproduct->all();
+                $data = json_decode($input, true);
+
+                if(isset($data["random"])){
+                // var_dump($data);exit;
+                return $this->byproduct->random();
+                }
+                
+
+                if(isset($data["pagination"]) && isset($data["filter"])){
+                
+                    $this->byproduct->pagination = $data["pagination"];
+                    $this->byproduct->variables = $data["filter"];
+                }
+                
+               
+                return $this->byproduct->search();
             }
         }
 

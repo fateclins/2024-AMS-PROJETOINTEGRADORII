@@ -12,6 +12,8 @@ public $variables;
 
 public $pagination;
 
+public $columns = array();
+
 public function __construct($data = array()) {
     $this->db =  new Core();	
     $this->variables  = $data;
@@ -74,15 +76,19 @@ public function save($id = "0") {
     return null;
 }
 
-public function create() { 
+public function create($data) { 
     $bindings   	= $this->variables;
 
+    $this->validateColumnsCreated();
+
     if(!empty($bindings)) {
+  
         $fields     =  array_keys($bindings);
         $fieldsvals =  array(implode(",",$fields),":" . implode(",:",$fields));
         $sql 		= "INSERT INTO ".$this->table." (".$fieldsvals[0].") VALUES (".$fieldsvals[1].")";
     }
     else {
+      
         $sql 		= "INSERT INTO ".$this->table." () VALUES ()";
     }
 
@@ -127,6 +133,8 @@ public function search($fields = array(), $sort = array()) {
 
     $sql = "SELECT * FROM " . $this->table;
 
+
+
     if (!empty($bindings)) {
         $fieldsvals = array();
         $columns = array_keys($bindings);
@@ -147,6 +155,7 @@ public function search($fields = array(), $sort = array()) {
     if(isset($this->pagination["getStart"])) {
         $sql .= " limit " . $this->pagination["getStart"] . ",".   $this->pagination["getLimit"];
     }
+   
 
     return $this->exec($sql);
 }
@@ -186,8 +195,6 @@ private function exec($sql, $array = null) {
     
     if($array !== null) {
 
-        echo "primeiro if";
-
         $result =  $this->db->query($sql, $array);	
     }
     else {
@@ -202,6 +209,48 @@ private function exec($sql, $array = null) {
     return $result;
 }
 
+public function getColumns(){
+    $sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '$this->table'";
+    
+    // $this->columns = $this->db->query($sql, null, \PDO::FETCH_NAMED );
+    // echo 'teste';exit;
+    $this->columns = $this->db->column($sql);
+}
+
+public function validateColumnsCreated() {
+    $missingColumns = array_diff($this->columns, array_keys($this->variables));
+    $extraVariables = array_diff(array_keys($this->variables), $this->columns);
+    
+    foreach ($missingColumns as $value) {
+        if ($value != $this->pk) {
+            echo "Parametro faltando: " . $value;
+            exit;
+        }
+    }
+    
+    foreach ($extraVariables as $i) {
+        echo "Parametro não existe no banco: " . $i;
+        exit;
+    }
+}
+
+public function random(){
+    $sql = "SELECT * FROM $this->table ";
+    
+    $bindings = empty($fields) ? $this->variables : $fields;
+
+    if (!empty($bindings)) {
+        $fieldsvals = array();
+        $columns = array_keys($bindings);
+        foreach($columns as $column) {
+            $fieldsvals [] = $column . " = :". $column;
+        }
+        $sql .= " WHERE " . implode(" AND ", $fieldsvals);
+    }
+    
+    $sql .= " ORDER BY RAND()";
+    return $this->exec($sql);
+}
 }
 
 ?>

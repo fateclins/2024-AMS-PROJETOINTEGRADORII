@@ -21,8 +21,24 @@
                 $this->orderitem->find($id);
                 return $this->orderitem->variables;
             } else {
+                $input = file_get_contents('php://input');
 
-                return $this->orderitem->all();
+                $data = json_decode($input, true);
+
+                if(isset($data["random"])){
+                // var_dump($data);exit;
+                return $this->variacaoDescricao->random();
+                }
+                
+
+                if(isset($data["pagination"]) && isset($data["filter"])){
+                
+                    $this->variacaoDescricao->pagination = $data["pagination"];
+                    $this->variacaoDescricao->variables = $data["filter"];
+                }
+                
+               
+                return $this->variacaoDescricao->search();
             }
         }
 

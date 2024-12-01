@@ -6,21 +6,37 @@
     class AddressService
     {
    
-        public $product;
+        public $address;
         
         public function __construct(){
-            $this->product = new Address();
+            $this->address = new Address();
         }
         
         public function get($id = null) 
         {
             if ($id) {
-                $this->product->pk = $id;
-                $this->product->find($id);
-                return $this->product->variables;
+                $this->address->pk = $id;
+                $this->address->find($id);
+                return $this->address->variables;
             } else {
+                $input = file_get_contents('php://input');
+
+                $data = json_decode($input, true);
+
+                if(isset($data["random"])){
+                // var_dump($data);exit;
+                return $this->address->random();
+                }
                 
-                return $this->product->all();
+
+                if(isset($data["pagination"]) && isset($data["filter"])){
+                
+                    $this->address->pagination = $data["pagination"];
+                    $this->address->variables = $data["filter"];
+                }
+                
+               
+                return $this->address->search();
             }
         }
 
@@ -34,13 +50,13 @@
                 throw new \Exception('Dados devem ter formato json');
             } 
             
-            $this->product->variables = $data;
+            $this->address->variables = $data;
 
-            $this->product->create($data);
+            $this->address->create($data);
 
            
             
-            return $this->product->db->lastInsertId();
+            return $this->address->db->lastInsertId();
         }
 
         public function put() 
@@ -56,14 +72,14 @@
             } 
             
 
-            $this->product->variables = $jsonData;
+            $this->address->variables = $jsonData;
 
             if (!isset($jsonData['id'])){
                 throw new \Exception('Id não enviado na requisição');
             }
         
 
-            return $this->product->save();
+            return $this->address->save();
             
         }
 
@@ -79,13 +95,13 @@
             } 
             
 
-            $this->product->variables = $jsonData;
+            $this->address->variables = $jsonData;
 
             if (!isset($jsonData['id'])){
                 throw new \Exception('Id não enviado na requisição');
             }
         
 
-            return $this->product->delete();
+            return $this->address->delete();
         }
     }

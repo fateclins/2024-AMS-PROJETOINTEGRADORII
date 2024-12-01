@@ -6,10 +6,10 @@
     class SubCategoryService
     {
    
-        public $product;
+        public $subCategory;
         
         public function __construct(){
-            $this->product = new SubCategory();
+            $this->subCategory = new SubCategory();
 
 
         }
@@ -17,12 +17,28 @@
         public function get($id = null) 
         {
             if ($id) {
-                $this->product->pk = $id;
-                $this->product->find($id);
-                return $this->product->variables;
+                $this->subCategory->pk = $id;
+                $this->subCategory->find($id);
+                return $this->subCategory->variables;
             } else {
+                $input = file_get_contents('php://input');
+
+                $data = json_decode($input, true);
+
+                if(isset($data["random"])){
+                // var_dump($data);exit;
+                return $this->subCategory->random();
+                }
                 
-                return $this->product->all();
+
+                if(isset($data["pagination"]) && isset($data["filter"])){
+                
+                    $this->subCategory->pagination = $data["pagination"];
+                    $this->subCategory->variables = $data["filter"];
+                }
+                
+               
+                return $this->subCategory->search();
             }
         }
 
@@ -36,13 +52,13 @@
                 throw new \Exception('Dados devem ter formato json');
             } 
             
-            $this->product->variables = $data;
+            $this->subCategory->variables = $data;
 
-            $this->product->create($data);
+            $this->subCategory->create($data);
 
            
             
-            return $this->product->db->lastInsertId();
+            return $this->subCategory->db->lastInsertId();
         }
 
         public function put() 
@@ -58,14 +74,14 @@
             } 
             
 
-            $this->product->variables = $jsonData;
+            $this->subCategory->variables = $jsonData;
 
             if (!isset($jsonData['id'])){
                 throw new \Exception('Id não enviado na requisição');
             }
         
 
-            return $this->product->save();
+            return $this->subCategory->save();
             
         }
 
@@ -81,13 +97,13 @@
             } 
             
 
-            $this->product->variables = $jsonData;
+            $this->subCategory->variables = $jsonData;
 
             if (!isset($jsonData['id'])){
                 throw new \Exception('Id não enviado na requisição');
             }
         
 
-            return $this->product->delete();
+            return $this->subCategory->delete();
         }
     }

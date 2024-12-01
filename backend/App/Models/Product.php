@@ -12,9 +12,9 @@
         protected $pk  = 'id';
         public $db;
        
-
         public function __construct(){
             $this->db = new Core();
+            $this->getColumns();
         }
 
      
