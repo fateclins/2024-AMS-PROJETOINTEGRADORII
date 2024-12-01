@@ -1,14 +1,8 @@
 import { OrderItemMapper } from "@/api/mappers/order-item-mapper";
 import { api } from "@/lib/axios";
 import { useMutation } from "@tanstack/react-query";
+import { OrderItemBody } from "./create";
 
-interface OrderItemBody {
-  id: number;
-  quantityOrdered: number;
-  quantityServed: number;
-  itemValue: number;
-  idProduct: number;
-}
 
 interface OrderItemResponse {
   status: string;

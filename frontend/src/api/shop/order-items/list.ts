@@ -1,23 +1,19 @@
+import { OrderItemMapper } from "@/api/mappers/order-item-mapper";
 import { api } from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
 
-interface OrderItemBody {
-  id: number;
-  quantityOrdered: number;
-  quantityServed: number;
-  itemValue: number;
-  idProduct: number;
-}
+interface OrderItemBody {}
 
-interface OrderItemResponse {
-  status: string;
-  data: OrderItemBody[];
-}
+interface OrderItemResponse {}
 
 export async function listOrderItemsController() {
-  const response = await api.get<OrderItemResponse>("/orderitem");
+  const response = await api.get("/orderitem");
 
-  return response.data;
+  const info: Array<any> = response.data;
+
+  return info.map((item) => {
+    return OrderItemMapper.toRequest(item);
+  });
 }
 
 export function listOrderItems() {

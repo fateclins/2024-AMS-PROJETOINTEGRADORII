@@ -5,6 +5,7 @@ import { useMutation } from "@tanstack/react-query";
 export interface UserBody {
   id: number;
   name: string;
+  image: File;
   identity: string;
   email: string;
   password: string;

@@ -1,13 +1,7 @@
 import { CouponMapper } from "@/api/mappers/coupon-mapper";
 import { api } from "@/lib/axios";
 import { useMutation } from "@tanstack/react-query";
-
-interface CouponBody {
-  id: number;
-  phraseCode: string;
-  discount: number;
-  idProduct: number;
-}
+import { CouponBody } from "./create";
 
 interface CouponResponse {
   status: string;

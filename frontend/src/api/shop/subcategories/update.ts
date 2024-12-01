@@ -1,12 +1,8 @@
 import { SubcategoryMapper } from "@/api/mappers/subcategory-mapper";
 import { api } from "@/lib/axios";
 import { useMutation } from "@tanstack/react-query";
+import { SubcategoryBody } from "./create";
 
-interface SubcategoryBody {
-  id: number;
-  description: string;
-  idCategory: number;
-}
 
 interface SubcategoryResponse {
   status: string;

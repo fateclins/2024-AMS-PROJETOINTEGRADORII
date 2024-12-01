@@ -1,21 +1,19 @@
+import { SubcategoryMapper } from "@/api/mappers/subcategory-mapper";
 import { api } from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
 
-interface SubcategoryBody {
-  id: number;
-  description: string;
-  idCategory: number;
-}
+interface SubcategoryBody {}
 
-interface SubcategoryResponse {
-  status: string;
-  data: SubcategoryBody[];
-}
+interface SubcategoryResponse {}
 
 export async function listSubcategoriesController() {
-  const response = await api.get<SubcategoryResponse>("/subcategory");
+  const response = await api.get("/subcategory");
 
-  return response.data;
+  const info: Array<any> = response.data;
+
+  return info.map((item) => {
+    return SubcategoryMapper.toRequest(item);
+  });
 }
 
 export function listSubcategories() {

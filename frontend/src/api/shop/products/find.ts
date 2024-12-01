@@ -2,24 +2,12 @@ import { ProductMapper } from "@/api/mappers/product-mapper";
 import { api } from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
 
-interface ProductBody {
-  id: number;
-  quantity: number;
-  value: number;
-  model: string;
-  bestsellerProduct: boolean;
-  idv1: number;
-  idv2: number;
-  idStore: number;
-}
+interface ProductBody {}
 
-interface ProductResponse {
-  status: string;
-  data: ProductBody;
-}
+interface ProductResponse {}
 
 export async function findProductsController(id: number) {
-  const response = await api.get<ProductResponse>(`/product/${id}`);
+  const response = await api.get(`/product/${id}`);
 
   const data = ProductMapper.toRequest(response.data);
 

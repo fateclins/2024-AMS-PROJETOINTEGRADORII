@@ -1,27 +1,19 @@
+import { AddressMapper } from "@/api/mappers/address-mapper";
 import { api } from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
 
-interface AddressBody {
-  id: number;
-  country: string;
-  state: string;
-  city: string;
-  district: string;
-  street: string;
-  number: string;
-  complement: string;
-  idUser: number;
-}
+interface AddressBody {}
 
-interface AddressResponse {
-  status: string;
-  data: AddressBody[];
-}
+interface AddressResponse {}
 
 export async function listAddressesController() {
-  const response = await api.get<AddressResponse>("/address");
+  const response = await api.get("/address");
 
-  return response.data;
+  const info: Array<any> = response.data;
+
+  return info.map((item) => {
+    return AddressMapper.toRequest(item);
+  });
 }
 
 export function listAddresses() {

@@ -1,12 +1,7 @@
 import { CategoryMapper } from "@/api/mappers/category-mapper";
 import { api } from "@/lib/axios";
 import { useMutation } from "@tanstack/react-query";
-
-interface CategoryBody {
-  id: number;
-  name: string;
-  description: string;
-}
+import { CategoryBody } from "./create";
 
 interface CategoryResponse {
   status: string;

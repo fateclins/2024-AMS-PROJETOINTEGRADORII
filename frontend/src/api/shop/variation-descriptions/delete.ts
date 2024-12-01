@@ -1,10 +1,6 @@
 import { api } from "@/lib/axios";
 import { useMutation } from "@tanstack/react-query";
-
-interface VariationDescriptionBody {
-  id: number;
-  description: string;
-}
+import { VariationDescriptionBody } from "./create";
 
 interface VariationDescriptionResponse {
   status: string;

@@ -1,12 +1,7 @@
 import { api } from "@/lib/axios";
 import { useMutation } from "@tanstack/react-query";
+import { CouponBody } from "./create";
 
-interface CouponBody {
-  id: number;
-  phraseCode: string;
-  discount: number;
-  idProduct: number;
-}
 
 interface CouponResponse {
   status: string;

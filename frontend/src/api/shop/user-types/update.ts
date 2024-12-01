@@ -1,11 +1,7 @@
 import { UserTypeMapper } from "@/api/mappers/user-type-mapper";
 import { api } from "@/lib/axios";
 import { useMutation } from "@tanstack/react-query";
-
-interface UserTypeBody {
-  id: number;
-  description: string;
-}
+import { UserTypeBody } from "./create";
 
 interface UserTypeResponse {
   status: string;

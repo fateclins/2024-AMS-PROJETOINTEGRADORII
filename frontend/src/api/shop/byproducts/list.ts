@@ -1,21 +1,19 @@
+import { ByproductMapper } from "@/api/mappers/byproduct-mapper";
 import { api } from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
 
-interface ByproductBody {
-  id: number;
-  idProduct: number;
-  idSubcategory: number;
-}
+interface ByproductBody {}
 
-interface ByproductResponse {
-  status: string;
-  data: ByproductBody[];
-}
+interface ByproductResponse {}
 
 export async function listByproductsController() {
-  const response = await api.get<ByproductResponse>("/byproduct");
+  const response = await api.get("/byproduct");
 
-  return response.data;
+  const info: Array<any> = response.data;
+
+  return info.map((item) => {
+    return ByproductMapper.toRequest(item);
+  });
 }
 
 export function listByproducts() {

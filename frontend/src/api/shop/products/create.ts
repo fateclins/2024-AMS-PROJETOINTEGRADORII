@@ -6,6 +6,8 @@ export interface ProductBody {
   id: number;
   quantity: number;
   value: number;
+  name: string;
+  description: string;
   model: string;
   bestsellerProduct: boolean;
   idv1: number;

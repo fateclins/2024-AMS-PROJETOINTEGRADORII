@@ -14,7 +14,7 @@ create table variacaoValor(
 	
     idVariacaoDescricao int,
     primary key(id),
-	foreign key (idVariacaoDescricao) references variacaoDescricao(id)
+	foreign key (idVariacaoDescricao) references variacaoDescricao(id) on delete cascade
 );
 create table tipoUsuario(
 	id int auto_increment not null,
@@ -24,17 +24,19 @@ create table tipoUsuario(
 create table usuario(
 	id int auto_increment not null,
     nome varchar(50),
+    imagem varchar(255),
     indentidade varchar(50),
     email varchar(50),
     senha varchar(40),
     
     idTipoUsuario int,
     primary key(id),
-    foreign key(idTipoUsuario) references tipoUsuario(id)
+    foreign key(idTipoUsuario) references tipoUsuario(id) on delete cascade
 );
 create table endereco(
 	id int auto_increment not null,
     pais varchar(50),
+    cep varchar(50),
     estado varchar(50),
     cidade varchar(50),
     bairro varchar(50),
@@ -44,7 +46,7 @@ create table endereco(
     
 	idUsuario int,
     primary key(id),
-    foreign key(idUsuario) references usuario(id)
+    foreign key(idUsuario) references usuario(id) on delete cascade
 );
 create table loja(
 	id int auto_increment not null,
@@ -57,25 +59,26 @@ create table loja(
     area varchar(50),
     cnpj varchar(50),
     
-    
     idUsuario int,
     primary key(id),
-    foreign key(idUsuario) references usuario(id)
+    foreign key(idUsuario) references usuario(id) on delete cascade
 );
 create table produto(
 	id int auto_increment not null,
     qtde int,
     valor double,
     modelo varchar(50),
+    descricao varchar(255),
+    nome varchar(255),
     produtoDestaque BOOLEAN,
     idv1 int,
     idv2 int,
     idloja int,
     
     primary key(id),
-    foreign key(idV1) references variacaoValor(id),
-    foreign key(idV2) references variacaoValor(id),
-	foreign key(idloja) references loja(id)
+    foreign key(idV1) references variacaoValor(id) on delete cascade,
+    foreign key(idV2) references variacaoValor(id) on delete cascade,
+	foreign key(idloja) references loja(id) on delete cascade
 );
 create table categoria(
 	id int auto_increment not null,
@@ -89,7 +92,7 @@ create table subcategoria(
     
     idCategoria int,
      primary key(id),
-    foreign key(idCategoria) references categoria(id)
+    foreign key(idCategoria) references categoria(id) on delete cascade
 );
 create table subProduto(
 	id int auto_increment not null,
@@ -98,8 +101,8 @@ create table subProduto(
     
     
     primary key(id),
-	foreign key(idProduto) references produto(id),
-	foreign key(idSubCat) references subcategoria(id)
+	foreign key(idProduto) references produto(id) on delete cascade,
+	foreign key(idSubCat) references subcategoria(id) on delete cascade
 );
 create table itemPedido(
 	id int auto_increment not null,
@@ -109,19 +112,21 @@ create table itemPedido(
     
 	idProduto int,
     primary key(id),
-	foreign key(idProduto) references produto(id)
+	foreign key(idProduto) references produto(id) on delete cascade
 );
+
 create table pedido(
 	id int auto_increment not null,
     valorTotal double,
     datap datetime,
-    statusp int,
+    statusp varchar(200),
     valorFinal double,
     desconto double,
     idUsuario int,
     primary key(id),
-    foreign key(idUsuario) references usuario(id)
+    foreign key(idUsuario) references usuario(id) on delete cascade
 );
+
 create table pagamento(
 	id int auto_increment not null,
     datap datetime,
@@ -131,7 +136,7 @@ create table pagamento(
     idPedido int,
     
     primary key(id),
-    foreign key(idPedido) references pedido(id)
+    foreign key(idPedido) references pedido(id) on delete cascade
 ); 
 create table ticket(
     id int auto_increment not null,
@@ -142,7 +147,7 @@ create table ticket(
     updatedAt DATETIME ON UPDATE CURRENT_TIMESTAMP,
     idUsuario int,
     primary key(id),
-    foreign key(idUsuario) references usuario(id)
+    foreign key(idUsuario) references usuario(id) on delete cascade
 );
 
 create table cupom(
@@ -152,7 +157,7 @@ create table cupom(
 
     idProduto int,
     primary key(id),
-	foreign key(idProduto) references produto(id)
+	foreign key(idProduto) references produto(id) on delete cascade
 );
 
 /**
@@ -334,47 +339,49 @@ INSERT INTO usuario (nome, indentidade, email, senha, idTipoUsuario) VALUES
 ('Guilherme Prata', '963852456', 'guilherme.prata@example.com', 'senhaEduardo555', 1),
 ('Eduardo Gabriel', '963852456', 'eduardo.gabriel@example.com', 'senhaEduardo555', 1);
 
-INSERT INTO endereco (pais, estado, cidade, bairro, rua, numero, logradouro, idUsuario) VALUES 
-('Brasil', 'SP', 'São Paulo', 'Centro', 'Rua das Flores', '101', 'Avenida', 1),
-('Brasil', 'RJ', 'Rio de Janeiro', 'Copacabana', 'Av. Atlântica', '202', 'Rua', 2),
-('Brasil', 'MG', 'Belo Horizonte', 'Savassi', 'Rua Sergipe', '303', 'Praça', 3),
-('Brasil', 'PR', 'Curitiba', 'Centro', 'Rua XV de Novembro', '404', 'Avenida', 4),
-('Brasil', 'RS', 'Porto Alegre', 'Moinhos de Vento', 'Av. Goethe', '505', 'Rua', 5),
-('Brasil', 'PE', 'Recife', 'Boa Viagem', 'Av. Boa Viagem', '606', 'Avenida', 6),
-('Brasil', 'BA', 'Salvador', 'Barra', 'Rua Afonso Celso', '707', 'Rua', 7),
-('Brasil', 'SC', 'Florianópolis', 'Centro', 'Av. Rio Branco', '808', 'Praça', 8),
-('Brasil', 'ES', 'Vitória', 'Jardim da Penha', 'Av. Fernando Ferrari', '909', 'Avenida', 9),
-('Brasil', 'GO', 'Goiânia', 'Setor Bueno', 'Rua T-63', '1010', 'Avenida', 10),
-('Brasil', 'MS', 'Campo Grande', 'Centro', 'Rua 13 de Maio', '111', 'Rua', 11),
-('Brasil', 'MT', 'Cuiabá', 'Centro Sul', 'Av. do CPA', '1212', 'Avenida', 12),
-('Brasil', 'PA', 'Belém', 'Nazaré', 'Av. Nazaré', '1313', 'Avenida', 13),
-('Brasil', 'AM', 'Manaus', 'Centro', 'Rua Henrique Martins', '1414', 'Rua', 14),
-('Brasil', 'CE', 'Fortaleza', 'Aldeota', 'Av. Santos Dumont', '1515', 'Avenida', 15),
-('Brasil', 'PB', 'João Pessoa', 'Tambaú', 'Av. Almirante Tamandaré', '1616', 'Avenida', 16),
-('Brasil', 'RN', 'Natal', 'Ponta Negra', 'Av. Engenheiro Roberto Freire', '1717', 'Avenida', 17),
-('Brasil', 'AL', 'Maceió', 'Pajuçara', 'Av. Dr. Antônio Gouveia', '1818', 'Avenida', 18),
-('Brasil', 'SE', 'Aracaju', 'Atalaia', 'Av. Santos Dumont', '1919', 'Avenida', 19),
-('Brasil', 'PI', 'Teresina', 'Centro', 'Av. Frei Serafim', '2020', 'Avenida', 20),
-('Brasil', 'AC', 'Rio Branco', 'Centro', 'Rua Floriano Peixoto', '2121', 'Rua', 21),
-('Brasil', 'RO', 'Porto Velho', 'Centro', 'Av. Sete de Setembro', '2222', 'Avenida', 22),
-('Brasil', 'RR', 'Boa Vista', 'Centro', 'Av. Brasil', '2323', 'Avenida', 23),
-('Brasil', 'AP', 'Macapá', 'Centro', 'Av. Fab', '2424', 'Avenida', 24),
-('Brasil', 'TO', 'Palmas', 'Centro', 'Av. Teotônio Segurado', '2525', 'Avenida', 25),
-('Brasil', 'DF', 'Brasília', 'Asa Sul', 'SQS 202 Bloco D', '2626', 'Rua', 26),
-('Brasil', 'SP', 'São Paulo', 'Morumbi', 'Av. Giovanni Gronchi', '2727', 'Avenida', 27),
-('Brasil', 'RJ', 'Rio de Janeiro', 'Botafogo', 'Rua da Paz', '2828', 'Rua', 28),
-('Brasil', 'MG', 'Belo Horizonte', 'Funcionários', 'Rua da Bahia', '2929', 'Avenida', 29),
-('Brasil', 'PR', 'Curitiba', 'Batel', 'Av. do Batel', '3030', 'Avenida', 30),
-('Brasil', 'RS', 'Porto Alegre', 'Cidade Baixa', 'Rua da República', '3131', 'Rua', 31),
-('Brasil', 'PE', 'Recife', 'Olinda', 'Rua do Sol', '3232', 'Rua', 32),
-('Brasil', 'BA', 'Salvador', 'Pelourinho', 'Rua da Harmonia', '3333', 'Rua', 33),
-('Brasil', 'SC', 'Florianópolis', 'Santo Antônio', 'Rua Dom Jaime Câmara', '3434', 'Rua', 34),
-('Brasil', 'ES', 'Vitória', 'Praia do Canto', 'Av. República', '3535', 'Avenida', 35),
-('Brasil', 'GO', 'Goiânia', 'Setor Sul', 'Av. 85', '3636', 'Avenida', 36),
-('Brasil', 'MS', 'Campo Grande', 'Pioneer', 'Rua Marechal Rondon', '3737', 'Rua', 37),
-('Brasil', 'MT', 'Cuiabá', 'Centro Norte', 'Av. Historiadores', '3838', 'Avenida', 38),
-('Brasil', 'PA', 'Belém', 'Reduto', 'Av. Visconde de Souza Franco', '3939', 'Avenida', 39),
-('Brasil', 'AM', 'Manaus', 'Centro', 'Rua Doutor Moreira', '4040', 'Rua', 40);
+INSERT INTO endereco (pais, cep, estado, cidade, bairro, rua, numero, logradouro, idUsuario)
+VALUES
+('Brasil', '01001-000', 'São Paulo', 'São Paulo', 'Centro', 'Rua A', '123', 'Apartamento', 1),
+('Brasil', '20031-000', 'Rio de Janeiro', 'Rio de Janeiro', 'Copacabana', 'Avenida Atlântica', '456', 'Prédio', 2),
+('Brasil', '30190-001', 'Minas Gerais', 'Belo Horizonte', 'Savassi', 'Rua Bahia', '789', 'Casa', 3),
+('Brasil', '40010-000', 'Bahia', 'Salvador', 'Pelourinho', 'Praça Castro Alves', '101', 'Sobrado', 4),
+('Brasil', '50010-000', 'Pernambuco', 'Recife', 'Boa Vista', 'Avenida Conde da Boa Vista', '102', 'Apartamento', 5),
+('Brasil', '60010-000', 'Ceará', 'Fortaleza', 'Meireles', 'Rua dos Navegantes', '103', 'Casa', 6),
+('Brasil', '70040-010', 'Distrito Federal', 'Brasília', 'Asa Sul', 'Quadra 101', '104', 'Apartamento', 7),
+('Brasil', '80010-000', 'Paraná', 'Curitiba', 'Centro', 'Rua XV de Novembro', '105', 'Prédio', 8),
+('Brasil', '90010-000', 'Rio Grande do Sul', 'Porto Alegre', 'Moinhos de Vento', 'Rua Padre Chagas', '106', 'Sobrado', 9),
+('Brasil', '88010-000', 'Santa Catarina', 'Florianópolis', 'Centro', 'Rua Felipe Schmidt', '107', 'Apartamento', 10),
+('Brasil', '95010-000', 'Santa Catarina', 'Blumenau', 'Velha', 'Rua Amazonas', '108', 'Casa', 11),
+('Brasil', '96010-000', 'Rio Grande do Sul', 'Pelotas', 'Centro', 'Praça Coronel Pedro Osório', '109', 'Sobrado', 12),
+('Brasil', '97010-000', 'Santa Maria', 'Santa Maria', 'Nossa Senhora das Dores', 'Rua Floriano Peixoto', '110', 'Apartamento', 13),
+('Brasil', '98010-000', 'São Paulo', 'Campinas', 'Centro', 'Avenida Orosimbo Maia', '111', 'Casa', 14),
+('Brasil', '99010-000', 'São Paulo', 'São Bernardo do Campo', 'Paulicéia', 'Rua Marechal Deodoro', '112', 'Prédio', 15),
+('Brasil', '89010-000', 'Santa Catarina', 'Blumenau', 'Ponta Aguda', 'Rua Itajaí', '113', 'Sobrado', 16),
+('Brasil', '87010-000', 'Paraná', 'Maringá', 'Zona 7', 'Rua Mandacaru', '114', 'Casa', 17),
+('Brasil', '86010-000', 'Paraná', 'Londrina', 'Centro', 'Rua Sergipe', '115', 'Apartamento', 18),
+('Brasil', '85010-000', 'Paraná', 'Ponta Grossa', 'Uvaranas', 'Rua do Comércio', '116', 'Casa', 19),
+('Brasil', '83010-000', 'Santa Catarina', 'Joinville', 'Centro', 'Rua Princesa Isabel', '117', 'Sobrado', 20),
+('Brasil', '82010-000', 'Rio Grande do Sul', 'Caxias do Sul', 'Exposição', 'Avenida Itália', '118', 'Apartamento', 21),
+('Brasil', '71010-000', 'Distrito Federal', 'Brasília', 'Taguatinga', 'Quadra QI 12', '119', 'Casa', 22),
+('Brasil', '60020-000', 'Ceará', 'Fortaleza', 'Aldeota', 'Avenida Santos Dumont', '120', 'Prédio', 23),
+('Brasil', '77010-000', 'Tocantins', 'Palmas', 'Plano Diretor Sul', 'Quadra 103 Sul', '121', 'Sobrado', 24),
+('Brasil', '66010-000', 'Pará', 'Belém', 'Nazaré', 'Avenida Nazaré', '122', 'Apartamento', 25),
+('Brasil', '69010-000', 'Amazonas', 'Manaus', 'Centro', 'Avenida Eduardo Ribeiro', '123', 'Casa', 26),
+('Brasil', '58010-000', 'Paraíba', 'João Pessoa', 'Tambaú', 'Avenida Epitácio Pessoa', '124', 'Prédio', 27),
+('Brasil', '57010-000', 'Alagoas', 'Maceió', 'Ponta Verde', 'Avenida Álvaro Otacílio', '125', 'Apartamento', 28),
+('Brasil', '49010-000', 'Sergipe', 'Aracaju', 'Atalaia', 'Avenida Santos Dumont', '126', 'Casa', 29),
+('Brasil', '48010-000', 'Bahia', 'Feira de Santana', 'Centro', 'Rua Conselheiro Franco', '127', 'Sobrado', 30),
+('Brasil', '36010-000', 'Minas Gerais', 'Juiz de Fora', 'Centro', 'Rua Halfeld', '128', 'Apartamento', 31),
+('Brasil', '37010-000', 'Minas Gerais', 'Varginha', 'Centro', 'Rua Wenceslau Braz', '129', 'Prédio', 32),
+('Brasil', '44010-000', 'Bahia', 'Lauro de Freitas', 'Centro', 'Rua Gerino de Souza', '130', 'Casa', 33),
+('Brasil', '29010-000', 'Espírito Santo', 'Vitória', 'Praia do Canto', 'Rua Aleixo Neto', '131', 'Sobrado', 34),
+('Brasil', '28010-000', 'Rio de Janeiro', 'Campos dos Goytacazes', 'Centro', 'Rua João Pessoa', '132', 'Apartamento', 35),
+('Brasil', '26010-000', 'Rio de Janeiro', 'Duque de Caxias', 'Jardim Primavera', 'Rua General Câmara', '133', 'Prédio', 36),
+('Brasil', '24010-000', 'Rio de Janeiro', 'Niterói', 'Icaraí', 'Rua Coronel Moreira César', '134', 'Casa', 37),
+('Brasil', '23010-000', 'Rio de Janeiro', 'Nova Iguaçu', 'Centro', 'Rua Coronel Francisco Soares', '135', 'Sobrado', 38),
+('Brasil', '22010-000', 'Rio de Janeiro', 'Angra dos Reis', 'Centro', 'Rua Coronel Carvalho', '136', 'Apartamento', 39),
+('Brasil', '21010-000', 'Rio de Janeiro', 'Volta Redonda', 'Vila Santa Cecília', 'Rua Três', '137', 'Prédio', 40);
+
 
 INSERT INTO loja (nome, logo, banner, qtdproduto, corfundo, corfonte, area, cnpj, idUsuario) VALUES 
 ('Loja das Flores', 'logo_flores.png', 'banner_flores.jpg', '150', '#FFFFFF', '#000000', 'Jardim e Decoração', '12345678000101', 1),
@@ -418,47 +425,49 @@ INSERT INTO loja (nome, logo, banner, qtdproduto, corfundo, corfonte, area, cnpj
 ('Moda e Estilo', 'logo_moda_estilo.png', 'banner_estilo.jpg', '500', '#E6E6FA', '#111111', 'Moda', '39234567800039', 39),
 ('Acessórios Plus', 'logo_acessorios.png', 'banner_acessorios.jpg', '400', '#FFFAF0', '#333333', 'Acessórios', '40234567800040', 40);
 
-INSERT INTO produto (qtde, valor, modelo, produtoDestaque, idV1, idV2, idLoja) VALUES 
-(20, 79.99, 'Camiseta Básica', true, 1, 2, 1),
-(50, 129.50, 'Fone de Ouvido Bluetooth', false, 3, 4, 2),
-(100, 29.90, 'Caneca Personalizada', true, 5, 6, 3),
-(25, 399.00, 'Mochila para Notebook', false, 7, 8, 4),
-(15, 150.00, 'Colar de Prata', true, 9, 10, 5),
-(80, 45.00, 'Luminária de Mesa', false, 11, 12, 6),
-(60, 99.99, 'Tênis Casual', true, 13, 14, 7),
-(200, 9.99, 'Copo Reutilizável', false, 15, 16, 8),
-(40, 219.90, 'Relógio Digital', true, 17, 18, 9),
-(30, 49.90, 'Mouse Sem Fio', false, 19, 20, 10),
-(10, 899.99, 'Smartphone Básico', true, 21, 22, 11),
-(90, 19.90, 'Caderno Universitário', false, 23, 24, 12),
-(55, 69.99, 'Garrafa Térmica', true, 25, 26, 13),
-(70, 79.90, 'Almofada Decorativa', false, 27, 28, 14),
-(20, 39.99, 'Camiseta Estampada', true, 29, 30, 15),
-(85, 249.90, 'Jaqueta de Couro', false, 31, 32, 16),
-(120, 59.90, 'Copo Térmico', true, 33, 34, 17),
-(35, 89.90, 'Chinelo Confortável', false, 35, 36, 18),
-(95, 199.00, 'Fritadeira Elétrica', true, 37, 38, 19),
-(200, 6.90, 'Pincel de Maquiagem', false, 39, 40, 20),
-(45, 249.99, 'Carregador Portátil', true, 1, 3, 21),
-(55, 69.99, 'Meias Esportivas', false, 2, 4, 22),
-(10, 299.99, 'Rádio Portátil', true, 5, 7, 23),
-(75, 24.90, 'Pulseira de Miçangas', false, 6, 8, 24),
-(30, 119.99, 'Cortador de Legumes', true, 9, 11, 25),
-(50, 29.90, 'Carteira de Couro', false, 12, 13, 26),
-(40, 199.90, 'Liquidificador', true, 14, 15, 27),
-(150, 7.99, 'Protetor Solar', false, 16, 17, 28),
-(65, 349.99, 'Smartwatch', true, 18, 19, 29),
-(25, 49.99, 'Óculos de Sol', false, 20, 21, 30),
-(5, 1599.00, 'Notebook', true, 22, 23, 31),
-(70, 29.99, 'Chaveiro Personalizado', false, 24, 25, 32),
-(110, 12.99, 'Desodorante', true, 26, 27, 33),
-(45, 139.99, 'Bolsa de Couro', false, 28, 29, 34),
-(15, 79.90, 'Quadro Decorativo', true, 30, 31, 35),
-(60, 49.90, 'Brinco de Ouro', false, 32, 33, 36),
-(100, 22.99, 'Sabonete Artesanal', true, 34, 35, 37),
-(80, 99.90, 'Blusa de Moletom', false, 36, 37, 38),
-(20, 59.99, 'Gorro de Lã', true, 38, 39, 39),
-(30, 45.90, 'Caneta Tinteiro', false, 40, 1, 40);
+-- Inserções na tabela produto
+
+INSERT INTO produto (qtde, valor, modelo, descricao, nome, produtoDestaque, idv1, idv2, idloja) VALUES
+(10, 199.99, 'Modelo A', 'Descrição do produto 1', 'Produto 1', true, 1, 2, 1),
+(5, 299.99, 'Modelo B', 'Descrição do produto 2', 'Produto 2', false, 3, 4, 2),
+(15, 99.99, 'Modelo C', 'Descrição do produto 3', 'Produto 3', true, 5, 6, 3),
+(8, 159.99, 'Modelo D', 'Descrição do produto 4', 'Produto 4', false, 7, 8, 1),
+(20, 349.99, 'Modelo E', 'Descrição do produto 5', 'Produto 5', true, 9, 10, 2),
+(12, 89.99, 'Modelo F', 'Descrição do produto 6', 'Produto 6', false, 11, 12, 3),
+(6, 459.99, 'Modelo G', 'Descrição do produto 7', 'Produto 7', true, 13, 14, 1),
+(18, 249.99, 'Modelo H', 'Descrição do produto 8', 'Produto 8', false, 15, 16, 2),
+(9, 199.99, 'Modelo I', 'Descrição do produto 9', 'Produto 9', true, 17, 18, 3),
+(25, 599.99, 'Modelo J', 'Descrição do produto 10', 'Produto 10', false, 19, 20, 1),
+(30, 399.99, 'Modelo K', 'Descrição do produto 11', 'Produto 11', true, 21, 22, 2),
+(14, 79.99, 'Modelo L', 'Descrição do produto 12', 'Produto 12', false, 23, 24, 3),
+(11, 99.99, 'Modelo M', 'Descrição do produto 13', 'Produto 13', true, 25, 26, 1),
+(7, 149.99, 'Modelo N', 'Descrição do produto 14', 'Produto 14', false, 27, 28, 2),
+(13, 189.99, 'Modelo O', 'Descrição do produto 15', 'Produto 15', true, 29, 30, 3),
+(22, 269.99, 'Modelo P', 'Descrição do produto 16', 'Produto 16', false, 1, 2, 1),
+(16, 329.99, 'Modelo Q', 'Descrição do produto 17', 'Produto 17', true, 3, 4, 2),
+(10, 49.99, 'Modelo R', 'Descrição do produto 18', 'Produto 18', false, 5, 6, 3),
+(21, 379.99, 'Modelo S', 'Descrição do produto 19', 'Produto 19', true, 7, 8, 1),
+(15, 139.99, 'Modelo T', 'Descrição do produto 20', 'Produto 20', false, 9, 10, 2),
+(9, 599.99, 'Modelo U', 'Descrição do produto 21', 'Produto 21', true, 11, 12, 3),
+(14, 199.99, 'Modelo V', 'Descrição do produto 22', 'Produto 22', false, 13, 14, 1),
+(12, 149.99, 'Modelo W', 'Descrição do produto 23', 'Produto 23', true, 15, 16, 2),
+(18, 99.99, 'Modelo X', 'Descrição do produto 24', 'Produto 24', false, 17, 18, 3),
+(17, 299.99, 'Modelo Y', 'Descrição do produto 25', 'Produto 25', true, 19, 20, 1),
+(20, 229.99, 'Modelo Z', 'Descrição do produto 26', 'Produto 26', false, 21, 22, 2),
+(5, 159.99, 'Modelo AA', 'Descrição do produto 27', 'Produto 27', true, 23, 24, 3),
+(8, 189.99, 'Modelo BB', 'Descrição do produto 28', 'Produto 28', false, 25, 26, 1),
+(13, 279.99, 'Modelo CC', 'Descrição do produto 29', 'Produto 29', true, 27, 28, 2),
+(10, 349.99, 'Modelo DD', 'Descrição do produto 30', 'Produto 30', false, 29, 30, 3),
+(6, 89.99, 'Modelo EE', 'Descrição do produto 31', 'Produto 31', true, 1, 2, 1),
+(15, 469.99, 'Modelo FF', 'Descrição do produto 32', 'Produto 32', false, 3, 4, 2),
+(11, 199.99, 'Modelo GG', 'Descrição do produto 33', 'Produto 33', true, 5, 6, 3),
+(19, 259.99, 'Modelo HH', 'Descrição do produto 34', 'Produto 34', false, 7, 8, 1),
+(7, 329.99, 'Modelo II', 'Descrição do produto 35', 'Produto 35', true, 9, 10, 2),
+(12, 389.99, 'Modelo JJ', 'Descrição do produto 36', 'Produto 36', false, 11, 12, 3),
+(14, 99.99, 'Modelo KK', 'Descrição do produto 37', 'Produto 37', true, 13, 14, 1),
+(9, 239.99, 'Modelo LL', 'Descrição do produto 38', 'Produto 38', false, 15, 16, 2),
+(17, 279.99, 'Modelo MM', 'Descrição do produto 39', 'Produto 39', true, 17, 18, 3),
+(20, 199.99, 'Modelo NN', 'Descrição do produto 40', 'Produto 40', false, 19, 20, 1);
 
 INSERT INTO categoria (nome, descricao) VALUES 
 ('Eletrônicos', 'Produtos eletrônicos variados'),
@@ -641,47 +650,48 @@ INSERT INTO itemPedido (qtdePedida, qtdeAtendida, valorItem, idProduto) VALUES
 (1, 1, 90.00, 39),
 (5, 5, 110.00, 40);
 
-INSERT INTO pedido (valorTotal, datap, statusp, valorFinal, desconto, idUsuario) VALUES 
-(150.00, '2024-11-01 10:00:00', 1, 150.00, 0.00, 1),
-(200.00, '2024-11-02 11:15:00', 1, 200.00, 0.00, 2),
-(75.00, '2024-11-01 12:30:00', 2, 75.00, 0.00, 3),
-(300.00, '2024-11-03 14:45:00', 1, 300.00, 0.00, 4),
-(90.00, '2024-11-04 09:10:00', 2, 90.00, 0.00, 5),
-(45.00, '2024-11-01 15:20:00', 3, 45.00, 5.00, 6),
-(250.00, '2024-11-02 08:35:00', 1, 250.00, 0.00, 7),
-(500.00, '2024-11-03 13:55:00', 1, 500.00, 50.00, 8),
-(125.00, '2024-11-04 10:30:00', 2, 125.00, 0.00, 9),
-(60.00, '2024-11-01 17:00:00', 3, 60.00, 10.00, 10),
-(80.00, '2024-11-02 14:00:00', 1, 80.00, 0.00, 11),
-(135.00, '2024-11-03 11:20:00', 1, 135.00, 15.00, 12),
-(200.00, '2024-11-04 09:45:00', 2, 200.00, 0.00, 13),
-(100.00, '2024-11-01 12:10:00', 3, 100.00, 20.00, 14),
-(220.00, '2024-11-02 10:15:00', 1, 220.00, 0.00, 15),
-(320.00, '2024-11-03 13:30:00', 1, 320.00, 30.00, 16),
-(55.00, '2024-11-04 15:50:00', 2, 55.00, 0.00, 17),
-(300.00, '2024-11-01 09:30:00', 1, 300.00, 25.00, 18),
-(140.00, '2024-11-02 12:40:00', 1, 140.00, 0.00, 19),
-(75.00, '2024-11-03 11:55:00', 3, 75.00, 5.00, 20),
-(190.00, '2024-11-04 16:20:00', 2, 190.00, 0.00, 21),
-(250.00, '2024-11-01 10:05:00', 1, 250.00, 0.00, 22),
-(85.00, '2024-11-02 11:10:00', 3, 85.00, 0.00, 23),
-(145.00, '2024-11-03 12:00:00', 1, 145.00, 0.00, 24),
-(310.00, '2024-11-04 13:40:00', 2, 310.00, 50.00, 25),
-(130.00, '2024-11-01 14:15:00', 1, 130.00, 0.00, 26),
-(180.00, '2024-11-02 15:25:00', 2, 180.00, 0.00, 27),
-(95.00, '2024-11-03 10:35:00', 3, 95.00, 5.00, 28),
-(275.00, '2024-11-04 09:50:00', 1, 275.00, 25.00, 29),
-(125.00, '2024-11-01 11:30:00', 1, 125.00, 0.00, 30),
-(150.00, '2024-11-02 12:55:00', 2, 150.00, 0.00, 31),
-(220.00, '2024-11-03 13:05:00', 1, 220.00, 0.00, 32),
-(350.00, '2024-11-04 14:20:00', 1, 350.00, 50.00, 33),
-(60.00, '2024-11-01 15:15:00', 3, 60.00, 0.00, 34),
-(80.00, '2024-11-02 16:30:00', 1, 80.00, 0.00, 35),
-(190.00, '2024-11-03 17:45:00', 2, 190.00, 10.00, 36),
-(300.00, '2024-11-04 08:10:00', 1, 300.00, 20.00, 37),
-(110.00, '2024-11-01 09:00:00', 1, 110.00, 0.00, 38),
-(170.00, '2024-11-02 10:25:00', 3, 170.00, 0.00, 39),
-(95.00, '2024-11-03 11:40:00', 1, 95.00, 5.00, 40);
+INSERT INTO pedido (valorTotal, datap, statusp, valorFinal, desconto, idUsuario) VALUES
+(150.50, '2024-11-01 10:30:00', 'Aguardando pagamento', 135.45, 15.05, 1),
+(250.00, '2024-11-02 11:00:00', 'Pago', 250.00, 0.00, 2),
+(350.99, '2024-11-03 15:20:00', 'Cancelado', 350.99, 0.00, 3),
+(450.75, '2024-11-04 14:10:00', 'Enviado', 400.50, 50.25, 4),
+(550.20, '2024-11-05 16:40:00', 'Entregue', 495.18, 55.02, 5),
+(120.00, '2024-11-06 17:50:00', 'Aguardando pagamento', 108.00, 12.00, 6),
+(250.10, '2024-11-07 09:00:00', 'Pago', 225.09, 25.01, 7),
+(320.45, '2024-11-08 19:00:00', 'Cancelado', 320.45, 0.00, 8),
+(499.99, '2024-11-09 11:30:00', 'Enviado', 449.99, 50.00, 9),
+(600.00, '2024-11-10 20:45:00', 'Entregue', 540.00, 60.00, 10),
+(89.99, '2024-11-11 10:30:00', 'Aguardando pagamento', 80.99, 9.00, 11),
+(299.50, '2024-11-12 14:15:00', 'Pago', 269.55, 29.95, 12),
+(420.80, '2024-11-13 09:45:00', 'Cancelado', 420.80, 0.00, 13),
+(155.00, '2024-11-14 18:20:00', 'Enviado', 139.50, 15.50, 14),
+(230.00, '2024-11-15 21:00:00', 'Entregue', 207.00, 23.00, 15),
+(799.99, '2024-11-16 12:00:00', 'Pago', 719.99, 80.00, 16),
+(120.99, '2024-11-17 16:00:00', 'Cancelado', 120.99, 0.00, 17),
+(545.45, '2024-11-18 18:30:00', 'Enviado', 490.91, 54.54, 18),
+(312.00, '2024-11-19 08:15:00', 'Entregue', 280.80, 31.20, 19),
+(65.90, '2024-11-20 14:50:00', 'Aguardando pagamento', 59.31, 6.59, 20),
+(139.99, '2024-11-21 10:30:00', 'Pago', 125.99, 14.00, 21),
+(185.00, '2024-11-22 11:20:00', 'Cancelado', 185.00, 0.00, 22),
+(245.30, '2024-11-23 19:40:00', 'Enviado', 220.77, 24.53, 23),
+(378.90, '2024-11-24 20:10:00', 'Entregue', 341.01, 37.89, 24),
+(900.00, '2024-11-25 10:00:00', 'Aguardando pagamento', 810.00, 90.00, 25),
+(450.99, '2024-11-26 15:30:00', 'Pago', 405.89, 45.10, 26),
+(120.00, '2024-11-27 17:45:00', 'Cancelado', 120.00, 0.00, 27),
+(245.70, '2024-11-28 19:00:00', 'Enviado', 221.13, 24.57, 28),
+(175.30, '2024-11-29 08:30:00', 'Entregue', 157.77, 17.53, 29),
+(155.90, '2024-11-30 11:50:00', 'Pago', 140.31, 15.59, 30),
+(875.00, '2024-12-01 14:00:00', 'Aguardando pagamento', 787.50, 87.50, 31),
+(330.50, '2024-12-02 09:20:00', 'Pago', 297.45, 33.05, 32),
+(450.00, '2024-12-03 13:30:00', 'Cancelado', 450.00, 0.00, 33),
+(560.80, '2024-12-04 19:15:00', 'Enviado', 504.72, 56.08, 34),
+(720.99, '2024-12-05 21:10:00', 'Entregue', 648.89, 72.10, 35),
+(320.00, '2024-12-06 17:00:00', 'Aguardando pagamento', 288.00, 32.00, 36),
+(200.50, '2024-12-07 12:10:00', 'Pago', 180.45, 20.05, 37),
+(99.90, '2024-12-08 14:45:00', 'Cancelado', 99.90, 0.00, 38),
+(550.99, '2024-12-09 15:20:00', 'Enviado', 495.89, 55.10, 39),
+(800.50, '2024-12-10 16:40:00', 'Entregue', 720.45, 80.05, 40);
+
 
 INSERT INTO pagamento (datap, valor, operacao, statusp, idPedido) VALUES 
 ('2024-11-01 10:00:00', 150.00, 1, 1, 1),

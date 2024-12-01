@@ -1,15 +1,6 @@
 import { api } from "@/lib/axios";
 import { useMutation } from "@tanstack/react-query";
-
-interface OrderBody {
-  id: number;
-  totalValue: number;
-  date: Date;
-  status: number;
-  finalValue: number;
-  discount: number;
-  idUser: number;
-}
+import { OrderBody } from "./create";
 
 interface OrderResponse {
   status: string;

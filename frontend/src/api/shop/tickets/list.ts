@@ -1,25 +1,19 @@
+import { TicketMapper } from "@/api/mappers/ticket-mapper";
 import { api } from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
 
-interface TicketBody {
-  id: number;
-  title: string;
-  description: string;
+interface TicketBody {}
 
-  createdAt: Date;
-  updatedAt: Date;
-  idUser: number;
-}
-
-interface TicketResponse {
-  status: string;
-  data: TicketBody[];
-}
+interface TicketResponse {}
 
 export async function listTicketsController() {
-  const response = await api.get<TicketResponse>("/ticket");
+  const response = await api.get("/ticket");
 
-  return response.data;
+  const info: Array<any> = response.data;
+
+  return info.map((item) => {
+    return TicketMapper.toRequest(item);
+  });
 }
 
 export function listTickets() {

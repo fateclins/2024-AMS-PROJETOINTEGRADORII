@@ -11,6 +11,7 @@ export class AddressMapper {
       idUsuario: !data.idUser ? undefined : data.idUser,
       numero: !data.number ? undefined : data.number,
       estado: !data.state ? undefined : data.state,
+      cep: !data.cep ? undefined : data.cep,
       rua: !data.street ? undefined : data.street,
     };
   }
@@ -25,6 +26,7 @@ export class AddressMapper {
       idUser: !data.idUsuario ? undefined : data.idUsuario,
       number: !data.numero ? undefined : data.numero,
       state: !data.estado ? undefined : data.estado,
+      cep: !data.cep ? undefined : data.cep,
       street: !data.rua ? undefined : data.rua,
     };
   }

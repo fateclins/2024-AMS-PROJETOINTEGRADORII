@@ -1,23 +1,17 @@
+import { VariationValueMapper } from "@/api/mappers/variation-value-mapper";
 import { api } from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
 
-interface VariationValueBody {
-  id: number;
-  value: string;
-  idVariationDescription: number;
-}
+interface VariationValueBody {}
 
-interface VariationValuesResponse {
-  status: string;
-  data: VariationValueBody[];
-}
+interface VariationValuesResponse {}
 
 export async function findVariationValuesController(id: number) {
-  const response = await api.get<VariationValuesResponse>(
-    `/variationvalue/${id}`,
-  );
+  const response = await api.get(`/variationvalue/${id}`);
 
-  return response.data;
+  const data = VariationValueMapper.toRequest(response.data);
+
+  return data;
 }
 
 export function findVariationValue(id: number) {
