@@ -135,7 +135,7 @@ export function Categories() {
               </Button>
             </DialogTrigger>
 
-            <DialogContent>
+            <DialogContent className="max-h-[90vh] sm:max-h-full w-full max-w-[90vw] sm:max-w-md overflow-y-auto sm:overflow-visible">
               <DialogHeader>
                 <DialogTitle>Adicionar categoria</DialogTitle>
                 <DialogDescription>
@@ -192,8 +192,8 @@ export function Categories() {
             <TableHeader>
               <TableRow>
                 <TableHead className="w-[64px]"></TableHead>
-                <TableHead>Nome</TableHead>
-                <TableHead>Descrição</TableHead>
+                <TableHead className="">Nome</TableHead>
+                <TableHead className="">Descrição</TableHead>
                 <TableHead className="w-[64px]"></TableHead>
                 <TableHead className="w-[64px]"></TableHead>
               </TableRow>
@@ -231,7 +231,7 @@ export function Categories() {
                             </Button>
                           </DialogTrigger>
 
-                          <DialogContent>
+                          <DialogContent className="max-h-[90vh] sm:max-h-full w-full max-w-[90vw] sm:max-w-md overflow-y-auto sm:overflow-visible">
                               <DialogHeader>
                                 <DialogTitle>Detalhes da categoria</DialogTitle>
                                 <DialogDescription>
@@ -277,7 +277,7 @@ export function Categories() {
                             </Button>
                           </DialogTrigger>
 
-                          <DialogContent>
+                          <DialogContent className="max-h-[90vh] sm:max-h-full w-full max-w-[90vw] sm:max-w-md overflow-y-auto sm:overflow-visible">
                               <DialogHeader>
                                 <DialogTitle>Editar da categoria</DialogTitle>
                                 <DialogDescription>
@@ -342,7 +342,7 @@ export function Categories() {
                             </Button>
                           </DialogTrigger>
 
-                          <DialogContent>
+                          <DialogContent className="max-h-[90vh] sm:max-h-full w-full max-w-[90vw] sm:max-w-md overflow-y-auto sm:overflow-visible">
                               <DialogHeader>
                                 <DialogTitle>Deseja mesmo excluir a categoria?</DialogTitle>
                                 <DialogDescription>

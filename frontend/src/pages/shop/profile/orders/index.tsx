@@ -188,7 +188,7 @@ export function Orders() {
                               </Button>
                             </DialogTrigger>
 
-                            <DialogContent>
+                            <DialogContent className="max-h-[90vh] sm:max-h-full w-full max-w-[90vw] sm:max-w-md overflow-y-auto sm:overflow-visible">
                               <DialogHeader>
                                 <DialogTitle>Detalhes do pedido</DialogTitle>
                                 <DialogDescription>
@@ -262,7 +262,7 @@ export function Orders() {
                             </Button>
                           </DialogTrigger>
 
-                          <DialogContent>
+                          <DialogContent className="max-h-[90vh] sm:max-h-full w-full max-w-[90vw] sm:max-w-md overflow-y-auto sm:overflow-visible">
                               <DialogHeader>
                                 <DialogTitle>Editar o produto</DialogTitle>
                                 <DialogDescription>
@@ -358,7 +358,7 @@ export function Orders() {
                             </Button>
                           </DialogTrigger>
 
-                          <DialogContent>
+                          <DialogContent className="max-h-[90vh] sm:max-h-full w-full max-w-[90vw] sm:max-w-md overflow-y-auto sm:overflow-visible">
                               <DialogHeader>
                                 <DialogTitle>Deseja mesmo excluir o pedido?</DialogTitle>
                                 <DialogDescription>

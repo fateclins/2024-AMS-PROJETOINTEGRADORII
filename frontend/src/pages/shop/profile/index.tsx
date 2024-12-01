@@ -16,6 +16,7 @@ import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Loader } from "lucide-react";
 
 export function Profile() {
   const { data: userData, isLoading: isUserDataLoading } = findUser(1);
@@ -26,14 +27,6 @@ export function Profile() {
   const userValidationSchema = z.object({
     id: z.coerce.number(),
     name: z.string(),
-    image: z
-    .instanceof(File)
-    .refine((file) => file.size <= 5 * 1024 * 1024, {
-      message: 'O arquivo deve ter no máximo 5MB',
-    })
-    .refine((file) => ['image/jpeg', 'image/png'].includes(file.type), {
-      message: 'Apenas arquivos JPEG e PNG são permitidos',
-    }),
     identity: z.string(),
     email: z.string().email(),
     password: z.string(),
@@ -42,7 +35,7 @@ export function Profile() {
 
   type UserValidationSchema = z.infer<typeof userValidationSchema>
 
-  const { control: userControl, handleSubmit: handleUserSubmit } = useForm<UserValidationSchema>({
+  const { control: userControl, handleSubmit: handleUserSubmit, formState: { isSubmittingUser } } = useForm<UserValidationSchema>({
     resolver: zodResolver(userValidationSchema),
     values: {
       id: userData?.id ?? 0,
@@ -82,7 +75,7 @@ export function Profile() {
 
   type AddressValidationSchema = z.infer<typeof addressValidationSchema>
 
-  const { control: addressControl, handleSubmit: handleAddressSubmit } = useForm<AddressValidationSchema>({
+  const { control: addressControl, handleSubmit: handleAddressSubmit, formState: { isSubmittingAddress } } = useForm<AddressValidationSchema>({
     resolver: zodResolver(addressValidationSchema),
     values: {
       id: addressData?.id ?? 0,
@@ -218,8 +211,8 @@ export function Profile() {
           </div>
 
           <div className="flex justify-end">
-            <Button size="sm" type="submit">
-              Salvar
+            <Button size="sm" type="submit" disabled={isSubmittingUser}>
+            {isSubmittingAddress ? <Loader className="animate-spin"/> : "Salvar"}
             </Button>
           </div>
         </form>
@@ -375,8 +368,8 @@ export function Profile() {
           </div>
 
           <div className="flex justify-end">
-            <Button size="sm" type="submit">
-              Salvar
+            <Button size="sm" type="submit" disabled={isSubmittingAddress}>
+              {isSubmittingAddress ? <Loader className="animate-spin"/> : "Salvar"}
             </Button>
           </div>
         </form>

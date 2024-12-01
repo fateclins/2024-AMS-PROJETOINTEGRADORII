@@ -183,7 +183,7 @@ export function Products() {
               </Button>
             </DialogTrigger>
 
-            <DialogContent>
+            <DialogContent className="max-h-[90vh] sm:max-h-full w-full max-w-[90vw] sm:max-w-md overflow-y-auto sm:overflow-visible">
               <DialogHeader>
                 <DialogTitle>Adicionar produto</DialogTitle>
                 <DialogDescription>
@@ -332,7 +332,7 @@ export function Products() {
                             </Button>
                           </DialogTrigger>
 
-                          <DialogContent>
+                          <DialogContent className="max-h-[90vh] sm:max-h-full w-full max-w-[90vw] sm:max-w-md overflow-y-auto sm:overflow-visible">
                               <DialogHeader>
                                 <DialogTitle>Detalhes da produto</DialogTitle>
                                 <DialogDescription>
@@ -405,7 +405,7 @@ export function Products() {
                             </Button>
                           </DialogTrigger>
 
-                          <DialogContent>
+                          <DialogContent className="max-h-[90vh] sm:max-h-full w-full max-w-[90vw] sm:max-w-md overflow-y-auto sm:overflow-visible">
                               <DialogHeader>
                                 <DialogTitle>Editar da produto</DialogTitle>
                                 <DialogDescription>
@@ -537,7 +537,7 @@ export function Products() {
                             </Button>
                           </DialogTrigger>
 
-                          <DialogContent>
+                          <DialogContent className="max-h-[90vh] sm:max-h-full w-full max-w-[90vw] sm:max-w-md overflow-y-auto sm:overflow-visible">
                               <DialogHeader>
                                 <DialogTitle>Deseja mesmo excluir a produto?</DialogTitle>
                                 <DialogDescription>
