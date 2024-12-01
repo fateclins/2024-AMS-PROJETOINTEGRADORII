@@ -30,7 +30,7 @@ export function Dashboard() {
   return (
     <div className="space-y-2.5">
       <h2 className="text-xl font-semibold">Dashboard</h2>
-      <div className="flex items-center gap-2">
+      <div className="flex flex-col md:flex-row items-center gap-2">
         <Card className="w-full">
           <CardHeader>
             <CardTitle className="text-md font-medium text-muted-foreground">Total vendas</CardTitle>
@@ -42,8 +42,6 @@ export function Dashboard() {
               <span className="text-sm text-emerald-500 px-2 rounded-full bg-emerald-50">+10%</span>
               <p className="text-sm text-muted-foreground">Em relação ao último mês.</p>
             </div>
-
-           
           </CardContent>
 
         </Card>

@@ -11,13 +11,13 @@ import {
 
 export function Menubar() {
   return (
-    <div className='flex items-center gap-4 border-b py-2'>
-      <NavLink to='/profile'>Meu Perfil</NavLink>
-      <NavLink to='/profile/orders'>Meus Pedidos</NavLink>
+    <div className='flex flex-wrap items-center gap-2 border-b py-2'>
+      <NavLink to='/profile' className='w-full sm:w-max text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-zinc-100 transition data-[current=true]:bg-zinc-100 p-2 rounded-lg data-[current=true]:text-foreground'>Meu Perfil</NavLink>
+      <NavLink to='/profile/orders' className='w-full sm:w-max text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-zinc-100 transition data-[current=true]:bg-zinc-100 p-2 rounded-lg data-[current=true]:text-foreground'>Meus Pedidos</NavLink>
       <NavigationMenu>
         <NavigationMenuList>
           <NavigationMenuItem>
-            <NavigationMenuTrigger className='text-muted-foreground'>Área do vendedor</NavigationMenuTrigger>
+            <NavigationMenuTrigger className='text-muted-foreground w-full md:w-max'>Área do vendedor</NavigationMenuTrigger>
             <NavigationMenuContent>
               <div className='w-[200px] p-2 space-y-2'>
                 <NavigationMenuLink asChild>
