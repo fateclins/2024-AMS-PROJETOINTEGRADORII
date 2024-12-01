@@ -120,7 +120,9 @@ class Core
         if (empty($this->parameters) && is_array($parray)) {
             $columns = array_keys($parray);
             foreach ($columns as $i => &$column) {
+                if ($column !="keyword") {
                 $this->bind($column, $parray[$column]);
+                }
             }
         }
     }

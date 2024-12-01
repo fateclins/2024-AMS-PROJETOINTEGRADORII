@@ -21,24 +21,24 @@
                 $this->orderitem->find($id);
                 return $this->orderitem->variables;
             } else {
-                $input = file_get_contents('php://input');
+                $req = $_REQUEST;
 
-                $data = json_decode($input, true);
+                $data = json_decode($req['payload'], true);
 
                 if(isset($data["random"])){
                 // var_dump($data);exit;
-                return $this->variacaoDescricao->random();
+                return $this->orderitem->random();
                 }
                 
 
                 if(isset($data["pagination"]) && isset($data["filter"])){
                 
-                    $this->variacaoDescricao->pagination = $data["pagination"];
-                    $this->variacaoDescricao->variables = $data["filter"];
+                    $this->orderitem->pagination = $data["pagination"];
+                    $this->orderitem->variables = $data["filter"];
                 }
                 
                
-                return $this->variacaoDescricao->search();
+                return $this->orderitem->search();
             }
         }
 

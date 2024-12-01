@@ -21,8 +21,24 @@
                 $this->user->find($id);
                 return $this->user->variables;
             } else {
+                $req = $_REQUEST;
+
+                $data = json_decode($req['payload'], true);
+
+                if(isset($data["random"])){
+                // var_dump($data);exit;
+                return $this->user->random();
+                }
                 
-                return $this->user->all();
+
+                if(isset($data["pagination"]) && isset($data["filter"])){
+                
+                    $this->user->pagination = $data["pagination"];
+                    $this->user->variables = $data["filter"];
+                }
+                
+               
+                return $this->user->search();
             }
         }
 

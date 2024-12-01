@@ -130,18 +130,26 @@ public function findByEmail($email = "") {
 
 public function search($fields = array(), $sort = array()) {
     $bindings = empty($fields) ? $this->variables : $fields;
-
+// var_dump($bindings);exit;
     $sql = "SELECT * FROM " . $this->table;
-
-
 
     if (!empty($bindings)) {
         $fieldsvals = array();
+        $sqlKeyWord = array();
         $columns = array_keys($bindings);
+        
         foreach($columns as $column) {
-            $fieldsvals [] = $column . " = :". $column;
+            if ($column !="keyword") {
+                $fieldsvals [] = $column . " = :". $column;
+            }else {
+                foreach($bindings["keyword"] as $column2 => $val){
+                    $sqlKeyWord [] = " $column2  LIKE  '$val%' ";
+                }
+            }
         }
-        $sql .= " WHERE " . implode(" AND ", $fieldsvals);
+        
+        $sql .= " WHERE " . implode(" AND ", $fieldsvals) . implode(" AND ", $sqlKeyWord);     
+        // echo $sql;exit;
     }
     
     if (!empty($sort)) {
@@ -156,7 +164,6 @@ public function search($fields = array(), $sort = array()) {
         $sql .= " limit " . $this->pagination["getStart"] . ",".   $this->pagination["getLimit"];
     }
    
-
     return $this->exec($sql);
 }
 

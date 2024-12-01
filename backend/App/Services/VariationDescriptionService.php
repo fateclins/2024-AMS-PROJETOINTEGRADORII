@@ -21,8 +21,24 @@
                 $this->variationDescription->find($id);
                 return $this->variationDescription->variables;
             } else {
+                $req = $_REQUEST;
+
+                $data = json_decode($req['payload'], true);
+
+                if(isset($data["random"])){
+                // var_dump($data);exit;
+                return $this->variationDescription->random();
+                }
                 
-                return $this->variationDescription->all();
+
+                if(isset($data["pagination"]) && isset($data["filter"])){
+                
+                    $this->variationDescription->pagination = $data["pagination"];
+                    $this->variationDescription->variables = $data["filter"];
+                }
+                
+               
+                return $this->variationDescription->search();
             }
         }
 
