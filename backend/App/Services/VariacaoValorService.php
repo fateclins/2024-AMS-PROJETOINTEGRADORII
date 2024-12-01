@@ -19,8 +19,24 @@
                 $this->variacaoValor->find($id);
                 return $this->variacaoValor->variables;
             } else {
+                $input = file_get_contents('php://input');
+
+                $data = json_decode($input, true);
+
+                if(isset($data["random"])){
+                // var_dump($data);exit;
+                return $this->variacaoValor->random();
+                }
                 
-                return $this->variacaoValor->all();
+
+                if(isset($data["pagination"]) && isset($data["filter"])){
+                
+                    $this->variacaoValor->pagination = $data["pagination"];
+                    $this->variacaoValor->variables = $data["filter"];
+                }
+                
+               
+                return $this->variacaoValor->search();
             }
         }
 

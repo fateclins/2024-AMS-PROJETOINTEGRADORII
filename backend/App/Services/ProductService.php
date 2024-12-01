@@ -25,9 +25,18 @@
 
                 $data = json_decode($input, true);
 
+                if(isset($data["random"])){
                 // var_dump($data);exit;
-                $this->product->pagination = $data["pagination"];
-                $this->product->variables = $data["filter"];
+                return $this->product->random();
+                }
+                
+
+                if(isset($data["pagination"]) && isset($data["filter"])){
+                
+                    $this->product->pagination = $data["pagination"];
+                    $this->product->variables = $data["filter"];
+                }
+                
                
                 return $this->product->search();
             }

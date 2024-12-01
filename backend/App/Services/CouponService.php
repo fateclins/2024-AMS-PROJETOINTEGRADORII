@@ -19,8 +19,24 @@
                 $this->coupon->find($id);
                 return $this->coupon->variables;
             } else {
+                $input = file_get_contents('php://input');
+
+                $data = json_decode($input, true);
+
+                if(isset($data["random"])){
+                // var_dump($data);exit;
+                return $this->coupon->random();
+                }
                 
-                return $this->coupon->all();
+
+                if(isset($data["pagination"]) && isset($data["filter"])){
+                
+                    $this->coupon->pagination = $data["pagination"];
+                    $this->coupon->variables = $data["filter"];
+                }
+                
+               
+                return $this->coupon->search();
             }
         }
 

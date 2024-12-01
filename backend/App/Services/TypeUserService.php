@@ -6,10 +6,10 @@
     class TypeUserService
     {
    
-        public $product;
+        public $typeUser;
         
         public function __construct(){
-            $this->product = new TypeUser();
+            $this->typeUser = new TypeUser();
 
 
         }
@@ -17,12 +17,28 @@
         public function get($id = null) 
         {
             if ($id) {
-                $this->product->pk = $id;
-                $this->product->find($id);
-                return $this->product->variables;
+                $this->typeUser->pk = $id;
+                $this->typeUser->find($id);
+                return $this->typeUser->variables;
             } else {
+                $input = file_get_contents('php://input');
+
+                $data = json_decode($input, true);
+
+                if(isset($data["random"])){
+                // var_dump($data);exit;
+                return $this->typeUser->random();
+                }
                 
-                return $this->product->all();
+
+                if(isset($data["pagination"]) && isset($data["filter"])){
+                
+                    $this->typeUser->pagination = $data["pagination"];
+                    $this->typeUser->variables = $data["filter"];
+                }
+                
+               
+                return $this->typeUser->search();
             }
         }
 
@@ -36,13 +52,13 @@
                 throw new \Exception('Dados devem ter formato json');
             } 
             
-            $this->product->variables = $data;
+            $this->typeUser->variables = $data;
 
-            $this->product->create($data);
+            $this->typeUser->create($data);
 
            
             
-            return $this->product->db->lastInsertId();
+            return $this->typeUser->db->lastInsertId();
         }
 
         public function put() 
@@ -58,14 +74,14 @@
             } 
             
 
-            $this->product->variables = $jsonData;
+            $this->typeUser->variables = $jsonData;
 
             if (!isset($jsonData['id'])){
                 throw new \Exception('Id não enviado na requisição');
             }
         
 
-            return $this->product->save();
+            return $this->typeUser->save();
             
         }
 
@@ -81,13 +97,13 @@
             } 
             
 
-            $this->product->variables = $jsonData;
+            $this->typeUser->variables = $jsonData;
 
             if (!isset($jsonData['id'])){
                 throw new \Exception('Id não enviado na requisição');
             }
         
 
-            return $this->product->delete();
+            return $this->typeUser->delete();
         }
     }

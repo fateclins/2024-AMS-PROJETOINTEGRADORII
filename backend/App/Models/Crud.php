@@ -133,6 +133,8 @@ public function search($fields = array(), $sort = array()) {
 
     $sql = "SELECT * FROM " . $this->table;
 
+
+
     if (!empty($bindings)) {
         $fieldsvals = array();
         $columns = array_keys($bindings);
@@ -153,6 +155,7 @@ public function search($fields = array(), $sort = array()) {
     if(isset($this->pagination["getStart"])) {
         $sql .= " limit " . $this->pagination["getStart"] . ",".   $this->pagination["getLimit"];
     }
+   
 
     return $this->exec($sql);
 }
@@ -231,7 +234,23 @@ public function validateColumnsCreated() {
     }
 }
 
+public function random(){
+    $sql = "SELECT * FROM $this->table ";
+    
+    $bindings = empty($fields) ? $this->variables : $fields;
 
+    if (!empty($bindings)) {
+        $fieldsvals = array();
+        $columns = array_keys($bindings);
+        foreach($columns as $column) {
+            $fieldsvals [] = $column . " = :". $column;
+        }
+        $sql .= " WHERE " . implode(" AND ", $fieldsvals);
+    }
+    
+    $sql .= " ORDER BY RAND()";
+    return $this->exec($sql);
+}
 }
 
 ?>

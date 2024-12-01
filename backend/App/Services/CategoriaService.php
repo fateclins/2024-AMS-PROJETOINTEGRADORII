@@ -19,8 +19,24 @@
                 $this->categoria->find($id);
                 return $this->categoria->variables;
             } else {
+                $input = file_get_contents('php://input');
+
+                $data = json_decode($input, true);
+
+                if(isset($data["random"])){
+                // var_dump($data);exit;
+                return $this->categoria->random();
+                }
                 
-                return $this->categoria->all();
+
+                if(isset($data["pagination"]) && isset($data["filter"])){
+                
+                    $this->categoria->pagination = $data["pagination"];
+                    $this->categoria->variables = $data["filter"];
+                }
+                
+               
+                return $this->categoria->search();
             }
         }
 

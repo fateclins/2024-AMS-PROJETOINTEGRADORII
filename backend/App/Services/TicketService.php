@@ -19,8 +19,24 @@
                 $this->ticket->find($id);
                 return $this->ticket->variables;
             } else {
+                $input = file_get_contents('php://input');
+
+                $data = json_decode($input, true);
+
+                if(isset($data["random"])){
+                // var_dump($data);exit;
+                return $this->ticket->random();
+                }
                 
-                return $this->ticket->all();
+
+                if(isset($data["pagination"]) && isset($data["filter"])){
+                
+                    $this->ticket->pagination = $data["pagination"];
+                    $this->ticket->variables = $data["filter"];
+                }
+                
+               
+                return $this->ticket->search();
             }
         }
 

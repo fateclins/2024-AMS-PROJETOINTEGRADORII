@@ -23,9 +23,19 @@
 
                 $data = json_decode($input, true);
 
-                $this->endereco->pagination = $data["pagination"];
-                $this->endereco->variables = $data["filter"];
+                if(isset($data["random"])){
+                // var_dump($data);exit;
+                return $this->endereco->random();
+                }
+                
 
+                if(isset($data["pagination"]) && isset($data["filter"])){
+                
+                    $this->endereco->pagination = $data["pagination"];
+                    $this->endereco->variables = $data["filter"];
+                }
+                
+               
                 return $this->endereco->search();
             }
         }
