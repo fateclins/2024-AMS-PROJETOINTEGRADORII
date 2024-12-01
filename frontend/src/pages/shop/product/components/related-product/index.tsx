@@ -1,8 +1,12 @@
-import { listProducts } from '@/api/shop/products/list'
-import { ProductCard } from '@/components/product-card'
+import { listProductsController } from '@/api/shop/products/list';
+import { ProductCard } from '@/components/product-card';
+import { useQuery } from '@tanstack/react-query';
 
 export function RelatedProduct () {
-  const { data: products } = listProducts()
+  const { data: products } = useQuery({
+    queryKey: ["listProduct"],
+    queryFn: () => listProductsController({ filter: { valor: 10 }, pagination: {} }),
+  });
 
   return (
     <div className="flex flex-col gap-4">

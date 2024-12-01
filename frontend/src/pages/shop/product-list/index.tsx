@@ -10,8 +10,8 @@ export function ProductList () {
     <>
       <Helmet title="Pesquisa de Produtos" />
       <div className="flex h-full w-full flex-col items-center">
-        <div className="flex flex-row gap-9">
-          <div className="">
+        <div className="w-full flex">
+          <div className="w-full max-w-sm">
             <Navigation />
             <Filter />
           </div>
