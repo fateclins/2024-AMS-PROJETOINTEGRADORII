@@ -19,9 +19,9 @@
                 $this->ticket->find($id);
                 return $this->ticket->variables;
             } else {
-                $input = file_get_contents('php://input');
+                $req = $_REQUEST;
 
-                $data = json_decode($input, true);
+                $data = json_decode($req['payload'], true);
 
                 if(isset($data["random"])){
                 // var_dump($data);exit;

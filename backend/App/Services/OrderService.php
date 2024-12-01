@@ -21,8 +21,24 @@
                 $this->order->find($id);
                 return $this->order->variables;
             } else {
+                $req = $_REQUEST;
 
-                return $this->order->all();
+                $data = json_decode($req['payload'], true);
+
+                if(isset($data["random"])){
+                // var_dump($data);exit;
+                return $this->order->random();
+                }
+                
+
+                if(isset($data["pagination"]) && isset($data["filter"])){
+                
+                    $this->order->pagination = $data["pagination"];
+                    $this->order->variables = $data["filter"];
+                }
+                
+               
+                return $this->order->search();
             }
         }
 

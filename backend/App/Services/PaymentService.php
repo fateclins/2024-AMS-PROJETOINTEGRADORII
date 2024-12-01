@@ -21,8 +21,24 @@
                 $this->payment->find($id);
                 return $this->payment->variables;
             } else {
+                $req = $_REQUEST;
 
-                return $this->payment->all();
+                $data = json_decode($req['payload'], true);
+
+                if(isset($data["random"])){
+                // var_dump($data);exit;
+                return $this->payment->random();
+                }
+                
+
+                if(isset($data["pagination"]) && isset($data["filter"])){
+                
+                    $this->payment->pagination = $data["pagination"];
+                    $this->payment->variables = $data["filter"];
+                }
+                
+               
+                return $this->payment->search();
             }
         }
 
