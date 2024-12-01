@@ -7,7 +7,7 @@
     class Coupon extends Crud
     {
         protected $core = null;
-        public $table = 'CUPOM';
+        public $table = 'cupom';
         private $filters = null;
         protected $pk  = 'id';
         public $db;
