@@ -11,90 +11,89 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Textarea } from '@/components/ui/textarea'
 
 import { Favorite } from '../favorite'
+import { useParams } from 'react-router-dom'
+import { findProduct } from '@/api/shop/products/find'
+import { Heart } from 'lucide-react'
 
 export function ProductInfo () {
+  const { slug } = useParams()
+
+  const { data: product } = findProduct(Number(slug))
+
   return (
-    <div className="flex w-[1140px] flex-col items-start">
-      <Navigation />
-      <div className="mt-4 flex w-full flex-row justify-between">
-        <img
-          src=""
-          alt=""
-          className="h-[555px] w-[555px] bg-zinc-500 bg-cover"
-        />
-        <div className="flex h-[555px] w-[545px] flex-col items-start justify-center">
-          <div className="flex w-full flex-row items-center justify-between">
-            <h1 className="text-2xl font-bold">Lorem ipsum</h1>
-            <Badge
-              variant="secondary"
-              className="rounded-md bg-green-100 text-green-600"
-            >
-              No estoque
-            </Badge>
-          </div>
-          <h6 className="mt-2 text-xl">Lorem ipsum dollar amset</h6>
-          <div className="mt-2 flex flex-row">
-            <StarRating rating={5} totalStars={5} />
-            <span className="ml-2 text-zinc-500">5.0 (120 visualizações)</span>
-          </div>
-          <div className="mt-2">
-            <span className="text-lg font-normal">R$ 80,00</span>
-            <span className="ml-2 text-lg text-zinc-500 line-through">
-              R$ 200,00
-            </span>
-          </div>
-          <p className="mt-3">
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Recusandae
-            nesciunt maxime tempore sapiente. Labore eum tempore explicabo,
-            officiis sed eos. Nam quas ducimus nostrum odit repellendus eum
-            laboriosam inventore tenetur.
-          </p>
-          <div className="mt-4">
-            <strong>Cor</strong>
-            <div className="mt-2 flex flex-row gap-x-[10px]">
-              {Array.from({ length: 5 }).map((_, index) => {
-                return (
-                  <div
-                    key={index}
-                    className="h-[36px] w-[36px] rounded bg-zinc-400"
-                  ></div>
-                )
-              })}
+    <div className="flex flex-col">
+      {/* <Navigation /> */}
+
+      <div className="flex flex-col lg:grid-cols-2 lg:grid gap-4">
+        <div className='w-full h-96 bg-muted rounded-lg object-cover' />
+
+        <div className="flex w-full flex-col items-start justify-center gap-6">
+          <div className='space-y-2 w-full'>
+            <div className="flex w-full flex-row items-center justify-between">
+              <h1 className="text-2xl font-bold">{product?.name}</h1>
+              {product?.quantity > 0 ? (
+              <Badge
+                variant="secondary"
+                className="rounded-md bg-green-100 text-green-600"
+              >
+                Em estoque
+              </Badge>
+              ) : (
+              <Badge
+                variant="secondary"
+                className="rounded-md bg-rose-100 text-rose-600"
+              >
+                Sem estoque
+              </Badge>
+              )}
+
+
+            </div>
+            <h6 className="text-sm text-muted-foreground">{product?.model}</h6>
+            <span className="text-2xl font-semibold">R$ {product?.value}</span>
+
+            <div className="flex items-center gap-2">
+              <StarRating rating={3 } totalStars={5} />
+              <span className="text-sm text-zinc-500">5.0 (120 visualizações)</span>
             </div>
           </div>
-          <div className="mt-4">
-            <strong>Tamanho</strong>
-            <div className="mt-2 flex flex-row gap-x-[10px]">
-              {Array.from({ length: 5 }).map((_, index) => {
-                return (
-                  <div
-                    key={index}
-                    className="h-[36px] w-[36px] rounded bg-zinc-400"
-                  ></div>
-                )
-              })}
+
+          <div className='space-y-4'>
+            <div className='space-y-2'>
+              <strong>Cor</strong>
+              <div className="flex gap-2">
+                {Array.from({ length: 5 }).map((_, index) => {
+                  return (
+                    <div
+                      key={index}
+                      className="h-[36px] w-[36px] rounded bg-zinc-400"
+                    ></div>
+                  )
+                })}
+              </div>
+            </div>
+
+            <div className='space-y-2'>
+              <strong>Tamanho</strong>
+              <div className="flex gap-2">
+                {Array.from({ length: 5 }).map((_, index) => {
+                  return (
+                    <div
+                      key={index}
+                      className="h-[36px] w-[36px] rounded bg-zinc-400"
+                    ></div>
+                  )
+                })}
+              </div>
             </div>
           </div>
-          <div className="mt-11 flex w-full gap-[20px]">
-            <Increment />
-            <Button className="w-[339px] bg-zinc-950 p-6">
-              Adicionar no carrinho
+          <div className="flex w-full items-center gap-2">
+            <Button className='w-full'>Adicionar ao carrinho</Button>
+            <Button variant='outline'>
+              <Heart className='size-4' />
             </Button>
-            <Favorite />
           </div>
         </div>
-      </div>
-      <div className="mt-4 flex w-full flex-row flex-wrap justify-start gap-x-[20px]">
-        {Array.from({ length: 8 }).map((_, index) => {
-          return (
-            <img
-              key={index}
-              src=""
-              alt=""
-              className="h-[125px] w-[125px] bg-zinc-500"
-            />
-          )
-        })}
       </div>
 
       <Tabs defaultValue="descriptions" className="m-0 mt-7 w-full p-0">
@@ -104,12 +103,6 @@ export function ProductInfo () {
             className="m-0 h-full rounded-none p-0 text-lg visited:text-foreground focus:h-[43px] focus:border-b-[3px] focus:border-b-zinc-900 disabled:text-muted-foreground"
           >
             Descrição
-          </TabsTrigger>
-          <TabsTrigger
-            value="additionalInformation"
-            className="m-0 h-full rounded-none p-0 text-lg visited:text-foreground focus:h-[43px] focus:border-b-[3px] focus:border-b-zinc-900 disabled:text-muted-foreground"
-          >
-            Informações Adicionais
           </TabsTrigger>
           <TabsTrigger
             value="review"
@@ -125,22 +118,20 @@ export function ProductInfo () {
           </TabsTrigger>
         </TabsList>
         <TabsContent value="descriptions" className="m-0 p-0">
-          <div className="border-b-[2px] border-b-zinc-100 pb-4">
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tempora
-            quo cumque odit, nobis amet ab voluptatibus quas, animi expedita
-            laborum modi atque laudantium sapiente. Itaque perferendis optio
-            placeat est repudiandae.
-          </div>
-        </TabsContent>
-        <TabsContent value="additionalInformation" className="m-0 p-0">
-          <div className="border-b-[2px] border-b-zinc-100 pb-4">
-            <div className="flex flex-row gap-5">
-              <strong>Cor</strong>
-              <p>Red, Green, Orange</p>
-            </div>
-            <div className="mt-2 flex flex-row gap-5">
-              <strong>Size</strong>
-              <p>S, M, L, XL, XXL</p>
+          <div className="border-b flex flex-col gap-4 border-b-zinc-100 pb-4">
+            <p className='max-w-xl'>
+              {product?.description}
+            </p>
+
+            <div className='space-y-2'>
+              <div className="flex gap-5">
+                <strong>Cor</strong>
+                <p>Red, Green, Orange</p>
+              </div>
+              <div className="flex gap-5">
+                <strong>Size</strong>
+                <p>S, M, L, XL, XXL</p>
+              </div>
             </div>
           </div>
         </TabsContent>
@@ -183,8 +174,8 @@ export function ProductInfo () {
         <TabsContent value="comment">
           <div className="mt-5">
             <strong>Adicionar seu comentário</strong>
-            <form action="" className="mt-6">
-              <div className="">
+            <form action="" className="mt-6 space-y-4">
+              <div className="space-y-2">
                 <Label>Sua nota</Label>
                 <RadioGroup
                   defaultValue="option-one"
@@ -283,15 +274,8 @@ export function ProductInfo () {
                   </div>
                 </RadioGroup>
               </div>
-              <div className="my-4">
-                <Label htmlFor="name">Seu nome</Label>
-                <Input id="name" name="name" className="mt-1" />
-              </div>
-              <div className="">
-                <Label htmlFor="email">Seu e-mail</Label>
-                <Input id="email" name="email" className="mt-1" />
-              </div>
-              <div className="my-4">
+
+              <div className="space-y-2">
                 <Label htmlFor="comment">Seu comentário</Label>
                 <Textarea id="comment" name="comment" className="mt-1" />
               </div>

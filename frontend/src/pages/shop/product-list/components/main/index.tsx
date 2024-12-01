@@ -16,10 +16,13 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { ProductCard } from '@/components/product-card'
+import { listProducts } from '@/api/shop/products/list'
 
 export function Main() {
+  const { data: products } = listProducts()
+
   return (
-    <div className="mt-14 flex w-[847px] flex-col items-center justify-center">
+    <div className="mt-14 flex w-full flex-col items-center justify-center">
       <header className="mb-3 flex w-full flex-row items-center justify-between">
         <div className="text-sm">Mostrando 1 - 20 de 800 resultados</div>
         <Select>
@@ -33,10 +36,8 @@ export function Main() {
         </Select>
       </header>
       <main className="grid grid-cols-3 gap-4">
-        {Array.from({ length: 40 }).map((_, index) => {
-          return (
-            <ProductCard key={index} />
-          )
+        {products && products.map((product) => {
+          return <ProductCard key={product.id} product={product} />
         })}
       </main>
       <div>

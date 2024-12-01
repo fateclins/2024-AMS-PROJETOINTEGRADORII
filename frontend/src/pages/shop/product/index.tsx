@@ -7,11 +7,9 @@ export function Product () {
   return (
     <>
       <Helmet title="Product Name" />
-      <div className="flex h-full w-full flex-wrap justify-center">
-        <div className="my-14">
-          <ProductInfo />
-          <RelatedProduct />
-        </div>
+      <div className="flex flex-col w-full max-w-[1140px] px-4 gap-4 mx-auto">
+        <ProductInfo />
+        <RelatedProduct />
       </div>
     </>
   )

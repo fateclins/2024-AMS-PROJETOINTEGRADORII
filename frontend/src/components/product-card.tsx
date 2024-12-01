@@ -2,28 +2,34 @@ import { Heart } from "lucide-react";
 import { Button } from "./ui/button";
 import { Link } from "react-router-dom";
 
-interface ProductCardProps {
+interface Product {
   product: {
-    id: string
-    image: string
-    title: string
-    description: string
-    price: number
+    id: number;
+    quantity: number;
+    value: number;
+    name: string;
+    description: string;
+    model: string;
+    bestsellerProduct: boolean;
+    idv1: number;
+    idv2: number;
+    idStore: number;
   }
 }
 
-export function ProductCard({ product }: ProductCardProps) {
+export function ProductCard({ product }: Product) {
   return (
-    <Link to={`/products/${product.id}`} className="w-full max-w-xs">
-      <img src={product.image} alt="" className="w-full h-80 rounded-lg object-cover" />
+    <Link to={`/products/${product.id}`} className="w-full">
+      {/* <img src='' alt="" className="w-full h-80 rounded-lg object-cover" /> */}
+      <div className="w-full bg-muted h-80 rounded-lg object-cover" />
       <div className="flex flex-col gap-2 pt-4">
         <h2 className="truncate font-semibold">
-          Product
+         {product.name}
         </h2>
         <p className="truncate text-muted-foreground text-sm">
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+          {product.description}
         </p>
-        <span className="font-semibold text-lg">R$ 600,00</span>
+        <span className="font-semibold text-lg">R${product.value}</span>
 
         <div className="flex items-center gap-2">
           <Button className="w-full">Adicionar ao carrinho</Button>

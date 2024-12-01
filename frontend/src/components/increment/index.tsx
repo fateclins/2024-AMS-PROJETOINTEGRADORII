@@ -17,11 +17,11 @@ export const Increment: React.FC = function () {
   }
 
   return (
-    <div className="flex w-24 items-center rounded-lg border-2 border-zinc-950 px-2">
-      <Plus
-        size={20}
+    <div className="flex w-24 px-2 items-center rounded-lg border">
+      <Minus
+        size={16}
         weight="regular"
-        onClick={() => increment()}
+        onClick={() => decrement()}
         className="hover:cursor-pointer"
       />
       <Input
@@ -29,10 +29,10 @@ export const Increment: React.FC = function () {
         value={count}
         readOnly
       />
-      <Minus
-        size={20}
+      <Plus
+        size={16}
         weight="regular"
-        onClick={() => decrement()}
+        onClick={() => increment()}
         className="hover:cursor-pointer"
       />
     </div>
