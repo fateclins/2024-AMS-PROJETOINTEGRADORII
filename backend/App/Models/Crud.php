@@ -152,7 +152,7 @@ public function search($fields = array(), $sort = array()) {
 
         $whereClause = implode(" AND ", $fieldsvals) . (count($sqlKeyWord) > 0 ? " AND " . implode(" AND ", $sqlKeyWord) : "");
         if (!empty($whereClause)) {
-            $sql .= " WHERE " . $whereClause;
+            $sql .= " WHERE 1=1 " . $whereClause;
         }
     }
 
@@ -176,8 +176,9 @@ public function search($fields = array(), $sort = array()) {
     // Consulta para contar o total de registros
     $countSql = "SELECT COUNT(*) AS total FROM " . $this->table;
     if (!empty($whereClause)) {
-        $countSql .= " WHERE " . $whereClause;
+        $countSql .= " WHERE 1=1 " . $whereClause;
     }
+
     $countResult = $this->exec($countSql);
     if ($countResult) {
         $totalRecords = $countResult[0]["total"];
@@ -186,7 +187,7 @@ public function search($fields = array(), $sort = array()) {
 
     // Aplica limite e offset para paginação
     $sql .= " LIMIT $offset, $limit";
-
+  
     // Executa a consulta final
     $data = $this->exec($sql);
 
