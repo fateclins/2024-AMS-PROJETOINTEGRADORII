@@ -6,7 +6,6 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
-  BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb'
 
@@ -16,13 +15,13 @@ export const Navigation: React.FC = function () {
       <BreadcrumbList>
         <BreadcrumbItem>
           <BreadcrumbLink asChild>
-            <Link to="#">Shop</Link>
+            <Link to="/">Início</Link>
           </BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
           <BreadcrumbLink asChild>
-            <Link to="#">All Products</Link>
+            <Link to="/products" className='font-medium'>Todos produtos</Link>
           </BreadcrumbLink>
         </BreadcrumbItem>
       </BreadcrumbList>

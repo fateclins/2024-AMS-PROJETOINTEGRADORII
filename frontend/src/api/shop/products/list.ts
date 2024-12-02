@@ -1,6 +1,5 @@
 import { ProductMapper } from "@/api/mappers/product-mapper";
 import { api } from "@/lib/axios";
-import { useQuery } from "@tanstack/react-query";
 
 interface ProductBody {}
 
@@ -8,6 +7,7 @@ interface ProductResponse {}
 
 interface ProductParams {
   filter: {
+    nome?: string | null
     valor?: number | null
   }
   pagination: {
@@ -21,7 +21,10 @@ export async function listProductsController({ filter, pagination }: ProductPara
     params: {
       payload: JSON.stringify({
         filter: {
-          valor: filter.valor ?? null
+          keyword: {
+            nome: filter.nome ?? null,
+            valor: filter.valor ?? null
+          }
         },
         pagination: {
           getStart: pagination.getStart ?? 0,

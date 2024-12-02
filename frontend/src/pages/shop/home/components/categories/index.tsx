@@ -1,8 +1,12 @@
-import { listCategories } from "@/api/shop/categories/list"
+import { listCategoriesController } from "@/api/shop/categories/list"
+import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom"
 
 export function Categories () {
-  const { data } = listCategories()
+  const { data } = useQuery({
+    queryKey: ["listCategory"],
+    queryFn: () => listCategoriesController({ filter: {}, pagination: { getStart: 0, getLimit: 4 } }),
+  });
 
   return (
     <div className="grid grid-cols-4 w-full gap-4">

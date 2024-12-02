@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 export function Home () {
   const { data: products } = useQuery({
     queryKey: ["listProduct"],
-    queryFn: () => listProductsController({ filter: { valor: 99.99 }, pagination: {} }),
+    queryFn: () => listProductsController({ filter: {}, pagination: {} }),
   });
 
   return (

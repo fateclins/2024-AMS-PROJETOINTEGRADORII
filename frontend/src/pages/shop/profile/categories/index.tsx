@@ -1,6 +1,6 @@
 import { createCategory } from "@/api/shop/categories/create";
 import { deleteCategory } from "@/api/shop/categories/delete";
-import { listCategories } from "@/api/shop/categories/list";
+import { listCategoriesController } from "@/api/shop/categories/list";
 import { updateCategory } from "@/api/shop/categories/update";
 import { Pagination } from "@/components/pagination";
 import { Button } from "@/components/ui/button";
@@ -25,7 +25,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Ellipsis, Pencil, Plus, Search, Trash } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { Pencil, Plus, Search, Trash } from "lucide-react";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useSearchParams } from "react-router-dom";
@@ -33,9 +34,10 @@ import { toast } from "sonner";
 import { z } from "zod";
 
 export function Categories() {
-
-    const { data: categoriesData, isLoading: isCategoriesDataLoading } =
-    listCategories();
+    const { data: categoriesData, isLoading: isCategoriesDataLoading } = useQuery({
+      queryKey: ["listCategory"],
+      queryFn: () => listCategoriesController({ filter: {}, pagination: { getLimit: 4 } }),
+    })
 
     const [searchParams, setSearchParams] = useSearchParams();
 
