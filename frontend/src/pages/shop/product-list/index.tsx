@@ -93,7 +93,7 @@ export function ProductList () {
             </div>
 
             {isLoading && (
-              <div className='min-h-screen flex items-center justify-center'>
+              <div className='h-80 flex items-center justify-center'>
                 <Loader2 className='animate-spin size-4' />
               </div>
             )}
