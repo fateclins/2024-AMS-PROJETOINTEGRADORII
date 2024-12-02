@@ -130,28 +130,33 @@ public function findByEmail($email = "") {
 
 public function search($fields = array(), $sort = array()) {
     $bindings = empty($fields) ? $this->variables : $fields;
-// var_dump($bindings);exit;
     $sql = "SELECT * FROM " . $this->table;
 
+    // Construção das condições WHERE
     if (!empty($bindings)) {
         $fieldsvals = array();
         $sqlKeyWord = array();
         $columns = array_keys($bindings);
-        
+
         foreach($columns as $column) {
-            if ($column !="keyword") {
-                $fieldsvals [] = $column . " = :". $column;
-            }else {
-                foreach($bindings["keyword"] as $column2 => $val){
-                    $sqlKeyWord [] = " $column2  LIKE  '$val%' ";
+            if ($column != "keyword") {
+                $fieldsvals[] = $column . " = :" . $column;
+            } else {
+                foreach ($bindings["keyword"] as $column2 => $val) {
+                    if ($val != "" && $val != null) {
+                        $sqlKeyWord[] = "$column2 LIKE '$val%'";
+                    }
                 }
             }
         }
-        
-        $sql .= " WHERE " . implode(" AND ", $fieldsvals) . implode(" AND ", $sqlKeyWord);     
-        // echo $sql;exit;
+
+        $whereClause = implode(" AND ", $fieldsvals) . (count($sqlKeyWord) > 0 ? " AND " . implode(" AND ", $sqlKeyWord) : "");
+        if (!empty($whereClause)) {
+            $sql .= " WHERE " . $whereClause;
+        }
     }
-    
+
+    // Ordenação
     if (!empty($sort)) {
         $sortvals = array();
         foreach ($sort as $key => $value) {
@@ -160,11 +165,44 @@ public function search($fields = array(), $sort = array()) {
         $sql .= " ORDER BY " . implode(", ", $sortvals);
     }
 
-    if(isset($this->pagination["getStart"])) {
-        $sql .= " limit " . $this->pagination["getStart"] . ",".   $this->pagination["getLimit"];
+    // Paginação
+    $paginationInfo = [];
+    $totalRecords = 0;
+    $totalPages = 0;
+    $currentPage = isset($this->pagination["getPage"]) ? (int)$this->pagination["getPage"] : 1;
+    $limit = isset($this->pagination["getLimit"]) ? (int)$this->pagination["getLimit"] : 10;
+    $offset = ($currentPage - 1) * $limit;
+
+    // Consulta para contar o total de registros
+    $countSql = "SELECT COUNT(*) AS total FROM " . $this->table;
+    if (!empty($whereClause)) {
+        $countSql .= " WHERE " . $whereClause;
     }
-   
-    return $this->exec($sql);
+    $countResult = $this->exec($countSql);
+    if ($countResult) {
+        $totalRecords = $countResult[0]["total"];
+        $totalPages = ceil($totalRecords / $limit);
+    }
+
+    // Aplica limite e offset para paginação
+    $sql .= " LIMIT $offset, $limit";
+
+    // Executa a consulta final
+    $data = $this->exec($sql);
+
+    // Monta as informações de paginação
+    $paginationInfo = [
+        "current_page" => $currentPage,
+        "per_page" => $limit,
+        "total_records" => $totalRecords,
+        "total_pages" => $totalPages,
+    ];
+
+    // Retorna os dados com as informações de paginação
+    return [
+        "data" => $data,
+        "pagination" => $paginationInfo,
+    ];
 }
 
 public function all(){
