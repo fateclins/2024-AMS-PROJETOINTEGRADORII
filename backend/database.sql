@@ -27,7 +27,7 @@ create table usuario(
     imagem varchar(255),
     indentidade varchar(50),
     email varchar(50),
-    senha varchar(40),
+    senha varchar(255),
     
     idTipoUsuario int,
     primary key(id),

@@ -1,10 +1,16 @@
 <?php
-
-
+    // Headers para permitir CORS
     header('Content-Type: application/json');
-    header("Access-Control-Allow-Origin: *");
-    header("Access-Control-Allow-Methods: *");
+    header("Access-Control-Allow-Origin: http://localhost:5173"); // Especifique o domínio permitido
+    header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
     header("Access-Control-Allow-Headers: Content-Type, Authorization");
+
+    // Trate as requisições preflight
+    if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+        http_response_code(200);
+        exit;
+    }
+
     require_once '../vendor/autoload.php';
 
     if ($_GET['url']) {
