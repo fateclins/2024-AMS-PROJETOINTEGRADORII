@@ -5,17 +5,14 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
 import { Loader2 } from 'lucide-react'
 import { useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { z } from 'zod'
 
 const signUpValidationSchema = z.object({
-  id: z.number(),
   nome: z.string(),
-  imagem: z.null(),
   indentidade: z.string(),
   email: z.string(),
   senha: z.string(),
-  idTipoUsuario: z.number()
 })
 
 type SignUpValidationSchema = z.infer<typeof signUpValidationSchema>
@@ -52,7 +49,7 @@ export function Content () {
   }
 
   return (
-    <form onSubmit={handleSubmit(handleSignUp)} className="space-y-6">
+    <form onSubmit={handleSubmit(handleSignUp)} className="flex flex-col gap-4">
       <h1 className="text-3xl font-bold">Criar uma conta</h1>
       <p className="mt-1 text-base font-normal text-zinc-500">
         Informe seus dados
@@ -85,9 +82,10 @@ export function Content () {
         </div>
       </div>
 
-      <Button className="mt-6" type='submit' disabled={isSubmitting}>
+      <Button type='submit' disabled={isSubmitting}>
         {isSubmitting ? <Loader2 className='animate-spin size-4' /> : 'Registrar-se'}
       </Button>
+      <Link to="/sign-in" className="underline text-sm">Fazer login</Link>
     </form>
   )
 }

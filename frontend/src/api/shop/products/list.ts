@@ -5,6 +5,7 @@ export interface Product {
   qtde: number
   valor: number
   modelo: string
+  imagem: string;
   descricao: string
   nome: string
   produtoDestaque: number

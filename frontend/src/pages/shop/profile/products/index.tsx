@@ -25,7 +25,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { Pencil, Plus, Search, Trash } from "lucide-react";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -66,9 +66,10 @@ export function Products() {
       id: z.coerce.number(),
       qtde: z.coerce.number(),
       valor: z.coerce.number(),
+      nome: z.string(),
+      imagem: z.string().optional(),
       modelo: z.string(),
       descricao: z.string(),
-      nome: z.string(),
       produtoDestaque: z.coerce.number(),
       idv1: z.coerce.number(),
       idv2: z.coerce.number(),
@@ -77,20 +78,8 @@ export function Products() {
 
     type ProductValidationSchema = z.infer<typeof productValidationSchema>
 
-    const { handleSubmit, control, reset } = useForm<ProductValidationSchema>({
+    const { handleSubmit, control, reset, register } = useForm<ProductValidationSchema>({
       resolver: zodResolver(productValidationSchema),
-      values: {
-        id: 0,
-        descricao: '',
-        modelo: '',
-        nome: '',
-        qtde: 0,
-        valor: 0,
-        produtoDestaque: 0,
-        idloja: 0,
-        idv1: 0,
-        idv2: 0,
-      }
     })
 
     const [_, setSelectedItem] = useState<any>(null);
@@ -98,49 +87,19 @@ export function Products() {
     const { mutateAsync: createNewProduct } = useMutation({
       mutationKey: ['createProduct'],
       mutationFn: createProductsController,
-      // onSuccess(_,variables) {
-      //   const cached = queryClient.getQueryData(['listProduct'])
-        
-      //   if (cached) {
-      //     queryClient.setQueryData(['listProduct'], {
-      //       ...cached,
-      //       ...variables,
-      //     })
-      //   }
-      // },
     });
     const { mutateAsync: updateProductData } = useMutation({
       mutationKey: ['updateProduct'],
       mutationFn: updateProductsController,
-      // onSuccess(_, variables) {
-      //   const cached = queryClient.getQueryData(['listProduct'])
-
-      //   console.log(cached);
-        
-      //   if (cached) {
-      //     queryClient.setQueryData(['listProduct'], {
-      //       ...cached,
-      //       ...variables,
-      //     })
-      //   }
-      // },
     });
     const { mutateAsync: deleteProductData } = useMutation({
       mutationKey: ['deleteProduct'],
       mutationFn: deleteProductsController,
-      // onSuccess(_,variables) {
-      //   const cached = queryClient.getQueryData(['listProduct'])
-        
-      //   if (cached) {
-      //     queryClient.setQueryData(['listProduct'], {
-      //       ...cached,
-      //       ...variables,
-      //     })
-      //   }
-      // },
     });
 
     const handleSelectItem = (item: ProductValidationSchema) => {
+
+      console.log(item)
       setSelectedItem(item);
       reset(item);
     }
@@ -155,6 +114,7 @@ export function Products() {
             idv2: 1,
             modelo: data.modelo,
             nome: data.nome,
+            imagem: data.imagem,
             qtde: data.qtde,
             valor: data.valor,
           })
@@ -171,12 +131,15 @@ export function Products() {
     };
 
     async function handleUpdateProduct(data: ProductValidationSchema) {
+
+      console.log(data)
       try {
         await updateProductData({
           id: data.id,
           qtde: data.qtde,
           valor: data.valor,
           nome: data.nome,
+          imagem: data.imagem,
           descricao: data.descricao,
           modelo: data.modelo,
           produtoDestaque: data.produtoDestaque,
@@ -218,6 +181,7 @@ export function Products() {
                     descricao: '',
                     modelo: '',
                     nome: '',
+                    imagem: '',
                     qtde: 0,
                     valor: 0,
                     produtoDestaque: 0,
@@ -253,6 +217,11 @@ export function Products() {
                     )
                   }}
                 />
+
+                    <div className="space-y-1">
+                        <Label>Imagem</Label>
+                        <Input {...register("imagem")} type="text" className="h-9"  />
+                      </div>
 
                 <Controller
                   name="modelo"
@@ -393,6 +362,11 @@ export function Products() {
                                     <Input type="text" className="h-9" value={item.nome} disabled />
                                   </div>
 
+                                  <div className="space-y-1">
+                                    <Label>Imagem</Label>
+                                    <Input value={item.imagem} type="text" className="h-9" disabled  />
+                                  </div>
+
                                   <div className="w-full">
                                     <Label className="text-sm font-medium">Modelo</Label>
                                     <Input type="text" className="h-9" value={item.modelo} disabled />
@@ -444,8 +418,7 @@ export function Products() {
                         <Dialog>
                           <DialogTrigger asChild>
                             <Button size="icon" variant="ghost" onClick={() => handleSelectItem({
-                              ...item,
-                              produtoDestaque: item.produtoDestaque
+                              ...item
                             })}>
                               <Pencil className="size-4" />
                               <span className="sr-only">Editar produto</span>
@@ -476,6 +449,11 @@ export function Products() {
                                         )
                                     }}
                                     />
+
+                      <div className="space-y-1">
+                        <Label>Imagem</Label>
+                        <Input {...register("imagem")} type="text" className="h-9"  />
+                      </div>
 
                                     <Controller
                                     name="modelo"
@@ -577,7 +555,6 @@ export function Products() {
                           <DialogTrigger asChild>
                             <Button size="icon" variant="ghost" onClick={() => handleSelectItem({
                               ...item,
-                              produtoDestaque: item.produtoDestaque
                             })}>
                               <Trash className="size-4"/>
                               <span className="sr-only">Excluir produto</span>

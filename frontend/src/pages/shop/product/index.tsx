@@ -11,10 +11,12 @@ import { Heart } from 'lucide-react'
 import { RelatedProduct } from './components/related-product'
 import { useParams } from 'react-router-dom'
 import { findProductsController } from '@/api/shop/products/find'
+import { useCart } from '@/contexts/cart-context'
 import { useQuery } from '@tanstack/react-query'
 
 export function Product () {
   const { id } = useParams()
+  const { cart, addToCart } = useCart()
 
   const { data: product } = useQuery({
     queryKey: ["findProduct", id],
@@ -22,13 +24,19 @@ export function Product () {
     enabled: !!id,
   });
 
+  function handleAddToCart() {
+    if (product) {
+      addToCart({ id: product.id, nome: product.nome, imagem: product.imagem, valor: product.valor, qtde: 1 });
+    }
+  }
+
   return (
     <>
       <Helmet title={product?.nome} />
       <div className="flex flex-col w-full max-w-[1140px] px-4 gap-4 mx-auto">
         <div className="flex flex-col">
           <div className="flex flex-col lg:grid-cols-2 lg:grid gap-4">
-            <div className='w-full h-96 bg-muted rounded-lg object-cover' />
+            <img src={product?.imagem} className='w-full h-96 rounded-lg object-contain' />
 
             <div className="flex w-full flex-col items-start justify-center gap-6">
               <div className='space-y-2 w-full'>
@@ -88,7 +96,7 @@ export function Product () {
                 </div>
               </div>
               <div className="flex w-full items-center gap-2">
-                <Button className='w-full'>Adicionar ao carrinho</Button>
+                <Button className='w-full' onClick={handleAddToCart}>Adicionar ao carrinho</Button>
                 <Button variant='outline'>
                   <Heart className='size-4' />
                 </Button>

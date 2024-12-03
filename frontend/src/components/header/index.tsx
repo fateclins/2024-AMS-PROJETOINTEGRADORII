@@ -10,8 +10,11 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '../ui/dropdown-menu'
 import { AvatarImage } from '@radix-ui/react-avatar'
+import { useCart } from '@/contexts/cart-context'
 
 export function Header() {
+  const { cart, addToCart } = useCart();
+
   const navigate = useNavigate()
   
   const token = localStorage.getItem('token')
@@ -49,8 +52,9 @@ export function Header() {
       {token ? (
         <div className="flex items-center gap-3">
           <Button variant='ghost' size='icon' asChild>
-            <Link to='/checkout'>
+            <Link to='/checkout' className='relative'>
               <ShoppingBag className='size-5' />
+              <span className='absolute top-0 right-0 text-xs bg-blue-500 rounded-full size-4 flex items-center justify-center text-white'>{cart.items.length}</span>
             </Link>
           </Button>
 

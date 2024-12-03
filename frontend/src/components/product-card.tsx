@@ -10,6 +10,7 @@ interface ProductCardProps {
     modelo: string
     descricao: string
     nome: string
+    imagem: string
     produtoDestaque: number
     idv1: number
     idv2: number
@@ -20,8 +21,12 @@ interface ProductCardProps {
 export function ProductCard({ product }: ProductCardProps) {
   return (
     <Link to={`/products/${product.id}`} className="w-full">
-      {/* <img src='' alt="" className="w-full h-80 rounded-lg object-cover" /> */}
-      <div className="w-full bg-muted h-80 rounded-lg object-cover" />
+        {product.imagem ? (
+          <img src={product?.imagem} alt="" className="w-full h-80 rounded-lg object-contain" />
+        ) : (
+          <div className="w-full bg-muted h-80 rounded-lg object-cover" />
+        )}
+      
         <div className="flex flex-col gap-2 pt-4">
           <h2 className="truncate font-semibold">
             {product.nome}

@@ -7,6 +7,7 @@ import { Toaster } from 'sonner'
 
 import { queryClient } from './lib/react-query'
 import { router } from './pages/routes'
+import { CartProvider } from './contexts/cart-context'
 
 export function App() {
   return (
@@ -14,7 +15,9 @@ export function App() {
       <Helmet titleTemplate="%s | Firsttech" />
       <Toaster richColors />
       <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
+        <CartProvider>
+          <RouterProvider router={router} />
+        </CartProvider>
       </QueryClientProvider>
     </HelmetProvider>
   )

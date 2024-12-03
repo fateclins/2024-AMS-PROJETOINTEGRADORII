@@ -80,7 +80,7 @@ export function Profile() {
     }
   })
 
-  const onError = (error) => {
+  const onError = (error: any) => {
     console.log(error);
   }
 

@@ -7,6 +7,7 @@ export interface ProductBody {
   modelo: string
   descricao: string
   nome: string
+  imagem: string
   produtoDestaque: number
   idv1: number
   idv2: number
