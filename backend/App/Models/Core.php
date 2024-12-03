@@ -79,7 +79,6 @@ class Core
            
             $this->bindMore($parameters);
             
-          
             if (!empty($this->parameters)) {
                 foreach ($this->parameters as $param => $value) {
                     if(is_int($value[1])) {
@@ -119,9 +118,11 @@ class Core
     {
         if (empty($this->parameters) && is_array($parray)) {
             $columns = array_keys($parray);
+            // var_dump($columns);exit;
             foreach ($columns as $i => &$column) {
+                
                 if ($column !="keyword") {
-                $this->bind($column, $parray[$column]);
+                    $this->bind($column, $parray[$column]);
                 }
             }
         }

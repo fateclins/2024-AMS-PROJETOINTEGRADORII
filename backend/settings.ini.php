@@ -1,3 +1,4 @@
+
 [names]
 
 dbname = sistemaTray
