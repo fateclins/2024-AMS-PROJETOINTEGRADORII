@@ -10,16 +10,21 @@ import { Textarea } from '@/components/ui/textarea'
 import { Heart } from 'lucide-react'
 import { RelatedProduct } from './components/related-product'
 import { useParams } from 'react-router-dom'
-import { findProduct } from '@/api/shop/products/find'
+import { findProductsController } from '@/api/shop/products/find'
+import { useQuery } from '@tanstack/react-query'
 
 export function Product () {
-  const { slug } = useParams()
+  const { id } = useParams()
 
-  const { data: product } = findProduct(Number(slug))
+  const { data: product } = useQuery({
+    queryKey: ["findProduct", id],
+    queryFn: () => findProductsController(Number(id)),
+    enabled: !!id,
+  });
 
   return (
     <>
-      <Helmet title={product?.name} />
+      <Helmet title={product?.nome} />
       <div className="flex flex-col w-full max-w-[1140px] px-4 gap-4 mx-auto">
         <div className="flex flex-col">
           <div className="flex flex-col lg:grid-cols-2 lg:grid gap-4">
@@ -28,8 +33,8 @@ export function Product () {
             <div className="flex w-full flex-col items-start justify-center gap-6">
               <div className='space-y-2 w-full'>
                 <div className="flex w-full flex-row items-center justify-between">
-                  <h1 className="text-2xl font-bold">{product?.name}</h1>
-                  {product?.quantity > 0 ? (
+                  <h1 className="text-2xl font-bold">{product?.nome}</h1>
+                  {product?.qtde > 0 ? (
                   <Badge
                     variant="secondary"
                     className="rounded-md bg-green-100 text-green-600"
@@ -47,13 +52,10 @@ export function Product () {
 
 
                 </div>
-                <h6 className="text-sm text-muted-foreground">{product?.model}</h6>
-                <span className="text-2xl font-semibold">R$ {product?.value}</span>
+                <h6 className="text-sm text-muted-foreground">{product?.modelo}</h6>
+                <span className="text-2xl font-semibold">R$ {product?.valor}</span>
 
-                <div className="flex items-center gap-2">
-                  <StarRating rating={3 } totalStars={5} />
-                  <span className="text-sm text-zinc-500">5.0 (120 visualizações)</span>
-                </div>
+                <StarRating rating={3 } totalStars={5} />
               </div>
 
               <div className='space-y-4'>
@@ -118,7 +120,7 @@ export function Product () {
             <TabsContent value="descriptions" className="m-0 p-0">
               <div className="border-b flex flex-col gap-4 border-b-zinc-100 pb-4">
                 <p className='max-w-xl'>
-                  {product?.description}
+                  {product?.descricao}
                 </p>
 
                 <div className='space-y-2'>

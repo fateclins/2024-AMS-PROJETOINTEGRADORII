@@ -1,11 +1,29 @@
-import { ProductMapper } from "@/api/mappers/product-mapper";
 import { api } from "@/lib/axios";
 
-interface ProductBody {}
+export interface Product {
+  id: number
+  qtde: number
+  valor: number
+  modelo: string
+  descricao: string
+  nome: string
+  produtoDestaque: number
+  idv1: number
+  idv2: number
+  idloja: number
+}
 
-interface ProductResponse {}
+export interface ProductResponse {
+  data: Product[]
+  pagination: {
+    current_page: number
+    per_page: number
+    total_records: number
+    total_pages: number
+  }
+}
 
-interface ProductParams {
+export interface ProductParams {
   filter: {
     nome?: string | null
     valor?: number | null
@@ -16,7 +34,7 @@ interface ProductParams {
   }
 }
 
-export async function listProductsController({ filter, pagination }: ProductParams) {
+export async function listProductsController({ filter, pagination }: ProductParams): Promise<ProductResponse> {
   const response = await api.get("/product", {
     params: {
       payload: JSON.stringify({
@@ -28,15 +46,11 @@ export async function listProductsController({ filter, pagination }: ProductPara
         },
         pagination: {
           getStart: pagination.getStart ?? 0,
-          getLimit: pagination.getLimit ?? 20
+          getLimit: pagination.getLimit ?? 10
         }
       })
     }
   });
 
-  const info: Array<any> = response.data;
-
-  return info.map((item) => {
-    return ProductMapper.toRequest(item);
-  });
+  return response.data
 }

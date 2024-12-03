@@ -22,7 +22,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
 import { useQuery } from '@tanstack/react-query'
-import { listProductsController } from '@/api/shop/products/list'
+import { listProductsController, Product } from '@/api/shop/products/list'
 import { ProductCard } from '@/components/product-card'
 import { useForm } from 'react-hook-form'
 import { useState } from 'react'
@@ -31,7 +31,6 @@ import { useSearchParams } from 'react-router-dom'
 
 export function ProductList () {
   const [searchParams] = useSearchParams()
-
   const nome = searchParams.get('nome')
 
   const [valor, setValor] = useState<number | null>(null)
@@ -99,16 +98,16 @@ export function ProductList () {
             )}
 
             <div className="w-full grid grid-cols-2 gap-4">
-              {products && products.map((product) => {
+              {products && products.data.map((product: Product) => {
                 return <ProductCard key={product.id} product={product} />
               })}
             </div>
-
+{/* 
             {products && products.length < 1 && (
               <div className='py-8 w-full'>
                 <p className='w-full'>Nenhum produto não encontrado!</p>
               </div>
-            )}
+            )} */}
 
             <Pagination>
               <PaginationContent className="">

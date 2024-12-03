@@ -1,9 +1,10 @@
-import { CategoryMapper } from "@/api/mappers/category-mapper";
 import { api } from "@/lib/axios";
 
-interface CategoryBody {}
-
-interface CategoryResponse {}
+export interface CategoryResponse {
+  id: number
+  nome: string
+  descricao: string
+}
 
 interface CategoryParams {
   filter: {
@@ -28,9 +29,5 @@ export async function listCategoriesController({ filter, pagination }: CategoryP
     }
   });
 
-  const info: Array<any> = response.data;
-
-  return info.map((item) => {
-    return CategoryMapper.toRequest(item);
-  });
+  return response.data
 }
