@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input'
 import { z } from 'zod'
 import { Loader2 } from "lucide-react"
 import { api } from "@/lib/axios"
+import { useNavigate } from "react-router-dom"
 
 const signInValidationSchema = z.object({
   email: z.string().email(),
@@ -14,33 +15,58 @@ const signInValidationSchema = z.object({
 
 type SignInValidationSchema = z.infer<typeof signInValidationSchema>
 
-interface SignInResponse {
+interface SignInBody {
   email: string
   senha: string
 }
 
-async function signIn({ email, senha }: SignInResponse) {
+interface SignInResponse {
+  message: string
+  token: string
+  user: {
+    id: number
+    nome: string
+    email: string
+    senha: string
+    indentidade: string
+    imagem: string
+    idTipoUsuario: number
+  }
+}
+
+async function signIn({ email, senha }: SignInBody): Promise<SignInResponse> {
   const response = await api.post('/login', {
     email,
     senha
   })
 
-  console.log(response.data)
+  // console.log(response.data)
 
   return response.data
 }
 
 export function Content () {
+  const navigate = useNavigate()
+
   const { handleSubmit, register, formState: { isSubmitting } } = useForm<SignInValidationSchema>({
     resolver: zodResolver(signInValidationSchema),
   })
 
   async function handleSignIn(data: SignInValidationSchema) {
     try {
-      const user = await signIn({ email: data.email, senha: data.senha })
-      console.log(user)
+      const result = await signIn({ email: data.email, senha: data.senha })
 
-      // navigate('/')
+      console.log(result)
+
+      if (result) {
+        localStorage.setItem('token', result.token)
+        localStorage.setItem('nome', result.user.nome)
+        localStorage.setItem('email', result.user.email)
+        localStorage.setItem('imagem', result.user.imagem)
+      }
+
+
+      navigate('/')
     } catch (err) {
       console.log(err)
     }

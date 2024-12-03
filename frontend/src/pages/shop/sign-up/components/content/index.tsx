@@ -10,7 +10,7 @@ import { z } from 'zod'
 
 const signUpValidationSchema = z.object({
   nome: z.string(),
-  identidade: z.string(),
+  indentidade: z.string(),
   email: z.string().email(),
   senha: z.string(),
 })
@@ -37,12 +37,12 @@ export function Content () {
         nome: data.nome,
         email: data.email,
         senha: data.senha,
-        identidade: data.identidade,
+        indentidade: data.indentidade,
         idTipoUsuario: 3,
         imagem: ''
       })
 
-      // navigate("/sign-in");
+      navigate("/sign-in")
     } catch (error) {
       console.error(error)
     }
@@ -66,7 +66,7 @@ export function Content () {
           <label htmlFor="" className="text-base font-medium">
             Identidade
           </label>
-          <Input id="" type="text" className="mt-1" {...register("identidade")} />
+          <Input id="" type="text" className="mt-1" {...register("indentidade")} />
         </div>
         <div className="mt-3">
           <label htmlFor="" className="text-base font-medium">

@@ -8,10 +8,16 @@ import { Avatar, AvatarFallback } from '../ui/avatar'
 import { Search } from 'lucide-react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu'
+import { AvatarImage } from '@radix-ui/react-avatar'
 
 export function Header() {
-  const [isAuth, setIsAuth] = useState(false)
   const navigate = useNavigate()
+  
+  const token = localStorage.getItem('token')
+  const nome = localStorage.getItem('nome')
+  const email = localStorage.getItem('email')
+  const imagem = localStorage.getItem('imagem')
 
   const { register, handleSubmit, reset } = useForm()
 
@@ -19,6 +25,15 @@ export function Header() {
     navigate(`/products?nome=${data.search}`)
 
     reset()
+  }
+
+  function handleSignOut() {
+    localStorage.removeItem('token')
+    localStorage.removeItem('nome')
+    localStorage.removeItem('email')
+    localStorage.removeItem('imagem')
+
+    navigate('/sign-in')
   }
 
   return (
@@ -31,7 +46,7 @@ export function Header() {
         <Search className='absolute inset-y-1/2 -translate-y-1/2 size-4 text-muted-foreground left-2' />
       </form>
 
-      {isAuth ? (
+      {token ? (
         <div className="flex items-center gap-3">
           <Button variant='ghost' size='icon' asChild>
             <Link to='/checkout'>
@@ -39,9 +54,21 @@ export function Header() {
             </Link>
           </Button>
 
-          <Avatar className='size-8'>
-            <AvatarFallback />
-          </Avatar>
+          <DropdownMenu>
+            <DropdownMenuTrigger className='flex items-center gap-2'>
+              {nome && <span>{nome}</span>}
+                <Avatar className='size-8'>
+                  {imagem &&  <AvatarImage src={imagem} />}
+                  <AvatarFallback />
+                </Avatar>
+            </DropdownMenuTrigger>
+
+            <DropdownMenuContent>
+              <DropdownMenuItem asChild>
+                <button className='w-full font-medium' onClick={handleSignOut}>Sair</button>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
         ) : (
           <div className="flex items-center gap-2">

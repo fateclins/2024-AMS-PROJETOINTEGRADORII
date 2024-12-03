@@ -3,7 +3,7 @@ import { api } from "@/lib/axios"
 export interface UserBody {
   nome: string
   imagem?: string
-  identidade: string
+  indentidade: string
   email: string
   senha: string
   idTipoUsuario: number
@@ -18,10 +18,13 @@ export async function createUsersController(data: UserBody): Promise<UserRespons
   const response = await api.post("/user", {
     nome: data.nome,
     email: data.email,
+    indentidade: data.indentidade,
     senha: data.senha,
     idTipoUsuario: data.idTipoUsuario,
     imagem: data.imagem
   });
+
+  console.log(response.data)
 
   return response.data;
 }
