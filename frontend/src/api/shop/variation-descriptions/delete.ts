@@ -1,26 +1,17 @@
 import { api } from "@/lib/axios";
-import { useMutation } from "@tanstack/react-query";
-import { VariationDescriptionBody } from "./create";
 
-interface VariationDescriptionResponse {
-  status: string;
-  message: string;
+interface VariationDescriptionBody {
+  id: number
+  descricao: string
 }
 
 export async function deleteVariationDescriptionsController(
   variationDescription: Partial<VariationDescriptionBody>,
 ) {
-  const response = await api.delete<VariationDescriptionResponse>(
+  const response = await api.delete(
     "/variationdescription",
     { data: { id: variationDescription.id } },
   );
 
   return response.data;
-}
-
-export function deleteVariationDescription() {
-  return useMutation({
-    mutationKey: ["deleteVariationDescription"],
-    mutationFn: deleteVariationDescriptionsController,
-  });
 }

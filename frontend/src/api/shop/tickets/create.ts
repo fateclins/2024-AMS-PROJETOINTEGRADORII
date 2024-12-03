@@ -1,34 +1,19 @@
-import { TicketMapper } from "@/api/mappers/ticket-mapper";
 import { api } from "@/lib/axios";
-import { useMutation } from "@tanstack/react-query";
 
 export interface TicketBody {
-  id: number;
-  title: string;
-  description: string;
-  ticketStatus: string;
-
-  createdAt: Date;
-  updatedAt: Date;
-  idUser: number;
+  id: number
+  titulo: string
+  descricao: string
+  ticketStatus: string
+  createdAt: string
+  updatedAt: any
+  idUsuario: number
 }
 
-interface TicketResponse {
-  status: string;
-  message: string;
-}
 
 export async function createTicketsController(ticket: Partial<TicketBody>) {
-  const data = TicketMapper.toResponse(ticket);
-
-  const response = await api.post<TicketResponse>("/ticket", { ...data });
+  const response = await api.post("/ticket", { ...ticket });
 
   return response.data;
 }
 
-export function createTicket() {
-  return useMutation({
-    mutationKey: ["createTicket"],
-    mutationFn: createTicketsController,
-  });
-}

@@ -1,29 +1,18 @@
-import { SubcategoryMapper } from "@/api/mappers/subcategory-mapper";
 import { api } from "@/lib/axios";
-import { useMutation } from "@tanstack/react-query";
-import { SubcategoryBody } from "./create";
 
 
-interface SubcategoryResponse {
-  status: string;
-  message: string;
+interface SubcategoryBody {
+  id: number
+  descricao: string
+  idCategoria: number
 }
 
 export async function updateSubcategoriesController(
   subcategory: Partial<SubcategoryBody>,
 ) {
-  const data = SubcategoryMapper.toResponse(subcategory);
-
-  const response = await api.put<SubcategoryResponse>("/subcategory", {
-    ...data,
+    const response = await api.put("/subcategory", {
+    ...subcategory,
   });
 
   return response.data;
-}
-
-export function updateSubcategory() {
-  return useMutation({
-    mutationKey: ["updateSubcategory"],
-    mutationFn: updateSubcategoriesController,
-  });
 }

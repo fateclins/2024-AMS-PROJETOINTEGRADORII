@@ -1,24 +1,48 @@
-import { VariationDescriptionMapper } from "@/api/mappers/variation-description-mapper";
 import { api } from "@/lib/axios";
-import { useQuery } from "@tanstack/react-query";
 
-interface VariationDescriptionBody {}
-
-interface VariationDescriptionResponse {}
-
-export async function listVariationDescriptionsController() {
-  const response = await api.get("/variationdescription");
-
-  const info: Array<any> = response.data;
-
-  return info.map((item) => {
-    return VariationDescriptionMapper.toRequest(item);
-  });
+interface VariationDescriptionBody {
+  id: number
+  descricao: string
 }
 
-export function listVariationDescriptions() {
-  return useQuery({
-    queryKey: ["listVariationDescription"],
-    queryFn: listVariationDescriptionsController,
+interface VariationDescriptionResponse {
+  data: VariationDescriptionBody[];
+  pagination: {
+    current_page: number
+    per_page: number
+    total_records: number
+    total_pages: number
+  }
+}
+
+export interface VariationDescriptionParams {
+  filter: {
+    nome?: string | null
+    valor?: number | null
+  }
+  pagination: {
+    getStart?: number
+    getLimit?: number
+  }
+}
+
+export async function listVariationDescriptionsController({ filter, pagination }: VariationDescriptionParams) {
+  const response = await api.get<VariationDescriptionResponse>("/variationdescription", {
+    params: {
+      payload: JSON.stringify({
+        filter: {
+          keyword: {
+            nome: filter.nome ?? null,
+            valor: filter.valor ?? null
+          }
+        },
+        pagination: {
+          getStart: pagination.getStart ?? 0,
+          getLimit: pagination.getLimit ?? 10
+        }
+      })
+    }
   });
+
+  return response.data;
 }

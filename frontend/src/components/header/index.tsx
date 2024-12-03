@@ -5,7 +5,7 @@ import { useState } from 'react'
 import { Button } from '../ui/button'
 import { Input } from '../ui/input'
 import { Avatar, AvatarFallback } from '../ui/avatar'
-import { LogOut, Search } from 'lucide-react'
+import { LogOut, Search, User } from 'lucide-react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '../ui/dropdown-menu'
@@ -76,12 +76,24 @@ export function Header() {
               </div>
 
               <DropdownMenuSeparator />
-              <DropdownMenuItem asChild>
-                <button className='w-full text-rose-500 justify-center font-medium flex items-center gap-2' onClick={handleSignOut}>
-                  <LogOut className='size-4' />
-                  Sair
-                </button>
-              </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link to='/profile' className='w-full flex items-center gap-2'>
+                    <User className='size-4' />
+                    Perfil
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link to='/profile/orders' className='w-full flex items-center gap-2'>
+                    <ShoppingBag className='size-4' />
+                    Pedidos
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <button className='w-full text-rose-500 flex items-center gap-2' onClick={handleSignOut}>
+                    <LogOut className='size-4' />
+                    Sair
+                  </button>
+                </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

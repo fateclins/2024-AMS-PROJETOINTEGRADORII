@@ -6,7 +6,7 @@ import {
 
 export function Footer() {
   return (
-    <div className="flex w-full text-muted-foreground p-4 items-center justify-between border-t">
+    <div className="flex w-full mt-4 text-muted-foreground p-4 items-center justify-between border-t">
       <div className="text-xs">
         2024 Projeto Integrador | Fatec - &#9400;Todos os direitos reservados
       </div>

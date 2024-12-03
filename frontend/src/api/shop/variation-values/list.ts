@@ -1,24 +1,51 @@
-import { VariationValueMapper } from "@/api/mappers/variation-value-mapper";
 import { api } from "@/lib/axios";
-import { useQuery } from "@tanstack/react-query";
 
-interface VariationValueBody {}
-
-interface VariationValuesResponse {}
-
-export async function listVariationValuesController() {
-  const response = await api.get("/variationvalue");
-
-  const info: Array<any> = response.data;
-
-  return info.map((item) => {
-    return VariationValueMapper.toRequest(item);
-  });
+interface VariationValueBody {
+  id: number
+  valor: string
+  idVariacaoDescricao: number
 }
 
-export function listVariationValues() {
-  return useQuery({
-    queryKey: ["listVariationValue"],
-    queryFn: listVariationValuesController,
-  });
+interface VariationValuesResponse {
+  data: VariationValueBody[];
+  pagination: {
+    current_page: number
+    per_page: number
+    total_records: number
+    total_pages: number
+  }
 }
+
+export interface VariationDescriptionParams {
+  filter: {
+    nome?: string | null
+    valor?: number | null
+  }
+  pagination: {
+    getStart?: number
+    getLimit?: number
+  }
+}
+
+
+export async function listVariationValuesController({ filter, pagination }: VariationDescriptionParams) {
+  const response = await api.get<VariationValuesResponse>("/variationvalue", {
+    params: {
+      payload: JSON.stringify({
+        filter: {
+          keyword: {
+            nome: filter.nome ?? null,
+            valor: filter.valor ?? null
+          }
+        },
+        pagination: {
+          getStart: pagination.getStart ?? 0,
+          getLimit: pagination.getLimit ?? 10
+        }
+      })
+    }
+  });
+
+  return response.data
+}
+

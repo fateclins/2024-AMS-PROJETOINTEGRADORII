@@ -1,24 +1,50 @@
-import { SubcategoryMapper } from "@/api/mappers/subcategory-mapper";
 import { api } from "@/lib/axios";
-import { useQuery } from "@tanstack/react-query";
 
-interface SubcategoryBody {}
-
-interface SubcategoryResponse {}
-
-export async function listSubcategoriesController() {
-  const response = await api.get("/subcategory");
-
-  const info: Array<any> = response.data;
-
-  return info.map((item) => {
-    return SubcategoryMapper.toRequest(item);
-  });
+interface SubcategoryBody {
+  id: number
+  descricao: string
+  idCategoria: number
 }
 
-export function listSubcategories() {
-  return useQuery({
-    queryKey: ["listSubcategory"],
-    queryFn: listSubcategoriesController,
-  });
+interface SubcategoryResponse {
+  data: SubcategoryBody[];
+  pagination: {
+    current_page: number
+    per_page: number
+    total_records: number
+    total_pages: number
+  }
 }
+
+export interface SubcategoryParams {
+  filter: {
+    nome?: string | null
+    valor?: number | null
+  }
+  pagination: {
+    getStart?: number
+    getLimit?: number
+  }
+}
+
+export async function listSubcategoriesController({ filter, pagination }: SubcategoryParams) {
+  const response = await api.get<SubcategoryResponse>("/subcategory", {
+    params: {
+      payload: JSON.stringify({
+        filter: {
+          keyword: {
+            nome: filter.nome ?? null,
+            valor: filter.valor ?? null
+          }
+        },
+        pagination: {
+          getStart: pagination.getStart ?? 0,
+          getLimit: pagination.getLimit ?? 10
+        }
+      })
+    }
+  });
+
+  return response.data
+}
+

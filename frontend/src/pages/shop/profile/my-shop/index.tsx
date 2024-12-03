@@ -4,28 +4,32 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { findStore } from "@/api/shop/stores/find";
+import { findStoresController } from "@/api/shop/stores/find";
 import { Skeleton } from "@/components/ui/skeleton";
 import { z } from "zod";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { updateStore } from "@/api/shop/stores/update";
+import { updateStoresController } from "@/api/shop/stores/update";
 import { toast } from "sonner";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 export function MyShop() {
-  const { data: storeData, isLoading: isStoreDataLoading } = findStore(1);
+  const { data: storeData, isLoading: isStoreDataLoading } = useQuery({
+    queryKey: ['findStore', 1],
+    queryFn: () => findStoresController(1)
+  });
 
   const storeValidationSchema = z.object({
-    id: z.coerce.number(),
-    area: z.string(),
-    background: z.string(),
-    banner: z.string(),
-    cnpj: z.string(),
-    fontColor: z.string(),
-    idUser: z.coerce.number(),
+    id: z.number(),
+    nome: z.string(),
     logo: z.string(),
-    name: z.string(),
-    quantityProduct: z.string(),
+    banner: z.string(),
+    qtdproduto: z.string(),
+    corfundo: z.string(),
+    corfonte: z.string(),
+    area: z.string(),
+    cnpj: z.string(),
+    idUsuario: z.number()
   })
 
   type StoreValidationSchema = z.infer<typeof storeValidationSchema>
@@ -35,18 +39,21 @@ export function MyShop() {
     values: {
       id: storeData?.id ?? 0,
       area: storeData?.area ?? "",
-      background: storeData?.background ?? "",
+      corfundo: storeData?.corfundo ?? "",
       banner: storeData?.banner ?? "",
       cnpj: storeData?.cnpj ?? "",
-      fontColor: storeData?.fontColor ?? "",
-      idUser: storeData?.idUser ?? "",
+      corfonte: storeData?.corfonte ?? "",
+      idUsuario: storeData?.idUsuario ?? "",
       logo: storeData?.logo ?? "",
-      name: storeData?.name ?? "",
-      quantityProduct: storeData?.quantityProduct ?? ""
+      nome: storeData?.nome ?? "",
+      qtdproduto: storeData?.qtdproduto ?? ""
     }
   })
 
-  const { mutateAsync: updateNewStore } = updateStore();
+  const { mutateAsync: updateNewStore } = useMutation({
+    mutationKey: ['updateStore'],
+    mutationFn: updateStoresController
+  });
 
   const handleUpdateStore = async (data: StoreValidationSchema) => {
     try {
@@ -82,7 +89,7 @@ export function MyShop() {
               <Skeleton className="h-10 w-full" />
             ) : (
               <Controller
-                  name="name"
+                  name="nome"
                   control={control}
                   rules={{ required: { message: "Digite ao título.", value: true },  }}
                   render={({ field, fieldState: { error } }) => {
@@ -113,6 +120,75 @@ export function MyShop() {
                       <div className="space-y-1">
                         <>
                           <Input type="text" className="h-9" {...field} />
+                          {error && <p className="text-red-500">{error.message}</p>}
+                        </>
+                      </div>
+                    )
+                  }}
+                />
+            )}
+          </div>
+
+          <div className="w-full">
+            <Label>Cor fundo</Label>
+            {isStoreDataLoading === true ? (
+              <Skeleton className="h-10 w-full" />
+            ) : (
+              <Controller
+                  name="corfundo"
+                  control={control}
+                  rules={{ required: { message: "Digite ao título.", value: true },  }}
+                  render={({ field, fieldState: { error } }) => {
+                    return (
+                      <div className="space-y-1">
+                        <>
+                          <Input type="text" className="h-9" {...field} />
+                          {error && <p className="text-red-500">{error.message}</p>}
+                        </>
+                      </div>
+                    )
+                  }}
+                />
+            )}
+          </div>
+
+          <div className="w-full">
+            <Label>Cor fonte</Label>
+            {isStoreDataLoading === true ? (
+              <Skeleton className="h-10 w-full" />
+            ) : (
+              <Controller
+                  name="corfonte"
+                  control={control}
+                  rules={{ required: { message: "Digite ao título.", value: true },  }}
+                  render={({ field, fieldState: { error } }) => {
+                    return (
+                      <div className="space-y-1">
+                        <>
+                          <Input type="text" className="h-9" {...field} />
+                          {error && <p className="text-red-500">{error.message}</p>}
+                        </>
+                      </div>
+                    )
+                  }}
+                />
+            )}
+          </div>
+
+          <div className="w-full">
+            <Label>Quantidade de produtos</Label>
+            {isStoreDataLoading === true ? (
+              <Skeleton className="h-10 w-full" />
+            ) : (
+              <Controller
+                  name="qtdproduto"
+                  control={control}
+                  rules={{ required: { message: "Digite ao título.", value: true },  }}
+                  render={({ field, fieldState: { error } }) => {
+                    return (
+                      <div className="space-y-1">
+                        <>
+                          <Input type="text" className="h-9" {...field} disabled />
                           {error && <p className="text-red-500">{error.message}</p>}
                         </>
                       </div>

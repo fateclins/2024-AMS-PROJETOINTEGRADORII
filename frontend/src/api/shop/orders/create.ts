@@ -1,33 +1,17 @@
-import { OrderMapper } from "@/api/mappers/order-mapper";
 import { api } from "@/lib/axios";
-import { useMutation } from "@tanstack/react-query";
 
-export interface OrderBody {
-  id: number;
-  totalValue: number;
-  date: Date;
-  status: string;
-  finalValue: number;
-  discount: number;
-  idUser: number;
-}
-
-interface OrderResponse {
-  status: string;
-  message: string;
+interface OrderBody {
+  id: number
+  valorTotal: number
+  datap: string
+  statusp: string
+  valorFinal: number
+  desconto: number
+  idUsuario: number
 }
 
 export async function createOrdersController(order: Partial<OrderBody>) {
-  const data = OrderMapper.toResponse(order);
-
-  const response = await api.post<OrderResponse>("/order", { ...data });
+  const response = await api.post("/order", { ...order });
 
   return response.data;
-}
-
-export function createOrder() {
-  return useMutation({
-    mutationKey: ["createOrder"],
-    mutationFn: createOrdersController,
-  });
 }

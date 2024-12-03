@@ -1,25 +1,17 @@
 import { api } from "@/lib/axios";
-import { useMutation } from "@tanstack/react-query";
-import { SubcategoryBody } from "./create";
 
-interface SubcategoryResponse {
-  status: string;
-  message: string;
+interface SubcategoryBody {
+  id: number
+  descricao: string
+  idCategoria: number
 }
 
 export async function deleteSubcategoriesController(
   subcategory: Partial<SubcategoryBody>,
 ) {
-  const response = await api.delete<SubcategoryResponse>("/subcategory", {
+  const response = await api.delete("/subcategory", {
     data: { id: subcategory.id },
   });
 
   return response.data;
-}
-
-export function deleteSubcategory() {
-  return useMutation({
-    mutationKey: ["deleteSubcategory"],
-    mutationFn: deleteSubcategoriesController,
-  });
 }

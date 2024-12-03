@@ -9,10 +9,13 @@ import { useNavigate } from 'react-router-dom'
 import { z } from 'zod'
 
 const signUpValidationSchema = z.object({
+  id: z.number(),
   nome: z.string(),
+  imagem: z.null(),
   indentidade: z.string(),
-  email: z.string().email(),
+  email: z.string(),
   senha: z.string(),
+  idTipoUsuario: z.number()
 })
 
 type SignUpValidationSchema = z.infer<typeof signUpValidationSchema>
