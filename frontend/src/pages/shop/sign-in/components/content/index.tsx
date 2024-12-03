@@ -1,74 +1,72 @@
-import { Link } from 'react-router-dom'
-import { useForm, Controller } from "react-hook-form"
+import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 
 import { Button } from '@/components/ui/button'
-import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
 import { z } from 'zod'
+import { Loader2 } from "lucide-react"
+import { api } from "@/lib/axios"
 
 const signInValidationSchema = z.object({
   email: z.string().email(),
-  password: z.string(),
-  remember: z.coerce.boolean(),
+  senha: z.string(),
 })
 
 type SignInValidationSchema = z.infer<typeof signInValidationSchema>
 
-export function Content () {
+interface SignInResponse {
+  email: string
+  senha: string
+}
 
-  const { handleSubmit, register, watch, formState, control } = useForm<SignInValidationSchema>({
-    resolver: zodResolver(signInValidationSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-      remember: false
-    }
+async function signIn({ email, senha }: SignInResponse) {
+  const response = await api.post('/login', {
+    email,
+    senha
   })
 
-  function handleSignIn(data: any) {
-    console.log(data);
+  console.log(response.data)
+
+  return response.data
+}
+
+export function Content () {
+  const { handleSubmit, register, formState: { isSubmitting } } = useForm<SignInValidationSchema>({
+    resolver: zodResolver(signInValidationSchema),
+  })
+
+  async function handleSignIn(data: SignInValidationSchema) {
+    try {
+      const user = await signIn({ email: data.email, senha: data.senha })
+      console.log(user)
+
+      // navigate('/')
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   return (
-    <form onSubmit={handleSubmit(handleSignIn)} className="m-auto flex w-[445px] flex-col flex-wrap">
+    <form onSubmit={handleSubmit(handleSignIn)} className="space-y-6">
       <h1 className="text-3xl font-bold">Bem-vindo</h1>
       <p className="mt-1 text-base font-normal text-zinc-500">
         Faça login aqui
       </p>
       <div className="mt-6">
-        <label htmlFor="" className="text-base font-medium">
+        <label htmlFor="email" className="text-base font-medium">
           E-mail
         </label>
-        <Input id="email" {...register("email")} value={watch('email')}/>
+        <Input id="email" {...register("email")} />
       </div>
       <div className="mt-3">
-        <label htmlFor="" className="text-base font-medium">
+        <label htmlFor="senha" className="text-base font-medium">
           Senha
         </label>
-        <Input id="password" {...register("password")} value={watch('password')}/>
+        <Input id="senha" {...register("senha")} />
       </div>
-
-      <div className="mt-3 flex justify-between">
-        <div className="flex items-center">
-          {/* <Controller
-            control={control}
-            name='remember'
-            render={
-              function({ field }) {
-                return ( */}
-                  <Checkbox id="remember" {...register("remember")}/>
-          {/*       )
-               }
-            }
-           /> */}
-          <label htmlFor="remember" className="ml-2">
-            Lembrar-me sempre
-          </label>
-        </div>
-        <Link to={'/reset-password'}>Esqueceu a senha?</Link>
-      </div>
-      <Button className="mt-6" type='submit'>Entrar</Button>
+      <Button className="mt-6" type='submit' disabled={isSubmitting}>
+        {isSubmitting ? <Loader2 className="size-4 animate-spin" /> : 'Entrar'}
+      </Button>
     </form>
   )
 }

@@ -45,11 +45,15 @@ export function Header() {
         </div>
         ) : (
           <div className="flex items-center gap-2">
-            <Button variant='secondary' onClick={() => setIsAuth(true)}>
-              Entrar
+            <Button variant='ghost' asChild>
+              <Link to='/sign-in'>
+                Entrar
+              </Link>
             </Button>
-            <Button>
-              Registrar-se
+            <Button asChild>
+              <Link to='/sign-up'>
+                Registrar-se
+              </Link>
             </Button>
           </div>
         )}
