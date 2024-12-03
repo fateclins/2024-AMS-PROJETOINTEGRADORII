@@ -5,10 +5,10 @@ import { useState } from 'react'
 import { Button } from '../ui/button'
 import { Input } from '../ui/input'
 import { Avatar, AvatarFallback } from '../ui/avatar'
-import { Search } from 'lucide-react'
+import { LogOut, Search } from 'lucide-react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '../ui/dropdown-menu'
 import { AvatarImage } from '@radix-ui/react-avatar'
 
 export function Header() {
@@ -56,16 +56,31 @@ export function Header() {
 
           <DropdownMenu>
             <DropdownMenuTrigger className='flex items-center gap-2'>
-              {nome && <span>{nome}</span>}
-                <Avatar className='size-8'>
+              <Avatar>
+                {imagem &&  <AvatarImage src={imagem} />}
+                <AvatarFallback />
+              </Avatar>
+            </DropdownMenuTrigger>
+
+            <DropdownMenuContent align='end'>
+              <div className='flex items-center gap-2 p-2'>
+              <Avatar>
                   {imagem &&  <AvatarImage src={imagem} />}
                   <AvatarFallback />
                 </Avatar>
-            </DropdownMenuTrigger>
+                <div className='flex flex-col gap-1 text-left'>
+                  {nome && <span className='text-sm font-semibold'>{nome}</span>}
+                  {email && <span className='text-xs text-muted-foreground'>{email}</span>}
+                </div>
 
-            <DropdownMenuContent>
+              </div>
+
+              <DropdownMenuSeparator />
               <DropdownMenuItem asChild>
-                <button className='w-full font-medium' onClick={handleSignOut}>Sair</button>
+                <button className='w-full text-rose-500 justify-center font-medium flex items-center gap-2' onClick={handleSignOut}>
+                  <LogOut className='size-4' />
+                  Sair
+                </button>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
