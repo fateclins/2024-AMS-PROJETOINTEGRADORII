@@ -17,55 +17,42 @@ class LoginService {
     }
 
     public function post() {
+        // Obtém os dados da requisição JSON
         $input = file_get_contents('php://input');
-
         $data = json_decode($input, true);
 
+        // Valida se os dados estão no formato JSON
         if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new \Exception('Dados devem ter formato json');
-        } 
-        
-        $this->user->variables = $data;
-
-        $email = $data['email'];
-        $senha = $data['senha'];
-
-        $senhaHash = hash('sha256', $senha);
-
-        // Defina os campos e o valor para a busca
-        $fields = $email;
-
-        // Chame a função search para buscar o usuário
-        $result = $this->user->findByEmail($fields);
-
-        // Verifica se algum usuário foi encontrado
-        if ($result && !empty($result)) {
-            $user = $result;
-
-            $key = 'sistemaTray@123';
-
-            $iat = time();
-            $exp = time() + 60 * 60 * 3; // 3 hours
-
-            $payload = [
-                'sub' => $user['id'],
-                'iat' => $iat,
-                'exp' => $exp,
-            ];
-
-            $token= JWT::encode($payload, $key, 'HS256');
-            // $decoded = JWT::decode($token, new Key($key, 'HS256'));
-
-            // Comparação direta da senha
-            if ($senhaHash === $user['senha']) {
-                http_response_code(200);
-                return array('access_token' => $token, 'iat' => $iat, 'exp' => $exp, 'user_id' => $user['id']);
-            } else {
-                http_response_code(401);
-                return array('errors' => ['message' => 'Email ou senha inválidos']);
-            }
-        } else {
-            return ['message' => 'Email ou senha inválidos'];
+            throw new \Exception('Dados devem ter formato JSON');
         }
+
+        // Verifica se os campos obrigatórios estão presentes
+        if (empty($data['email']) || empty($data['senha'])) {
+            throw new \Exception('Email e senha são obrigatórios');
+        }
+
+        // Hash da senha para comparar com o banco
+        $data['senha'] = hash('sha256', $data['senha']);
+
+        // Busca o usuário pelo email e senha no banco de dados
+        $result = $this->user->findUserByEmailAndPassword($data['email'], $data['senha']);
+
+        $token = $this->user->generateJwtToken($result[0]['id'], $result[0]['email']);
+
+        if (!$result) {
+            // Retorna erro de autenticação se o usuário não for encontrado
+            http_response_code(401);
+            return [
+                'error' => 'Credenciais inválidas. Verifique email ou senha.'
+            ];
+        }
+
+        // Retorna os dados do usuário autenticado
+        http_response_code(200);
+        return [
+            'message' => 'Login bem-sucedido!',
+            'user' => $result,
+            'token' => $token
+        ];
     }
 }

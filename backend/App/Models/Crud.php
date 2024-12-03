@@ -4,6 +4,8 @@ namespace App\Models;
 
 use App\Models\Core;
 
+// require 'vendor/autoload.php';
+
 class Crud {
 
 public $db;
@@ -133,26 +135,41 @@ public function search($fields = array(), $sort = array()) {
     $sql = "SELECT * FROM " . $this->table;
 
     // Construção das condições WHERE
+    // var_dump($bindings);exit;
+
     if (!empty($bindings)) {
         $fieldsvals = array();
         $sqlKeyWord = array();
         $columns = array_keys($bindings);
 
+        // var_dump($columns);exit;
         foreach($columns as $column) {
             if ($column != "keyword") {
+
                 $fieldsvals[] = $column . " = :" . $column;
+
             } else {
                 foreach ($bindings["keyword"] as $column2 => $val) {
                     if ($val != "" && $val != null) {
-                        $sqlKeyWord[] = "$column2 LIKE '$val%'";
+                        $sqlKeyWord[] = " $column2 LIKE '$val%' ";
                     }
                 }
             }
         }
 
-        $whereClause = implode(" AND ", $fieldsvals) . (count($sqlKeyWord) > 0 ? " AND " . implode(" AND ", $sqlKeyWord) : "");
+        if (count($fieldsvals) > 0 && count($sqlKeyWord) > 0){
+            $whereClause = implode(" AND ", $fieldsvals) . " AND ". implode(" AND ", $sqlKeyWord);
+        }else if(count($fieldsvals) > 0 ){
+            $whereClause = implode(" AND ", $fieldsvals);
+        }else if(count($sqlKeyWord) > 0){
+            $whereClause = implode(" AND ", $sqlKeyWord);
+        }else{
+            $whereClause ="";
+        }
+
+    
         if (!empty($whereClause)) {
-            $sql .= " WHERE 1=1 " . $whereClause;
+            $sql .= " WHERE " . $whereClause;
         }
     }
 
@@ -176,7 +193,7 @@ public function search($fields = array(), $sort = array()) {
     // Consulta para contar o total de registros
     $countSql = "SELECT COUNT(*) AS total FROM " . $this->table;
     if (!empty($whereClause)) {
-        $countSql .= " WHERE 1=1 " . $whereClause;
+        $countSql .= " WHERE " . $whereClause;
     }
 
     $countResult = $this->exec($countSql);
@@ -188,6 +205,7 @@ public function search($fields = array(), $sort = array()) {
     // Aplica limite e offset para paginação
     $sql .= " LIMIT $offset, $limit";
   
+    // echo $sql;exit;
     // Executa a consulta final
     $data = $this->exec($sql);
 
@@ -297,6 +315,9 @@ public function random(){
     $sql .= " ORDER BY RAND()";
     return $this->exec($sql);
 }
+
+
+
 }
 
 ?>
