@@ -1,7 +1,7 @@
 <?php
 namespace App\Services;
 
-require_once __DIR__ . '/../../vendor/autoload.php';
+// require_once __DIR__ . '/../../vendor/autoload.php';
 
 use App\Models\User;
 use Firebase\JWT\JWT;
@@ -45,7 +45,7 @@ class LoginService {
             ];
         }
 
-        
+
         $token = $this->user->generateJwtToken($result[0]['id'], $result[0]['email']);
 
        

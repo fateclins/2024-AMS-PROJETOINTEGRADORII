@@ -17,10 +17,12 @@
            private $filters = null;
            protected $pk  = 'id';
            public $db;
+         
           
    
            public function __construct(){
                $this->db = new Core();
+               $this->getColumns();
            }
 
         public function generateJwtToken($userId, $email){

@@ -81,6 +81,7 @@ public function save($id = "0") {
 public function create($data) { 
     $bindings   	= $this->variables;
 
+    var_dump($this->variables);
     $this->validateColumnsCreated();
 
     if(!empty($bindings)) {
