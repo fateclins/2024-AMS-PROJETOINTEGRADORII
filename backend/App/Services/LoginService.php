@@ -49,11 +49,12 @@ class LoginService {
         $token = $this->user->generateJwtToken($result[0]['id'], $result[0]['email']);
 
        
+        // var_dump($result);
         // Retorna os dados do usuário autenticado
         http_response_code(200);
         return [
             'message' => 'Login bem-sucedido!',
-            'user' => $result,
+            'user' => $result[0],
             'token' => $token
         ];
     }
