@@ -1,7 +1,7 @@
-import { createProduct } from "@/api/shop/products/create";
-import { deleteProduct } from "@/api/shop/products/delete";
+import { createProductsController } from "@/api/shop/products/create";
+import { deleteProductsController } from "@/api/shop/products/delete";
 import { listProductsController } from "@/api/shop/products/list";
-import { updateProduct } from "@/api/shop/products/update";
+import { updateProductsController } from "@/api/shop/products/update";
 import { Pagination } from "@/components/pagination";
 import { Button } from "@/components/ui/button";
 import {
@@ -25,7 +25,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Pencil, Plus, Search, Trash } from "lucide-react";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -34,14 +34,16 @@ import { toast } from "sonner";
 import { z } from "zod";
 
 export function Products() {
+  // const queryClient = useQueryClient();
+
   const { data: productsData, isLoading: isProductsDataLoading } = useQuery({
-    queryKey: ["listProduct"],
-    queryFn: () => listProductsController({ filter: { valor: 10 }, pagination: {} }),
+    queryKey: ["listProduct", 40, 1],
+    queryFn: () => listProductsController({ filter: {}, pagination: { getLimit: 40, getStart: 1 } }),
   });
 
     const [searchParams, setSearchParams] = useSearchParams();
 
-    const productsSizeData = productsData?.length;
+    const productsSizeData = productsData?.data.length;
 
     const pageIndex = z.coerce
       .number()
@@ -61,16 +63,16 @@ export function Products() {
     const endIndex = startIndex + itemsPerPage;
 
     const productValidationSchema = z.object({
-        id: z.coerce.number(),
-        quantity: z.coerce.number(),
-        value: z.coerce.number(),
-        model: z.string(),
-        name: z.string(),
-        description: z.string(),
-        bestsellerProduct: z.string(),
-        idStore: z.coerce.number(),
-        idv1: z.coerce.number(),
-        idv2: z.coerce.number(),
+      id: z.coerce.number(),
+      qtde: z.coerce.number(),
+      valor: z.coerce.number(),
+      modelo: z.string(),
+      descricao: z.string(),
+      nome: z.string(),
+      produtoDestaque: z.coerce.number(),
+      idv1: z.coerce.number(),
+      idv2: z.coerce.number(),
+      idloja: z.coerce.number()
     })
 
     type ProductValidationSchema = z.infer<typeof productValidationSchema>
@@ -79,13 +81,13 @@ export function Products() {
       resolver: zodResolver(productValidationSchema),
       values: {
         id: 0,
-        description: '',
-        model: '',
-        name: '',
-        quantity: 0,
-        value: 0,
-        bestsellerProduct: 'false',
-        idStore: 0,
+        descricao: '',
+        modelo: '',
+        nome: '',
+        qtde: 0,
+        valor: 0,
+        produtoDestaque: 0,
+        idloja: 0,
         idv1: 0,
         idv2: 0,
       }
@@ -93,34 +95,75 @@ export function Products() {
 
     const [_, setSelectedItem] = useState<any>(null);
 
-    const { mutateAsync: createNewProduct } = createProduct();
-    const { mutateAsync: updateProductData } = updateProduct();
-    const { mutateAsync: deleteProductData } = deleteProduct();
+    const { mutateAsync: createNewProduct } = useMutation({
+      mutationKey: ['createProduct'],
+      mutationFn: createProductsController,
+      // onSuccess(_,variables) {
+      //   const cached = queryClient.getQueryData(['listProduct'])
+        
+      //   if (cached) {
+      //     queryClient.setQueryData(['listProduct'], {
+      //       ...cached,
+      //       ...variables,
+      //     })
+      //   }
+      // },
+    });
+    const { mutateAsync: updateProductData } = useMutation({
+      mutationKey: ['updateProduct'],
+      mutationFn: updateProductsController,
+      // onSuccess(_, variables) {
+      //   const cached = queryClient.getQueryData(['listProduct'])
+
+      //   console.log(cached);
+        
+      //   if (cached) {
+      //     queryClient.setQueryData(['listProduct'], {
+      //       ...cached,
+      //       ...variables,
+      //     })
+      //   }
+      // },
+    });
+    const { mutateAsync: deleteProductData } = useMutation({
+      mutationKey: ['deleteProduct'],
+      mutationFn: deleteProductsController,
+      // onSuccess(_,variables) {
+      //   const cached = queryClient.getQueryData(['listProduct'])
+        
+      //   if (cached) {
+      //     queryClient.setQueryData(['listProduct'], {
+      //       ...cached,
+      //       ...variables,
+      //     })
+      //   }
+      // },
+    });
 
     const handleSelectItem = (item: ProductValidationSchema) => {
-      setSelectedItem(item),
-      reset(item)
+      setSelectedItem(item);
+      reset(item);
     }
 
     const handleRegisterNewProduct = async (data: ProductValidationSchema) => {
-          try {
+      try {
         await createNewProduct({
-            bestsellerProduct: false,
-            description: data.description,
-            idStore: 1,
+            produtoDestaque: 0,
+            descricao: data.descricao,
+            idloja: 1,
             idv1: 1,
             idv2: 1,
-            model: data.model,
-            name: data.name,
-            quantity: data.quantity,
-            value: data.value,
+            modelo: data.modelo,
+            nome: data.nome,
+            qtde: data.qtde,
+            valor: data.valor,
           })
         toast.success("Produto criado com sucesso.");
       } catch (error) {
         toast.error("Falha ao criar o produto");
       }
 
-      reset();
+      reset({ ...data })
     }
 
     const onError = (errors: any) => {
@@ -131,22 +174,23 @@ export function Products() {
       try {
         await updateProductData({
           id: data.id,
-          quantity: data.quantity,
-          value: data.value,
-          name: data.name,
-          description: data.description,
-          model: data.model,
-          bestsellerProduct: Boolean(data.bestsellerProduct),
+          qtde: data.qtde,
+          valor: data.valor,
+          nome: data.nome,
+          descricao: data.descricao,
+          modelo: data.modelo,
+          produtoDestaque: data.produtoDestaque,
           idv1: data.idv1,
           idv2: data.idv2,
-          idStore: data.idStore,
+          idloja: data.idloja,
         });
 
         toast.success("Produto atualizado com sucesso.");
       } catch (error) {
         toast.error("Falha ao atualizar o produto");
       }
-      reset();
+
+      reset({ ...data })
     }
 
     const handleDeleteProduct = async (data: ProductValidationSchema) => {
@@ -158,7 +202,8 @@ export function Products() {
       } catch (error) {
         toast.error("Falha ao deletar o produto");
       }
-      reset();
+
+      reset({ ...data })
     }
 
     return (
@@ -170,13 +215,13 @@ export function Products() {
             <DialogTrigger asChild>
               <Button size="sm" onClick={() => reset({
                     id: 0,
-                    description: '',
-                    model: '',
-                    name: '',
-                    quantity: 0,
-                    value: 0,
-                    bestsellerProduct: 'false',
-                    idStore: 0,
+                    descricao: '',
+                    modelo: '',
+                    nome: '',
+                    qtde: 0,
+                    valor: 0,
+                    produtoDestaque: 0,
+                    idloja: 0,
                     idv1: 0,
                     idv2: 0, 
                 })}>
@@ -195,7 +240,7 @@ export function Products() {
 
               <form className="space-y-4" onSubmit={handleSubmit(handleRegisterNewProduct)}>
                 <Controller
-                  name="name"
+                  name="nome"
                   control={control}
                   rules={{ required: { message: "Digite ao título.", value: true },  }}
                   render={({ field, fieldState: { error } }) => {
@@ -210,7 +255,7 @@ export function Products() {
                 />
 
                 <Controller
-                  name="model"
+                  name="modelo"
                   control={control}
                   rules={{ required: { message: "Digite a descrição.", value: true },  }}
                   render={({ field, fieldState: { error } }) => {
@@ -225,7 +270,7 @@ export function Products() {
                 />
 
                 <Controller
-                  name="description"
+                  name="descricao"
                   control={control}
                   rules={{ required: { message: "Digite a descrição.", value: true },  }}
                   render={({ field, fieldState: { error } }) => {
@@ -240,7 +285,7 @@ export function Products() {
                 />
 
                 <Controller
-                  name="quantity"
+                  name="qtde"
                   control={control}
                   rules={{ required: { message: "Digite a descrição.", value: true },  }}
                   render={({ field, fieldState: { error } }) => {
@@ -255,7 +300,7 @@ export function Products() {
                 />
 
                 <Controller
-                  name="value"
+                  name="valor"
                   control={control}
                   rules={{ required: { message: "Digite a descrição.", value: true },  }}
                   render={({ field, fieldState: { error } }) => {
@@ -322,7 +367,7 @@ export function Products() {
                 </TableCell>
               </TableRow>
               ) : (
-                productsData?.slice(startIndex, endIndex).map((item) => {
+                productsData?.data.slice(startIndex, endIndex).map((item) => {
                   return (
                     <TableRow key={item.id}>
                       <TableCell>
@@ -345,32 +390,32 @@ export function Products() {
                               <form className="space-y-4">
                                   <div className="w-full">
                                     <Label className="text-sm font-medium">Nome</Label>
-                                    <Input type="text" className="h-9" value={item.name} disabled />
+                                    <Input type="text" className="h-9" value={item.nome} disabled />
                                   </div>
 
                                   <div className="w-full">
                                     <Label className="text-sm font-medium">Modelo</Label>
-                                    <Input type="text" className="h-9" value={item.model} disabled />
+                                    <Input type="text" className="h-9" value={item.modelo} disabled />
                                   </div>
 
                                   <div className="w-full">
                                     <Label className="text-sm font-medium">Descrição</Label>
-                                    <Input type="text" className="h-9" value={item.description} disabled />
+                                    <Input type="text" className="h-9" value={item.descricao} disabled />
                                   </div>
 
                                   <div className="w-full">
                                     <Label className="text-sm font-medium">Quantidade</Label>
-                                    <Input type="text" className="h-9" value={item.quantity} disabled />
+                                    <Input type="text" className="h-9" value={item.qtde} disabled />
                                   </div>
 
                                   <div className="w-full">
                                     <Label className="text-sm font-medium">Valor</Label>
-                                    <Input type="text" className="h-9" value={item.value} disabled />
+                                    <Input type="text" className="h-9" value={item.valor} disabled />
                                   </div>
                                   
                                   <div className="w-full">
                                     <Label className="text-sm font-medium">Mais vendido</Label>
-                                    <Input type="text" className="h-9" value={item.bestsellerProduct ? "É um produto Bestseller" : "Não é um produto Bestseller"} disabled />
+                                    <Input type="text" className="h-9" value={item.produtoDestaque ? "É um produto Bestseller" : "Não é um produto Bestseller"} disabled />
                                   </div>
 
                                 <div className="flex items-center justify-end gap-2">
@@ -385,14 +430,14 @@ export function Products() {
                         </Dialog>
                       </TableCell>
                       <TableCell className="font-mono text-xs font-medium">
-                        {item.name}
+                        {item.nome}
                       </TableCell>
                       <TableCell className="text-muted-foreground">
-                        {item.model}
+                        {item.modelo}
                       </TableCell>
-                      <TableCell>{item.value}</TableCell>
+                      <TableCell>{item.valor}</TableCell>
                       <TableCell className="font-medium">
-                        {item.quantity}
+                        {item.qtde}
                       </TableCell>
 
                       <TableCell>
@@ -400,7 +445,7 @@ export function Products() {
                           <DialogTrigger asChild>
                             <Button size="icon" variant="ghost" onClick={() => handleSelectItem({
                               ...item,
-                              bestsellerProduct: String(item.bestsellerProduct)
+                              produtoDestaque: item.produtoDestaque
                             })}>
                               <Pencil className="size-4" />
                               <span className="sr-only">Editar produto</span>
@@ -417,9 +462,9 @@ export function Products() {
 
                               <form onSubmit={handleSubmit(handleUpdateProduct, onError)} className="space-y-4">
                                 <Controller
-                                    name="name"
+                                    name="nome"
                                     control={control}
-                                    defaultValue={item.name}
+                                    defaultValue={item.nome}
                                     rules={{ required: { message: "Digite ao título.", value: true },  }}
                                     render={({ field, fieldState: { error } }) => {
                                         return (
@@ -433,9 +478,9 @@ export function Products() {
                                     />
 
                                     <Controller
-                                    name="model"
+                                    name="modelo"
                                     control={control}
-                                    defaultValue={item.model}
+                                    defaultValue={item.modelo}
                                     rules={{ required: { message: "Digite a descrição.", value: true },  }}
                                     render={({ field, fieldState: { error } }) => {
                                         return (
@@ -449,9 +494,9 @@ export function Products() {
                                     />
 
                                     <Controller
-                                        name="description"
+                                        name="descricao"
                                         control={control}
-                                        defaultValue={item.description}
+                                        defaultValue={item.descricao}
                                         rules={{ required: { message: "Digite a descrição.", value: true },  }}
                                         render={({ field, fieldState: { error } }) => {
                                             return (
@@ -465,9 +510,9 @@ export function Products() {
                                     />
 
                                     <Controller
-                                        name="quantity"
+                                        name="qtde"
                                         control={control}
-                                        defaultValue={item.quantity}
+                                        defaultValue={item.qtde}
                                         rules={{ required: { message: "Digite a descrição.", value: true },  }}
                                         render={({ field, fieldState: { error } }) => {
                                             return (
@@ -481,9 +526,9 @@ export function Products() {
                                     />
 
                                     <Controller
-                                        name="value"
+                                        name="valor"
                                         control={control}
-                                        defaultValue={item.value}
+                                        defaultValue={item.valor}
                                         rules={{ required: { message: "Digite a descrição.", value: true },  }}
                                         render={({ field, fieldState: { error } }) => {
                                             return (
@@ -497,9 +542,9 @@ export function Products() {
                                     />
 
                                     <Controller
-                                        name="bestsellerProduct"
+                                        name="produtoDestaque"
                                         control={control}
-                                        defaultValue={String(item.bestsellerProduct)}
+                                        defaultValue={item.produtoDestaque}
                                         rules={{ required: { message: "Digite a descrição.", value: true },  }}
                                         render={({ field, fieldState: { error } }) => {
                                             return (
@@ -532,7 +577,7 @@ export function Products() {
                           <DialogTrigger asChild>
                             <Button size="icon" variant="ghost" onClick={() => handleSelectItem({
                               ...item,
-                              bestsellerProduct: String(item.bestsellerProduct)
+                              produtoDestaque: item.produtoDestaque
                             })}>
                               <Trash className="size-4"/>
                               <span className="sr-only">Excluir produto</span>

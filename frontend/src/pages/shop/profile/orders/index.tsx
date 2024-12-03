@@ -9,23 +9,19 @@ import { Dialog, DialogClose, DialogContent, DialogDescription, DialogHeader, Di
 import { Button } from "@/components/ui/button";
 import {  Pencil, Search, Trash } from "lucide-react";
 import { Pagination } from "@/components/pagination";
-import { listOrders } from "@/api/shop/orders/list";
+import { listOrdersController } from "@/api/shop/orders/list";
 import { useSearchParams } from "react-router-dom";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import { Label } from "@/components/label";
 import { useState } from "react";
-import { createOrder } from "@/api/shop/orders/create";
-import { updateOrder } from "@/api/shop/orders/update";
-import { deleteOrder } from "@/api/shop/orders/delete";
+import { updateOrdersController } from "@/api/shop/orders/update";
+import { deleteOrdersController } from "@/api/shop/orders/delete";
 import { toast } from "sonner";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 export function Orders() {
-  const { data: ordersData, isLoading: isOrdersDataLoading } =
-    listOrders();
-
-
   const [searchParams, setSearchParams] = useSearchParams();
   
   const pageIndex = z.coerce
@@ -41,19 +37,28 @@ export function Orders() {
     });
   }
   
-  const ordersSizeData = ordersData?.length;
   const itemsPerPage = 10;
   const startIndex = pageIndex * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
+  
+  const { data: ordersData, isLoading: isOrdersDataLoading } =
+  useQuery({
+    queryKey: ['listOrders', 40],
+    queryFn: () => listOrdersController({ filter: {}, pagination: { getLimit: 1000 } }),
+    retry: 1,
+  });
+
+  const ordersSizeData = ordersData?.data.length;
+
 
   const orderValidationSchema = z.object({
-    id: z.coerce.number(),
-    totalValue: z.coerce.number(),
-    date: z.string(),
-    status: z.string(),
-    finalValue: z.coerce.number(),
-    discount: z.coerce.number(),
-    idUser: z.coerce.number(),
+    id: z.number(),
+    valorTotal: z.number(),
+    datap: z.string(),
+    statusp: z.string(),
+    valorFinal: z.number(),
+    desconto: z.number(),
+    idUsuario: z.number()
   })
 
   type OrderValidationSchema = z.infer<typeof orderValidationSchema>
@@ -61,20 +66,27 @@ export function Orders() {
   const { handleSubmit, control, reset } = useForm<OrderValidationSchema>({
     resolver: zodResolver(orderValidationSchema),
     values: {
-      date: "",
-      discount: 0,
-      finalValue: 0,
+      datap: "",
+      desconto: 0,
+      valorFinal: 0,
       id: 0,
-      idUser: 0,
-      status: "",
-      totalValue: 0,
+      idUsuario: 0,
+      statusp: "",
+      valorTotal: 0,
     }
   })
 
   const [_, setSelectedItem] = useState<any>(null);
 
-    const { mutateAsync: updateOrderData } = updateOrder();
-    const { mutateAsync: deleteOrderData } = deleteOrder();
+    const { mutateAsync: updateOrderData } = useMutation({
+      mutationKey: ['updateOrder'],
+      mutationFn: updateOrdersController
+    });
+
+    const { mutateAsync: deleteOrderData } = useMutation({
+      mutationKey: ['deleteOrder'],
+      mutationFn: deleteOrdersController
+    });
 
     const handleSelectItem = (item: OrderValidationSchema) => {
       setSelectedItem(item),
@@ -90,19 +102,19 @@ export function Orders() {
       try {
         await updateOrderData({
           id: data.id,
-          date: new Date(data.date),
-          discount: data.discount,
-          finalValue: data.finalValue,
-          idUser: data.idUser,
-          status: data.status,
-          totalValue: data.totalValue,
+          datap: String(new Date(data.datap)),
+          desconto: data.desconto,
+          valorFinal: data.valorFinal,
+          idUsuario: data.idUsuario,
+          statusp: data.statusp,
+          valorTotal: data.valorTotal,
         });
 
         toast.success("Pedido atualizado com sucesso.");
       } catch (error) {
         toast.error("Falha ao atualizar o pedido");
       }
-      reset();
+      reset({ ...data })
     }
 
     const handleDeleteOrder = async (data: OrderValidationSchema) => {
@@ -114,7 +126,7 @@ export function Orders() {
       } catch (error) {
         toast.error("Falha ao deletar o pedido");
       }
-      reset();
+      reset({ ...data })
     }
 
   return (
@@ -174,7 +186,7 @@ export function Orders() {
                     </TableCell>
                   </TableRow>
                 ) : (
-                  ordersData?.slice(startIndex, endIndex).map((item) => {
+                  ordersData?.data.slice(startIndex, endIndex).map((item) => {
                     return (
                       <TableRow key={item.id}>
                         <TableCell>
@@ -200,30 +212,30 @@ export function Orders() {
                                 <div className="flex flex-col items-center gap-2 lg:flex-row">
                                   <div className="w-full">
                                     <Label className="text-sm font-medium">Data de pagamento</Label>
-                                    <Input type="text" className="h-9" value={item.date} disabled />
+                                    <Input type="text" className="h-9" value={item.datap} disabled />
                                   </div>
 
                                   <div className="w-full">
                                     <Label className="text-sm font-medium">Valor total</Label>
-                                    <Input type="text" className="h-9" value={item.totalValue} disabled />
+                                    <Input type="text" className="h-9" value={item.valorTotal} disabled />
                                   </div>
                                 </div>
 
                                 <div className="flex flex-col items-center gap-2 lg:flex-row">
                                   <div className="w-full">
                                     <Label className="text-sm font-medium">Valor final</Label>
-                                    <Input type="text" className="h-9" value={item.finalValue} disabled />
+                                    <Input type="text" className="h-9" value={item.valorFinal} disabled />
                                   </div>
 
                                   <div className="w-full">
                                     <Label className="text-sm font-medium">Status</Label>
-                                    <Input type="text" className="h-9" value={item.status} disabled />
+                                    <Input type="text" className="h-9" value={item.statusp} disabled />
                                   </div>
                                 </div>
 
                                 <div className="w-6/12">
                                   <Label className="text-sm font-medium">Desconto</Label>
-                                  <Input type="text" className="h-9" value={item.discount} disabled />
+                                  <Input type="text" className="h-9" value={item.desconto} disabled />
                                 </div>
 
                                 <div className="flex items-center justify-end gap-2">
@@ -239,19 +251,19 @@ export function Orders() {
 
                         </TableCell>
                         <TableCell className="font-mono text-xs font-medium">
-                          {item.date}
+                          {item.datap}
                         </TableCell>
                         <TableCell className="text-muted-foreground">
-                          {item.totalValue}
+                          {item.valorTotal}
                         </TableCell>
                         <TableCell>
-                          {item.finalValue}
+                          {item.valorFinal}
                         </TableCell>
                         <TableCell>
-                          {item.status}
+                          {item.statusp}
                         </TableCell>
                         <TableCell className="font-medium">
-                          {item.discount}
+                          {item.desconto}
                         </TableCell>
                         <TableCell>
                         <Dialog>
@@ -272,9 +284,9 @@ export function Orders() {
 
                               <form className="space-y-4" onSubmit={handleSubmit(handleUpdateOrder, onError)}>
                                 <Controller
-                                  name="totalValue"
+                                  name="valorTotal"
                                   control={control}
-                                  defaultValue={item.totalValue}
+                                  defaultValue={item.valorTotal}
                                   rules={{ required: { message: "Digite o valor.", value: true },  }}
                                   render={({ field, fieldState: { error } }) => {
                                     return (
@@ -288,9 +300,9 @@ export function Orders() {
                                 />
 
                                 <Controller
-                                  name="finalValue"
+                                  name="valorFinal"
                                   control={control}
-                                  defaultValue={item.finalValue}
+                                  defaultValue={item.valorFinal}
                                   rules={{ required: { message: "Digite o valor.", value: true },  }}
                                   render={({ field, fieldState: { error } }) => {
                                     return (
@@ -304,9 +316,9 @@ export function Orders() {
                                 />
 
                                 <Controller
-                                  name="status"
+                                  name="statusp"
                                   control={control}
-                                  defaultValue={item.date}
+                                  defaultValue={item.statusp}
                                   rules={{ required: { message: "Digite o valor.", value: true },  }}
                                   render={({ field, fieldState: { error } }) => {
                                     return (
@@ -320,9 +332,9 @@ export function Orders() {
                                 />
 
                                 <Controller
-                                  name="discount"
+                                  name="desconto"
                                   control={control}
-                                  defaultValue={item.date}
+                                  defaultValue={item.desconto}
                                   rules={{ required: { message: "Digite o valor.", value: true },  }}
                                   render={({ field, fieldState: { error } }) => {
                                     return (

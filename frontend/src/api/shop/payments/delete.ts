@@ -1,25 +1,18 @@
 import { api } from "@/lib/axios";
-import { useMutation } from "@tanstack/react-query";
-import { PaymentBody } from "./create";
 
-
-
-interface PaymentResponse {
-  status: string;
-  message: string;
+interface PaymentBody {
+  id: number
+  datap: string
+  valor: number
+  operacao: number
+  statusp: number
+  idPedido: number
 }
 
 export async function deletePaymentsController(payment: Partial<PaymentBody>) {
-  const response = await api.delete<PaymentResponse>("/payment", {
+  const response = await api.delete("/payment", {
     data: { id: payment.id },
   });
 
   return response.data;
-}
-
-export function deletePayment() {
-  return useMutation({
-    mutationKey: ["deletePayment"],
-    mutationFn: deletePaymentsController,
-  });
 }

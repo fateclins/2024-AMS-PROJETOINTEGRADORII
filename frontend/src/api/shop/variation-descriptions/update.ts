@@ -1,29 +1,18 @@
-import { VariationDescriptionMapper } from "@/api/mappers/variation-description-mapper";
 import { api } from "@/lib/axios";
-import { useMutation } from "@tanstack/react-query";
-import { VariationDescriptionBody } from "./create";
 
-interface VariationDescriptionResponse {
-  status: string;
-  message: string;
+interface VariationDescriptionBody {
+  id: number
+  descricao: string
 }
 
 export async function updateVariationDescriptionsController(
   variationDescription: Partial<VariationDescriptionBody>,
 ) {
-  const data = VariationDescriptionMapper.toResponse(variationDescription);
-
-  const response = await api.put<VariationDescriptionResponse>(
+  const response = await api.put(
     "/variationdescription",
-    { ...data },
+    { ...variationDescription },
   );
 
   return response.data;
 }
 
-export function updateVariationDescription() {
-  return useMutation({
-    mutationKey: ["updateVariationDescription"],
-    mutationFn: updateVariationDescriptionsController,
-  });
-}

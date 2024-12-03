@@ -1,26 +1,18 @@
 import { api } from "@/lib/axios";
-import { useMutation } from "@tanstack/react-query";
-import { VariationValueBody } from "./create";
 
-interface VariationValuesResponse {
-  status: string;
-  message: string;
+interface VariationValueBody {
+  id: number
+  valor: string
+  idVariacaoDescricao: number
 }
 
 export async function deleteVariationValuesController(
   variationValue: Partial<VariationValueBody>,
 ) {
-  const response = await api.delete<VariationValuesResponse>(
+  const response = await api.delete(
     "/variationvalue",
     { data: { id: variationValue.id } },
   );
 
   return response.data;
-}
-
-export function deleteVariationValue() {
-  return useMutation({
-    mutationKey: ["deleteVariationValue"],
-    mutationFn: deleteVariationValuesController,
-  });
 }

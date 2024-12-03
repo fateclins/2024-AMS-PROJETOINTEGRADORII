@@ -1,28 +1,17 @@
-import { CategoryMapper } from "@/api/mappers/category-mapper";
 import { api } from "@/lib/axios";
-import { useMutation } from "@tanstack/react-query";
-import { CategoryBody } from "./create";
 
-interface CategoryResponse {
-  status: string;
-  message: string;
+interface CategoryBody {
+  id: number
+  nome: string
+  descricao: string
 }
 
 export async function updateCategoriesController(
   categories: Partial<CategoryBody>,
 ) {
-  const data = CategoryMapper.toResponse(categories);
-
-  const response = await api.put<CategoryResponse>("/category", {
-    ...data,
+  const response = await api.put("/category", {
+    ...categories,
   });
 
   return response.data;
-}
-
-export function updateCategory() {
-  return useMutation({
-    mutationKey: ["updateCategory"],
-    mutationFn: updateCategoriesController,
-  });
 }

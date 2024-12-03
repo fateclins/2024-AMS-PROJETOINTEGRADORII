@@ -1,23 +1,22 @@
 import { api } from "@/lib/axios";
-import { useMutation } from "@tanstack/react-query";
-import { StoreBody } from "./create";
 
-interface StoreResponse {
-  status: string;
-  message: string;
+interface StoreBody {
+  id: number
+  nome: string
+  logo: string
+  banner: string
+  qtdproduto: string
+  corfundo: string
+  corfonte: string
+  area: string
+  cnpj: string
+  idUsuario: number
 }
 
 export async function deleteStoresController(store: Partial<StoreBody>) {
-  const response = await api.delete<StoreResponse>("/store", {
+  const response = await api.delete("/store", {
     data: { id: store.id },
   });
 
   return response.data;
-}
-
-export function deleteStore() {
-  return useMutation({
-    mutationKey: ["deleteStore"],
-    mutationFn: deleteStoresController,
-  });
 }

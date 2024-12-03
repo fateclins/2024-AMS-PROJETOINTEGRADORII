@@ -1,17 +1,21 @@
-import { createUser } from '@/api/shop/users/create'
+import { createUsersController } from '@/api/shop/users/create'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useMutation } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { z } from 'zod'
 
 const signUpValidationSchema = z.object({
-  name: z.string(),
-  identity: z.string(),
-  email: z.string().email(),
-  password: z.string(),
+  id: z.number(),
+  nome: z.string(),
+  imagem: z.null(),
+  indentidade: z.string(),
+  email: z.string(),
+  senha: z.string(),
+  idTipoUsuario: z.number()
 })
 
 type SignUpValidationSchema = z.infer<typeof signUpValidationSchema>
@@ -21,24 +25,31 @@ export function Content () {
     resolver: zodResolver(signUpValidationSchema),
     defaultValues: {
       email: "",
-      identity: "",
-      name: "",
-      password: "",
+      id: 1,
+      idTipoUsuario: 1,
+      imagem: null,
+      indentidade: '',
+      nome: '',
+      senha: ','
     }
   })
 
   const navigate = useNavigate();
 
+  const { mutateAsync: signUp } = useMutation({
+    mutationKey: ['createUser'],
+    mutationFn: createUsersController
+  })
+
   async function handleSignUp(data: SignUpValidationSchema) {
     try {
-      const { mutateAsync: signUp } = createUser()
 
       await signUp({
         email: data.email,
-        identity: data.identity,
-        idUserType: 3,
-        name: data.name,
-        password: data.password,
+        indentidade: data.indentidade,
+        idTipoUsuario: 1,
+        nome: data.nome,
+        senha: data.senha,
       })
 
       navigate("/sign-in");
@@ -63,14 +74,14 @@ export function Content () {
             <label htmlFor="" className="text-base font-medium">
               Nome completo
             </label>
-            <Input id="" type="text" className="mt-1" {...register("name", { required: false })} value={watch("name")}/>
+            <Input id="" type="text" className="mt-1" {...register("nome", { required: false })} value={watch("nome")}/>
           </div>
         </div>
         <div className="mt-3">
           <label htmlFor="" className="text-base font-medium">
             Identidade
           </label>
-          <Input id="" type="text" className="mt-1" {...register("identity", { required: false })} value={watch("identity")}/>
+          <Input id="" type="text" className="mt-1" {...register("indentidade", { required: false })} value={watch("indentidade")}/>
         </div>
         <div className="mt-3">
           <label htmlFor="" className="text-base font-medium">
@@ -82,7 +93,7 @@ export function Content () {
           <label htmlFor="" className="text-base font-medium">
             Senha
           </label>
-          <Input id="" type="text" className="mt-1" {...register("password", { required: false })} value={watch("password")}/>
+          <Input id="" type="text" className="mt-1" {...register("senha", { required: false })} value={watch("senha")}/>
         </div>
       </fieldset>
 

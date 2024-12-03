@@ -1,24 +1,54 @@
-import { UserMapper } from "@/api/mappers/user-mapper";
 import { api } from "@/lib/axios";
-import { useQuery } from "@tanstack/react-query";
 
-interface UserBody {}
-
-interface UserReesponse {}
-
-export async function listUsersController() {
-  const response = await api.get("/user");
-
-  const info: Array<any> = response.data;
-
-  return info.map((item) => {
-    return UserMapper.toRequest(item);
-  });
+export interface UserBody {
+  id: number
+  nome: string
+  imagem: string
+  indentidade: string
+  email: string
+  senha: string
+  idTipoUsuario: number
 }
 
-export function listUsers() {
-  return useQuery({
-    queryKey: ["listUser"],
-    queryFn: listUsersController,
+interface UserResponse {
+  data: UserBody[];
+  pagination: {
+    current_page: number
+    per_page: number
+    total_records: number
+    total_pages: number
+  }
+}
+
+export interface UsersParams {
+  filter: {
+    nome?: string | null
+    valor?: number | null
+  }
+  pagination: {
+    getStart?: number
+    getLimit?: number
+  }
+}
+
+
+export async function listUsersController({ filter, pagination }: UsersParams) {
+  const response = await api.get<UserResponse>("/user", {
+    params: {
+      payload: JSON.stringify({
+        filter: {
+          keyword: {
+            nome: filter.nome ?? null,
+            valor: filter.valor ?? null
+          }
+        },
+        pagination: {
+          getStart: pagination.getStart ?? 0,
+          getLimit: pagination.getLimit ?? 10
+        }
+      })
+    }
   });
+
+  return response.data
 }

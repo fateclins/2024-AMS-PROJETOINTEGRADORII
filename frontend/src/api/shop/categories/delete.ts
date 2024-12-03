@@ -1,16 +1,16 @@
 import { api } from "@/lib/axios";
-import { useMutation } from "@tanstack/react-query";
-import { CategoryBody } from "./create";
 
-interface CategoryResponse {
-  status: string;
-  message: string;
+export interface CategoryBody {
+  id: number
+  nome: string
+  descricao: string
 }
+
 
 export async function deleteCategoriesController(
   category: Partial<CategoryBody>,
 ) {
-  const response = await api.delete<CategoryResponse>("/category", {
+  const response = await api.delete("/category", {
     data: {
       id: category.id,
     },
@@ -19,9 +19,3 @@ export async function deleteCategoriesController(
   return response.data;
 }
 
-export function deleteCategory() {
-  return useMutation({
-    mutationKey: ["deleteCategory"],
-    mutationFn: deleteCategoriesController,
-  });
-}

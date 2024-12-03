@@ -1,7 +1,7 @@
-import { createCategory } from "@/api/shop/categories/create";
-import { deleteCategory } from "@/api/shop/categories/delete";
+import { createCategoriesController } from "@/api/shop/categories/create";
+import { deleteCategoriesController } from "@/api/shop/categories/delete";
 import { listCategoriesController } from "@/api/shop/categories/list";
-import { updateCategory } from "@/api/shop/categories/update";
+import { updateCategoriesController } from "@/api/shop/categories/update";
 import { Pagination } from "@/components/pagination";
 import { Button } from "@/components/ui/button";
 import {
@@ -25,7 +25,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { Pencil, Plus, Search, Trash } from "lucide-react";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -35,13 +35,13 @@ import { z } from "zod";
 
 export function Categories() {
     const { data: categoriesData, isLoading: isCategoriesDataLoading } = useQuery({
-      queryKey: ["listCategory"],
-      queryFn: () => listCategoriesController({ filter: {}, pagination: { getLimit: 4 } }),
+      queryKey: ["listCategory", ],
+      queryFn: () => listCategoriesController({ filter: {}, pagination: { getLimit: 1000 } }),
     })
 
     const [searchParams, setSearchParams] = useSearchParams();
 
-    const categoriesSizeData = categoriesData?.length;
+    const categoriesSizeData = categoriesData?.data.length;
 
     const pageIndex = z.coerce
       .number()
@@ -61,9 +61,7 @@ export function Categories() {
     const endIndex = startIndex + itemsPerPage;
 
     const categoryValidationSchema = z.object({
-      id: z.coerce.number(),
-      name: z.string(),
-      description: z.string()
+      id: z.number(), nome: z.string(), descricao: z.string()
     })
 
     type CategoryValidationSchema = z.infer<typeof categoryValidationSchema>
@@ -72,16 +70,25 @@ export function Categories() {
       resolver: zodResolver(categoryValidationSchema),
       values: {
         id: 0,
-        description: '',
-        name: ''
+        descricao: '',
+        nome: ''
       }
     })
 
     const [_, setSelectedItem] = useState<any>(null);
 
-    const { mutateAsync: createNewCategory } = createCategory();
-    const { mutateAsync: updateCategoryData } = updateCategory();
-    const { mutateAsync: deleteCategoryData } = deleteCategory();
+    const { mutateAsync: createNewCategory } = useMutation({
+      mutationKey: ['createCategory'],
+      mutationFn: createCategoriesController
+    });
+    const { mutateAsync: updateCategoryData } = useMutation({
+      mutationKey: ['updateCategory'],
+      mutationFn: updateCategoriesController
+    });
+    const { mutateAsync: deleteCategoryData } = useMutation({
+      mutationKey: ['deleteCategory'],
+      mutationFn: deleteCategoriesController
+    });
 
     const handleSelectItem = (item: any) => {
       setSelectedItem(item),
@@ -94,29 +101,29 @@ export function Categories() {
 
     const handleRegisterNewCategory = async (data: CategoryValidationSchema) => {
       try {
-        await createNewCategory({ description: data.description, name: data.name });
+        await createNewCategory({ descricao: data.descricao, nome: data.nome });
         toast.success("Categoria criada com sucesso.");
       } catch (error) {
         toast.error("Falha ao criar a categoria");
       }
 
-      reset();
+      reset({ ...data })
     }
 
     const handleUpdateCategory = async (data: CategoryValidationSchema) => {
       console.log(data);
       try {
-        await updateCategoryData({ id: data.id, description: data.description, name: data.name });
+        await updateCategoryData({ id: data.id, descricao: data.descricao, nome: data.nome });
         toast.success("Categoria atualizada com sucesso.");
       } catch (error) {
         toast.error("Falha ao atualizar a categoria");
       }
-      reset();
+      reset({ ...data })
     }
 
     const handleDeleteCategory = async (data: CategoryValidationSchema) => {
       try {
-        await deleteCategoryData({ id: data.id, description: data.description, name: data.name });
+        await deleteCategoryData({ id: data.id, descricao: data.descricao, nome: data.nome });
         toast.success("Categoria deletada com sucesso.");
       } catch (error) {
         toast.error("Falha ao deletar a categoria");
@@ -131,7 +138,7 @@ export function Categories() {
 
           <Dialog>
             <DialogTrigger asChild>
-              <Button size="sm" onClick={() => reset({ description: "", name: "" })}>
+              <Button size="sm" onClick={() => reset({ descricao: "", nome: "" })}>
                 <Plus className="mr-2 size-4" />
                 Adicionar categoria
               </Button>
@@ -147,7 +154,7 @@ export function Categories() {
 
               <form className="space-y-4" onSubmit={handleSubmit(handleRegisterNewCategory, onError)}>
                 <Controller
-                  name="name"
+                  name="nome"
                   control={control}
                   rules={{ required: { message: "Digite ao título.", value: true },  }}
                   render={({ field, fieldState: { error } }) => {
@@ -162,7 +169,7 @@ export function Categories() {
                 />
 
                 <Controller
-                  name="description"
+                  name="descricao"
                   control={control}
                   rules={{ required: { message: "Digite a descrição.", value: true },  }}
                   render={({ field, fieldState: { error } }) => {
@@ -221,7 +228,7 @@ export function Categories() {
                 </TableCell>
               </TableRow>
               ) : (
-                categoriesData?.slice(startIndex, endIndex).map((item) => {
+                categoriesData?.data.slice(startIndex, endIndex).map((item) => {
                   return (
                     <TableRow key={item.id}>
                       <TableCell>
@@ -244,12 +251,12 @@ export function Categories() {
                               <form className="space-y-4">
                                   <div className="w-full">
                                     <Label className="text-sm font-medium">Nome</Label>
-                                    <Input type="text" className="h-9" value={item.name} disabled />
+                                    <Input type="text" className="h-9" value={item.nome} disabled />
                                   </div>
 
                                   <div className="w-full">
                                     <Label className="text-sm font-medium">Descrição</Label>
-                                    <Input type="text" className="h-9" value={item.description} disabled />
+                                    <Input type="text" className="h-9" value={item.descricao} disabled />
                                   </div>
 
                                 <div className="flex items-center justify-end gap-2">
@@ -264,10 +271,10 @@ export function Categories() {
                         </Dialog>
                       </TableCell>
                       <TableCell className="font-mono text-xs font-medium">
-                        {item.name}
+                        {item.nome}
                       </TableCell>
                       <TableCell className="text-muted-foreground">
-                        {item.description}
+                        {item.descricao}
                       </TableCell>
 
                       <TableCell>
@@ -289,9 +296,9 @@ export function Categories() {
 
                               <form className="space-y-4" onSubmit={handleSubmit(handleUpdateCategory, onError)}>
                                 <Controller
-                                  name="name"
+                                  name="nome"
                                   control={control}
-                                  defaultValue={item.name}
+                                  defaultValue={item.nome}
                                   rules={{ required: { message: "Digite o valor.", value: true },  }}
                                   render={({ field, fieldState: { error } }) => {
                                     return (
@@ -305,9 +312,9 @@ export function Categories() {
                                 />
 
                                 <Controller
-                                  name="description"
+                                  name="descricao"
                                   control={control}
-                                  defaultValue={item.description}
+                                  defaultValue={item.descricao}
                                   rules={{ required: { message: "Digite o valor.", value: true },  }}
                                   render={({ field, fieldState: { error } }) => {
                                     return (

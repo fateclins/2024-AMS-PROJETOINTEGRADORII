@@ -6,53 +6,88 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { findUser } from "@/api/shop/users/find";
+import { findUsersController } from "@/api/shop/users/find";
 import { Skeleton } from "@/components/ui/skeleton";
-import { findAddress } from "@/api/shop/addresses/find";
-import { updateUser } from "@/api/shop/users/update";
-import { updateAddress } from "@/api/shop/addresses/update";
+import { findAddressesController } from "@/api/shop/addresses/find";
+import { updateUsersController } from "@/api/shop/users/update";
+import { updateAddressesController } from "@/api/shop/addresses/update";
 import { z } from "zod";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Loader } from "lucide-react";
+import { useMutation, useQuery } from "@tanstack/react-query";
+// import { useState } from "react";
 
 export function Profile() {
-  const { data: userData, isLoading: isUserDataLoading } = findUser(1);
-  const { data: addressData, isLoading: isAddressDataLoading } = findAddress(1);
-  const { mutateAsync: updateUserData } = updateUser();
-  const { mutateAsync: updateAddressData } = updateAddress();
-
   const userValidationSchema = z.object({
-    id: z.coerce.number(),
-    name: z.string(),
-    identity: z.string(),
-    email: z.string().email(),
-    password: z.string(),
-    idUserType: z.coerce.number(),
+    id: z.number(),
+    nome: z.string(),
+    imagem: z.string(),
+    indentidade: z.string(),
+    email: z.string(),
+    senha: z.string(),
+    idTipoUsuario: z.number()
   })
+
+  // const fileSchema = z.instanceof(File).refine(file => file.size > 0, {
+  //   message: "O arquivo não pode estar vazio",
+  // });
+
+  // type FileSchema = z.infer<typeof fileSchema>
+
+  // const { control: fileControl, handleSubmit: handleFileSubmit, formState: { isSubmitting: isSubmittingFile } } = useForm<FileSchema>({
+  //   resolver: zodResolver(fileSchema),
+  //   values: {
+  //     arrayBuffer: (): Promise<ArrayBuffer> => {},
+  //     bytes,
+  //   }
+  // })
 
   type UserValidationSchema = z.infer<typeof userValidationSchema>
 
-  const { control: userControl, handleSubmit: handleUserSubmit, formState: { isSubmittingUser } } = useForm<UserValidationSchema>({
+  const { data: userData, isLoading: isUserDataLoading } = useQuery({
+    queryKey: ['findUser', 1],
+    queryFn: () => findUsersController(1),
+    retry: 1,
+  });
+  const { data: addressData, isLoading: isAddressDataLoading } = useQuery({
+    queryKey: ['findAddress', 1],
+    queryFn: () => findAddressesController(1),
+    retry: 1,
+  });
+
+  const { mutateAsync: updateUserData } = useMutation({
+    mutationKey: ['updateUser'],
+    mutationFn: updateUsersController
+  });
+  const { mutateAsync: updateAddressData } = useMutation({
+    mutationKey: ['updateAddress'],
+    mutationFn: updateAddressesController
+  });
+
+  const { control: userControl, handleSubmit: handleUserSubmit, formState: { isSubmitting: isSubmittingUser } } = useForm<UserValidationSchema>({
     resolver: zodResolver(userValidationSchema),
     values: {
       id: userData?.id ?? 0,
       email: userData?.email ?? "",
-      image: userData?.image || undefined,
-      identity: userData?.identity ?? "",
-      idUserType: userData?.idUserType ?? "",
-      name: userData?.name ?? "",
-      password: userData?.password ?? "",
+      imagem: userData?.imagem ?? "",
+      indentidade: userData?.indentidade ?? "",
+      idTipoUsuario: userData?.idTipoUsuario ?? "",
+      nome: userData?.nome ?? "",
+      senha: userData?.senha ?? "",
     }
   })
+
+  const onError = (error) => {
+    console.log(error);
+  }
 
   const handleUpdateUser = async (data: UserValidationSchema) => {
     try {
       await updateUserData({ 
         ...data,
-        image: data.image,
       });
       toast.success("Perfil atualizado com sucesso");
     } catch (error) {
@@ -61,35 +96,55 @@ export function Profile() {
   }
 
   const addressValidationSchema = z.object({
-    id: z.coerce.number(),
-    country: z.string(),
-    state: z.string(),
+    id: z.number(),
+    pais: z.string(),
     cep: z.string(),
-    city: z.string(),
-    district: z.string(),
-    street: z.string(),
-    number: z.string(),
-    complement: z.string(),
-    idUser: z.coerce.number(),
+    estado: z.string(),
+    cidade: z.string(),
+    bairro: z.string(),
+    rua: z.string(),
+    numero: z.string(),
+    logradouro: z.string(),
+    idUsuario: z.number()
   })
 
   type AddressValidationSchema = z.infer<typeof addressValidationSchema>
 
-  const { control: addressControl, handleSubmit: handleAddressSubmit, formState: { isSubmittingAddress } } = useForm<AddressValidationSchema>({
+  const { control: addressControl, handleSubmit: handleAddressSubmit, formState: { isSubmitting: isSubmittingAddress } } = useForm<AddressValidationSchema>({
     resolver: zodResolver(addressValidationSchema),
     values: {
       id: addressData?.id ?? 0,
       cep: addressData?.cep ?? "",
-      city: addressData?.city ?? "",
-      complement: addressData?.complement ?? "",
-      country: addressData?.country ?? "",
-      district: addressData?.district ?? "",
-      number: addressData?.number ?? "",
-      state: addressData?.state ?? "",
-      street: addressData?.street ?? "",
-      idUser: addressData?.idUser ?? 0,
+      cidade: addressData?.cidade ?? "",
+      logradouro: addressData?.logradouro ?? "",
+      pais: addressData?.pais ?? "",
+      bairro: addressData?.bairro ?? "",
+      numero: addressData?.numero ?? "",
+      estado: addressData?.estado ?? "",
+      rua: addressData?.rua ?? "",
+      idUsuario: addressData?.idUsuario ?? 0,
     }
   })  
+
+  // const [file, setFile] = useState<File | null>(null);
+  // const [error, setError] = useState<string | null>(null);
+
+  // const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const selectedFile = event.target.files ? event.target.files[0] : null;
+
+  //   console.log(selectedFile)
+    
+  //   if (selectedFile) {
+  //     try {
+  //       // Valida o arquivo com Zod
+  //       userValidationSchema.parse(selectedFile);
+  //       setFile(selectedFile);
+  //       setError(null); // Limpa o erro caso o arquivo seja válido
+  //     } catch (e) {
+  //       setError((e as Error).message); // Exibe o erro, se houver
+  //     }
+  //   }
+  // };
 
   const handleUpdateAddress = async (data: AddressValidationSchema) => {
     try {
@@ -124,36 +179,41 @@ export function Profile() {
               </DialogDescription>
             </DialogHeader>
 
-            <form>
+            {/* <form onSubmit={handleFileSubmit(handleFileSubmit, onError)}>
               <Controller
-                name="image"
-                control={userControl}
+                name=""
+                control={fileControl}
                 rules={{ required: { message: "Digite a descrição.", value: true },  }}
                 render={({ field, fieldState: { error } }) => {
                   return (
                     <div className="space-y-1">
-                      <Label>Descrição</Label>
-                      <input {...field} type="file" accept="image/*" className="h-9" onChange={(e) => {
-                        const file = e.target.files ? e.target.files[0] : null;
-                        field.onChange(file);
-                      }} />
+                      <Label>Imagem</Label>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        className="file-input"
+                        onChange={handleFileChange}
+                        onBlur={() => {}}
+                        disabled={false}
+                        name="imagem"
+                      />
                       {error && <p className="text-red-500">{error.message}</p>}
                     </div>
                   )
                 }}
               />
-            </form>
+            </form> */}
           </DialogContent>
         </Dialog>
 
-        <form className="space-y-4" onSubmit={handleUserSubmit(handleUpdateUser)}>
+        <form className="space-y-4" onSubmit={handleUserSubmit(handleUpdateUser, onError)}>
           <div className="w-full">
             <Label>Nome</Label>
             {isUserDataLoading === true ? (
               <Skeleton className="h-10 w-full" />
             ) : (
               <Controller
-                  name="name"
+                  name="nome"
                   control={userControl}
                   rules={{ required: { message: "Digite o nome.", value: true },  }}
                   render={({ field, fieldState: { error } }) => {
@@ -195,7 +255,7 @@ export function Profile() {
               <Skeleton className="h-10 w-full" />
             ) : (
               <Controller
-                  name="identity"
+                  name="indentidade"
                   control={userControl}
                   rules={{ required: { message: "Digite o identidade.", value: true },  }}
                   render={({ field, fieldState: { error } }) => {
@@ -230,7 +290,7 @@ export function Profile() {
                 <Skeleton className="w-[500px] h-5"/>
               ) : (
                 <span className="text-sm text-muted-foreground">
-                  {addressData!.street}, {addressData!.district} - {addressData!.number}
+                  {addressData!.rua}, {addressData!.bairro} - {addressData!.numero}
                 </span>
               )}
             </div>
@@ -266,7 +326,7 @@ export function Profile() {
                 <Skeleton className="h-10 w-full" />
               ) : (
                 <Controller
-                  name="city"
+                  name="cidade"
                   control={addressControl}
                   rules={{ required: { message: "Digite o cidade.", value: true },  }}
                   render={({ field, fieldState: { error } }) => {
@@ -287,7 +347,7 @@ export function Profile() {
                 <Skeleton className="h-10 w-full" />
               ) : (
                 <Controller
-                  name="state"
+                  name="estado"
                   control={addressControl}
                   rules={{ required: { message: "Digite o cep.", value: true },  }}
                   render={({ field, fieldState: { error } }) => {
@@ -310,7 +370,7 @@ export function Profile() {
                 <Skeleton className="h-10 w-full" />
               ) : (
                 <Controller
-                  name="street"
+                  name="rua"
                   control={addressControl}
                   rules={{ required: { message: "Digite o cep.", value: true },  }}
                   render={({ field, fieldState: { error } }) => {
@@ -331,7 +391,7 @@ export function Profile() {
                 <Skeleton className="h-10 w-full" />
               ) : (
                 <Controller
-                  name="number"
+                  name="numero"
                   control={addressControl}
                   rules={{ required: { message: "Digite o cep.", value: true },  }}
                   render={({ field, fieldState: { error } }) => {
@@ -352,7 +412,7 @@ export function Profile() {
               <Skeleton className="h-10 w-full" />
             ) : (
               <Controller
-                  name="district"
+                  name="bairro"
                   control={addressControl}
                   rules={{ required: { message: "Digite o cep.", value: true },  }}
                   render={({ field, fieldState: { error } }) => {

@@ -1,27 +1,21 @@
 import { api } from "@/lib/axios";
-import { useMutation } from "@tanstack/react-query";
-import { OrderItemBody } from "./create";
 
-interface OrderItemResponse {
-  status: string;
-  message: string;
+interface OrderItemBody {
+  id: number
+  qtdePedida: number
+  qtdeAtendida: number
+  valorItem: number
+  idProduto: number
 }
 
 export async function deleteOrderItemsController(
   orderItem: Partial<OrderItemBody>,
 ) {
-  const response = await api.delete<OrderItemResponse>("/orderitem", {
+  const response = await api.delete("/orderitem", {
     data: {
       id: orderItem.id,
     },
   });
 
   return response.data;
-}
-
-export function deleteOrderItem() {
-  return useMutation({
-    mutationKey: ["deleteOrderItem"],
-    mutationFn: deleteOrderItemsController,
-  });
 }

@@ -1,24 +1,21 @@
-import { StoreMapper } from "@/api/mappers/store-mapper";
 import { api } from "@/lib/axios";
-import { useMutation } from "@tanstack/react-query";
-import { StoreBody } from "./create";
 
-interface StoreResponse {
-  status: string;
-  message: string;
+interface StoreBody {
+  id: number
+  nome: string
+  logo: string
+  banner: string
+  qtdproduto: string
+  corfundo: string
+  corfonte: string
+  area: string
+  cnpj: string
+  idUsuario: number
 }
 
 export async function updateStoresController(store: Partial<StoreBody>) {
-  const data = StoreMapper.toResponse(store);
-
-  const response = await api.put<StoreResponse>("/store", { ...data });
+const response = await api.put("/store", { ...store });
 
   return response.data;
 }
 
-export function updateStore() {
-  return useMutation({
-    mutationKey: ["updateStore"],
-    mutationFn: updateStoresController,
-  });
-}

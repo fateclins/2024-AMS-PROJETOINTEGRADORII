@@ -1,23 +1,19 @@
 import { api } from "@/lib/axios";
-import { useMutation } from "@tanstack/react-query";
-import { TicketBody } from "./create";
 
-interface TicketResponse {
-  status: string;
-  message: string;
+interface TicketBody {
+  id: number
+  titulo: string
+  descricao: string
+  ticketStatus: string
+  createdAt: string
+  updatedAt: any
+  idUsuario: number
 }
 
 export async function deleteTicketsController(ticket: Partial<TicketBody>) {
-  const response = await api.delete<TicketResponse>("/ticket", {
+  const response = await api.delete("/ticket", {
     data: { id: ticket.id },
   });
 
   return response.data;
-}
-
-export function deleteTicket() {
-  return useMutation({
-    mutationKey: ["deleteTicket"],
-    mutationFn: deleteTicketsController,
-  });
 }

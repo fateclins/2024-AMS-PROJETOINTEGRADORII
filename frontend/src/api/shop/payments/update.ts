@@ -1,24 +1,16 @@
-import { PaymentMapper } from "@/api/mappers/payment-mapper";
 import { api } from "@/lib/axios";
-import { useMutation } from "@tanstack/react-query";
-import { PaymentBody } from "./create";
 
-interface PaymentResponse {
-  status: string;
-  message: string;
+interface PaymentBody {
+  id: number
+  datap: string
+  valor: number
+  operacao: number
+  statusp: number
+  idPedido: number
 }
 
 export async function updatePaymentsController(payments: Partial<PaymentBody>) {
-  const data = PaymentMapper.toResponse(payments);
-
-  const response = await api.put<PaymentResponse>("/payment", { ...data });
+const response = await api.put<PaymentResponse>("/payment", { ...payments });
 
   return response.data;
-}
-
-export function updatePayment() {
-  return useMutation({
-    mutationKey: ["updatePayment"],
-    mutationFn: updatePaymentsController,
-  });
 }
