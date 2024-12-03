@@ -37,8 +37,6 @@ class LoginService {
         // Busca o usuário pelo email e senha no banco de dados
         $result = $this->user->findUserByEmailAndPassword($data['email'], $data['senha']);
 
-        $token = $this->user->generateJwtToken($result[0]['id'], $result[0]['email']);
-
         if (!$result) {
             // Retorna erro de autenticação se o usuário não for encontrado
             http_response_code(401);
@@ -47,6 +45,10 @@ class LoginService {
             ];
         }
 
+        
+        $token = $this->user->generateJwtToken($result[0]['id'], $result[0]['email']);
+
+       
         // Retorna os dados do usuário autenticado
         http_response_code(200);
         return [
